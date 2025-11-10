@@ -1,0 +1,22 @@
+{
+  "Architect": {
+    "manifest": "agents-core/architect/manifest.json",
+    "inputs": ["content/0. Управление", "content/4. Системы", "content/contracts"],
+    "outputs": ["artifacts/architect"]
+  },
+  "Docs": {
+    "manifest": "agents-core/docs/manifest.json",
+    "inputs": ["content", "content/templates"],
+    "outputs": ["artifacts/docs"]
+  },
+  "Code": {
+    "manifest": "agents-core/code/manifest.json",
+    "inputs": ["content/4. Системы", "content/contracts"],
+    "outputs": ["artifacts/code"]
+  },
+  "Critique": {
+    "manifest": "agents-core/critique/manifest.json",
+    "inputs": ["content", "artifacts"],
+    "outputs": ["artifacts/critique"]
+  }
+}
