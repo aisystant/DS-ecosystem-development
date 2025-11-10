@@ -1,0 +1,46 @@
+name: repo-inventory
+on:
+  push:
+    branches: [ chore/repo-inventory ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Generate inventory (paths, type, size, blob, mode, last-commit-date+sha)
+        shell: bash
+        run: |
+          mkdir -p artifacts/inventories
+          git ls-tree -r --long HEAD \
+          | awk '{perm=$1; type=$2; sha=$3; size=$4; $1=$2=$3=$4=""; sub(/^  */,"",$0); path=$0;
+                  printf("%s\t%s\t%s\t%s\t%s\n", path, type, size, sha, perm)}' \
+          > artifacts/inventories/repo_inventory.tmp.tsv
+
+          awk -F"\t" 'BEGIN{OFS="\t"} {
+             cmd="git log -1 --format=\"%cs %H\" -- \""$1"\"";
+             cmd | getline dt; close(cmd);
+             print $1,$2,$3,$4,$5,dt
+          }' artifacts/inventories/repo_inventory.tmp.tsv \
+          > artifacts/inventories/repo_inventory.tsv
+
+          rm artifacts/inventories/repo_inventory.tmp.tsv
+
+      - name: Commit inventory
+        shell: bash
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git config user.name "chatgpt-bot"
+            git config user.email "chatgpt-bot@users.noreply.github.com"
+            git add artifacts/inventories/repo_inventory.tsv
+            git commit -m "chore: add repo inventory"
+            git push
+          else
+            echo "Nothing to commit"
+          fi
