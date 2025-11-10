@@ -1,0 +1,12 @@
+name: agents-pr
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 6 * * *"
+jobs:
+  propose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Stub for agents
+        run: echo "Agents will propose PRs to artifacts/; human compiles to content/."
