@@ -31,22 +31,36 @@ jobs:
       - name: Ensure target root exists
         run: mkdir -p content
 
+      - name: Debug: list root entries
+        run: ls -la
+
       - name: Move top-level sections 0–4 into content/ (robust)
         shell: bash
         run: |
           set -e
           mkdir -p content
-          # переносим только ТОП-уровень, начинающийся на "[0-4]. "
-          git ls-tree --name-only HEAD | grep -E '^[0-4]\. ' | while IFS= read -r PATH; do
-            if [ -d "$PATH" ]; then
-              echo "Moving dir: $PATH -> content/"
-              git mv -k "$PATH" "content/" || true
+          moved=0
+          # перебираем ТОЛЬКО каталоги верхнего уровня
+          while IFS= read -r entry; do
+            # совпадает с "0. ...", "1. ...", ..., "4. ..."
+            if [[ "$entry" =~ ^[0-4]\.\  ]]; then
+              if [ -d "$entry" ]; then
+                echo "Moving dir: $entry -> content/"
+                git mv -k "$entry" "content/" || true
+                moved=1
+              fi
             fi
-          done
+          done < <(ls -1)
+
+          echo "---- git status ----"
+          git status --porcelain || true
+
+          # если перенос не отработал по каким-то причинам, выйдем мягко
           if ! git status --porcelain | grep -q . ; then
             echo "Nothing to move"
             exit 0
           fi
+
           git add -A
           git commit -m "refactor(content): move sections 0–4 into content/"
 
@@ -55,11 +69,15 @@ jobs:
           BRANCH="${{ steps.branch.outputs.branch }}"
           git push -u origin "$BRANCH"
 
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v6
-        with:
-          title: 'refactor(content): move sections 0–4 into content/'
-          body: 'Automated move via workflow. After merge, run repo-inventory to refresh artifacts/inventories/repo_inventory.tsv.'
-          branch: ${{ steps.branch.outputs.branch }}
-          base: main
-          delete-branch: true
+      - name: Create Pull Request (gh cli)
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          BRANCH="${{ steps.branch.outputs.branch }}"
+          # устанавливаем gh (на ubuntu-latest уже есть)
+          gh pr create \
+            --base main \
+            --head "$BRANCH" \
+            --title "refactor(content): move sections 0–4 into content/" \
+            --body  "Automated move via workflow. After merge, run repo-inventory to refresh artifacts/inventories/repo_inventory.tsv." \
+          || echo "No changes or PR already exists"
