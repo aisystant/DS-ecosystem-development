@@ -14,7 +14,14 @@ jobs:
         with:
           use-verbose-mode: "yes"
           folder-path: "content"
-      - name: Validate registry.json
-        run: jq . registry.json > /dev/null
+     - name: Validate registry.json
+       run: |
+           echo "Working dir: $PWD"
+           ls -la
+           if [ ! -f registry.json ]; then
+              echo "registry.json not found; aborting"
+              exit 1
+           fi
+           jq . registry.json > /dev/null
       - name: Show quality.yaml
         run: cat quality.yaml || true
