@@ -1,0 +1,6 @@
+metrics:
+  coherence: 0.9
+  freshness_days: 7
+  verified_by: "Critique"
+policies:
+  main_branch_protection: true
