@@ -1,6 +1,71 @@
+# === ОС и временные файлы ===
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+Icon?
+*.tmp
+*.bak
+*.swp
+*.swo
+*.log
+
+# === Служебные архивы/пакеты ===
+*.zip
+*.tar
+*.gz
+*.7z
+
+# === Обработанные выгрузки (если используешь bundle_all.md, bundle_*.md) ===
+bundle_*.md
+bundle_*.ndjson
+repo_full.zip
+part_*.zip
+structure_full.txt
+manifest.csv
+
+# === Обработка Git и LFS ===
+.gitignore
+.gitmodules
+.gitconfig
+
+# === Плагины Obsidian ===
+.obsidian/plugins/*/data.json
+.obsidian/plugins/*/cache*
+.obsidian/plugins/*/manifest.json
+.obsidian/plugins/*/main.js
+.obsidian/plugins/*/styles.css
 .obsidian/workspace.json
 .obsidian/appearance.json
-.obsidian/cache
-.obsidian/plugins/*/data.json
-.obsidian/plugins/**/main.js
-private/
+.obsidian/graph.json
+
+# === Обсидиан и IDE-кэш ===
+.obsidian/snippets/
+.obsidian/backups/
+.obsidian/plugins-local/
+.vscode/
+.idea/
+cursor-history/
+cursor-tmp/
+*.code-workspace
+
+# === Локальные системные скрипты, не для GitHub ===
+ops/tmp/
+ops/local/
+ops/tests/
+ops/debug/
+
+# === Автоматические сборки и временные выгрузки ===
+_autogen/
+_auto/
+_output/
+build/
+dist/
+cache/
+tmp/
+__pycache__/
+
+# === Node/Python (если появятся утилиты) ===
+node_modules/
+venv/
+.env
