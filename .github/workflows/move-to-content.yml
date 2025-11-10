@@ -21,21 +21,22 @@ jobs:
           git config user.email "chatgpt-bot@users.noreply.github.com"
           git config core.quotepath false
 
-      - name: Debug: list root entries (top-level)
+      - name: Debug list root entries (top-level)
         run: ls -la
 
-      - name: Move top-level sections 0–4 into content/ (robust)
+      - name: Move top-level sections 0-4 into content (robust)
         id: move
         shell: bash
         run: |
           set -e
           mkdir -p content
-
-          # переносим только каталоги верхнего уровня, начинающиеся с "0. ", "1. ", ..., "4. "
+          # перебираем ТОП-уровень и переносим каталоги, начинающиеся с "0. ", "1. ", ..., "4. "
+          changed=0
           while IFS= read -r entry; do
             if [[ "$entry" =~ ^[0-4]\.\  ]] && [ -d "$entry" ]; then
               echo "Moving dir: $entry -> content/"
               git mv -k "$entry" "content/" || true
+              changed=1
             fi
           done < <(ls -1)
 
