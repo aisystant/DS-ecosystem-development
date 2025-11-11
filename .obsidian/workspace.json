@@ -509,6 +509,8 @@
   },
   "active": "0800e22fe622294a",
   "lastOpenFiles": [
+    "ops/build_check_document.py",
+    "ops/build_check_document.py.tmp.10897.1762873617475",
     "test-sync.md.md",
     "backup_log.txt",
     "content/1. Идеи развития экосистемы/1.3. Идеи и принципы развития.md",
@@ -522,7 +524,6 @@
     "ops",
     "github/workflows/naming-check.yml",
     "github/workflows/frontmatter-check.yml",
-    "github/workflows/markdown-lint.yml",
     "github/PULL_REQUEST_TEMPLATE.md",
     "content/4. Системы/4.8. Системы приема оплаты фиатом.md",
     "content/4. Системы/4.9. Биллинг.md",
@@ -543,7 +544,6 @@
     "content/3. Библиотека/3.1. Картотека.md",
     "content/2. Продвижение/Манифест.md",
     "content/2. Продвижение/2.5. Маркетинговые материлы.md",
-    "content/3. Библиотека/3.0 Информация.md",
-    "content/2. Продвижение/2.3. Принципы продвижения.md"
+    "content/3. Библиотека/3.0 Информация.md"
   ]
 }
