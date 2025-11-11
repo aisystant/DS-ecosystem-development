@@ -40,15 +40,32 @@ def extract_value_from_cell(cell: str) -> str:
     """
     Извлекает значение из ячейки таблицы, убирая любые HTML теги
 
+    Поддерживаемые форматы:
+    - <mark>value</mark> - желтый (AI-предложение)
+    - <span style="background-color: lightgreen">value</span> - зеленый (ручная правка)
+    - value - обычный текст
+
     Args:
-        cell: содержимое ячейки (может быть "<mark>value</mark>", "<mixed>value</mixed>" или "value")
+        cell: содержимое ячейки
 
     Returns:
         Чистое значение без тегов
     """
     cell = cell.strip()
 
-    # Убираем любые HTML теги (включая <mark>, <mixed> и другие)
+    # Убираем желтый <mark> тег
+    mark_pattern = r'<mark>(.*?)</mark>'
+    match = re.search(mark_pattern, cell)
+    if match:
+        return match.group(1).strip()
+
+    # Убираем зеленый <span> тег
+    green_pattern = r'<span style="background-color: lightgreen">(.*?)</span>'
+    match = re.search(green_pattern, cell)
+    if match:
+        return match.group(1).strip()
+
+    # Убираем любые другие HTML теги
     tag_pattern = r'<[^>]+>(.*?)</[^>]+>'
     match = re.search(tag_pattern, cell)
     if match:
