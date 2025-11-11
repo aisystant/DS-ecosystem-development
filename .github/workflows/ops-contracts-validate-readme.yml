@@ -15,11 +15,14 @@ jobs:
           fetch-depth: 0
 
       - name: Prepare files (contracts README, agents-validate CI, README)
+        id: prepare
+        env:
+          RUN_ID: ${{ github.run_id }}
         run: |
           set -e
           mkdir -p content/contracts .github/workflows
 
-          # Contracts README
+          # contracts README (append a run marker to force diff)
           cat > content/contracts/README.md << 'MD'
           ---
           title: "Контракты данных и интерфейсов"
@@ -45,6 +48,8 @@ jobs:
           - Все документы в `content/` имеют front-matter: audience, edit_mode, doc_class, status.
           - Материалы из `artifacts/` не являются источником истины; отобранные результаты компилируются обратно в `content/`.
           MD
+          echo "" >> content/contracts/README.md
+          echo "<!-- ops-run:${RUN_ID} -->" >> content/contracts/README.md
 
           # agents-validate CI (jq check)
           cat > .github/workflows/agents-validate.yml << 'YML'
@@ -68,7 +73,7 @@ jobs:
                     done
           YML
 
-          # README update (map of layers & flow)
+          # README update (map of layers & flow) + run marker to force diff
           cat > README.md << 'MD'
           # ecosystem-development
 
@@ -105,8 +110,18 @@ jobs:
           ## Реестр агентов
           См. `registry.json` и `content/agents/00-Index.md`.
           MD
+          echo "" >> README.md
+          echo "<!-- ops-run:${RUN_ID} -->" >> README.md
+
+          # tell next step whether there are changes
+          if git status --porcelain | grep -q . ; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
 
       - name: Create Pull Request
+        if: steps.prepare.outputs.changed == 'true'
         uses: peter-evans/create-pull-request@v6
         with:
           title: 'PR #7 – contracts + agents-validate CI + README update'
@@ -121,3 +136,7 @@ jobs:
           branch: 'feat/contracts-validate-readme'
           base: 'main'
           delete-branch: true
+
+      - name: No changes (skip PR)
+        if: steps.prepare.outputs.changed != 'true'
+        run: echo "No changes to commit. Skipping PR."
