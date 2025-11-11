@@ -8,7 +8,9 @@
       "Bash(git commit:*)",
       "Bash(git push)",
       "Bash(git rev-parse:*)",
-      "Bash(git ls-tree:*)"
+      "Bash(git ls-tree:*)",
+      "Bash(git branch:*)",
+      "Bash(git fetch:*)"
     ],
     "deny": [],
     "ask": []
