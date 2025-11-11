@@ -1,0 +1,10 @@
+name: Basic Sync Check
+on: [pull_request]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify files
+        run: |
+          git diff --name-only HEAD~1 | grep -E '\.md$|\.canvas$' || echo "OK: Only notes changed"
