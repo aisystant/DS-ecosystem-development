@@ -1,4 +1,4 @@
-name: "agents-starter"
+name: agents-starter
 on:
   workflow_dispatch:
 
@@ -14,55 +14,51 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Prepare tree & files
+      - name: Prepare agents structure
         run: |
-          set -e
-          mkdir -p agents-core/architect agents-core/docs agents-core/code agents-core/critique
-          mkdir -p content/agents content/templates content/contracts .github/workflows
+          mkdir -p agents-core/{architect,docs,code,critique} content/{agents,templates}
 
-          # --- Agents manifests ---
-          cat > agents-core/architect/manifest.json << 'JSON'
+          cat > agents-core/architect/manifest.json <<'JSON'
           {
             "name": "Architect",
-            "title": "System Architect Agent",
-            "role": "system-architect",
-            "description": "Анализ и проектирование экосистемы, обновление архитектурных документов и схем.",
+            "role": "system architect",
+            "description": "Агент анализирует и проектирует систему экосистемы, обновляет архитектурные документы и схемы.",
             "inputs": ["content/0. Управление", "content/4. Системы", "content/contracts"],
             "outputs": ["artifacts/architect"],
             "tools": ["text-analyzer", "diagram-builder"],
             "metrics": ["coherence", "coverage", "clarity"]
           }
           JSON
-          cat > agents-core/docs/manifest.json << 'JSON'
+
+          cat > agents-core/docs/manifest.json <<'JSON'
           {
             "name": "Docs",
-            "title": "Documentation Agent",
-            "role": "documentation",
-            "description": "Генерация и вычитка документации, поддержка README и обучающих материалов.",
+            "role": "documentation assistant",
+            "description": "Генерирует и форматирует документацию, поддерживает README и обучающие материалы.",
             "inputs": ["content", "content/templates"],
             "outputs": ["artifacts/docs"],
             "tools": ["markdown-linter", "style-checker"],
             "metrics": ["readability", "consistency"]
           }
           JSON
-          cat > agents-core/code/manifest.json << 'JSON'
+
+          cat > agents-core/code/manifest.json <<'JSON'
           {
             "name": "Code",
-            "title": "Developer Agent",
-            "role": "developer",
-            "description": "Создание/обслуживание кодовых артефактов (скрипты, workflows, SDK).",
+            "role": "developer agent",
+            "description": "Создаёт и поддерживает кодовые артефакты экосистемы (скрипты, workflows, SDK).",
             "inputs": ["content/4. Системы", "content/contracts"],
             "outputs": ["artifacts/code"],
             "tools": ["codegen", "static-analyzer"],
             "metrics": ["correctness", "security", "efficiency"]
           }
           JSON
-          cat > agents-core/critique/manifest.json << 'JSON'
+
+          cat > agents-core/critique/manifest.json <<'JSON'
           {
             "name": "Critique",
-            "title": "Quality Reviewer",
-            "role": "qa-review",
-            "description": "Оценка качества артефактов и текстов по метрикам, формирование отчётов.",
+            "role": "quality reviewer",
+            "description": "Оценивает артефакты и тексты по метрикам качества, формирует отчёты в artifacts/critique.",
             "inputs": ["content", "artifacts"],
             "outputs": ["artifacts/critique"],
             "tools": ["qa-metrics", "review-parser"],
@@ -70,43 +66,25 @@ jobs:
           }
           JSON
 
-          # --- Agents Index (human-facing) ---
-          cat > content/agents/00-Index.md << 'MD'
-          ---
-          title: "Индекс ИИ-агентов"
-          audience: human
-          edit_mode: manual
-          doc_class: index
-          status: draft
-          ---
-
+          cat > content/agents/00-Index.md <<'MD'
           # Индекс ИИ-агентов
 
           | Агент | Назначение | Входы | Выходы | Манифест |
           |-------|-------------|--------|---------|----------|
-          | **Architect** | Проектирование системы | `content/0. Управление`, `content/4. Системы`, `content/contracts` | `artifacts/architect` | `agents-core/architect/manifest.json` |
-          | **Docs**      | Документация и обучение | `content`, `content/templates` | `artifacts/docs` | `agents-core/docs/manifest.json` |
-          | **Code**      | Код и интеграции | `content/4. Системы`, `content/contracts` | `artifacts/code` | `agents-core/code/manifest.json` |
-          | **Critique**  | Проверка качества | `content`, `artifacts` | `artifacts/critique` | `agents-core/critique/manifest.json` |
+          | **Architect** | Проектирование системы | `content/0. Управление`, `content/4. Системы` | `artifacts/architect` | `agents-core/architect/manifest.json` |
+          | **Docs** | Документация и обучение | `content`, `content/templates` | `artifacts/docs` | `agents-core/docs/manifest.json` |
+          | **Code** | Код и интеграции | `content/4. Системы`, `content/contracts` | `artifacts/code` | `agents-core/code/manifest.json` |
+          | **Critique** | Проверка качества | `content`, `artifacts` | `artifacts/critique` | `agents-core/critique/manifest.json` |
           MD
 
-          # --- Agent passport template (human-facing) ---
-          cat > content/templates/Agent-Template.md << 'MD'
-          ---
-          title: "Паспорт агента: {{AgentName}}"
-          audience: human
-          edit_mode: manual
-          doc_class: agent-passport
-          status: draft
-          ---
-
+          cat > content/templates/Agent-Template.md <<'MD'
           # Паспорт агента: {{AgentName}}
 
           ## Роль
           {{Описание роли агента и его миссия в экосистеме.}}
 
           ## Входы
-          - {{Пути к данным / разделы content/}}
+          - {{Пути к данным или разделам content/}}
 
           ## Выходы
           - {{Папки в artifacts/, куда агент пишет результаты}}
@@ -117,8 +95,8 @@ jobs:
           ## Метрики качества
           | Метрика | Значение/Комментарий |
           |---------|----------------------|
-          | coherence   | — |
-          | coverage    | — |
+          | coherence | — |
+          | coverage  | — |
           | readability | — |
           | correctness | — |
 
@@ -128,110 +106,18 @@ jobs:
           | {{YYYY-MM-DD}} | 0.1 | Первое создание паспорта |
           MD
 
-          # --- Contracts README (exec-facing) ---
-          cat > content/contracts/README.md << 'MD'
-          ---
-          title: "Контракты данных и интерфейсов"
-          audience: hybrid
-          edit_mode: mixed
-          doc_class: contract-index
-          status: draft
-          ---
-
-          # Контракты данных и интерфейсов
-
-          Контракты описывают форматы входов/выходов для людей и агентов.
-
-          ## Слои
-          - `content/` — человеческий слой (источник истины)
-          - `artifacts/` — производные материалы ИИ (черновики, отчёты, сводки)
-          - `agents-core/` — манифесты и код инструментов (Apps SDK / MCP)
-
-          ## Форматы
-          - `registry.json` — реестр агентов: inputs/outputs/manifest
-          - JSON-схемы (при необходимости) размещаем здесь же: `content/contracts/schemas/*.json`
-
-          ## Рекомендации
-          - Все документы в `content/` имеют front-matter: audience, edit_mode, doc_class, status.
-          - Материалы из `artifacts/` не являются источником истины; отобранные результаты компилируются обратно в `content/`.
-          MD
-
-          # --- CI: validate agent manifests ---
-          cat > .github/workflows/agents-validate.yml << 'YML'
-          name: agents-validate
-          on:
-            pull_request:
-              branches: [ main ]
-            push:
-              branches: [ main ]
-          jobs:
-            validate:
-              runs-on: ubuntu-latest
-              steps:
-                - uses: actions/checkout@v4
-                - name: Validate JSON manifests (jq)
-                  run: |
-                    set -e
-                    for f in agents-core/*/manifest.json; do
-                      echo "Checking $f"
-                      jq . "$f" > /dev/null
-                    done
-          YML
-
-          # --- Update README (human-facing map of layers & flow) ---
-          cat > README.md << 'MD'
-          # ecosystem-development
-
-          Каноническая структура личной экосистемы: **человеческий слой** (content), **производные ИИ** (artifacts), **исполняемые агенты** (agents-core), **контракты** и **шаблоны**.
-
-          ## Слои
-          - `content/` — человеческий слой (источник истины). Все .md имеют front-matter:
-            ```yaml
-            ---
-            title: ...
-            audience: human|machine|hybrid
-            edit_mode: manual|mixed|auto
-            doc_class: concept|policy|spec|plan|adr|index|agent-passport|contract-index|...
-            status: draft|review|approved|public
-            ---
-            ```
-          - `artifacts/` — производные материалы ИИ до ревью (`architect/`, `docs/`, `code/`, `critique/`, `inventories/`).
-          - `agents-core/` — манифесты и код для Apps SDK / MCP агентов (`architect|docs|code|critique`).
-          - `content/contracts/` — формальные контракты и схемы обмена данными.
-          - `content/templates/` — шаблоны человекочитаемых артефактов (паспорт агента, ADR и т.п.).
-          - `content/agents/` — реестр и паспорта агентов.
-
-          ## Цикл работы
-          1) **Мысль**: правки в `content/` (human / mixed).  
-          2) **Производные**: агенты пишут черновики в `artifacts/` (не источник истины).  
-          3) **Компиляция**: отобранные результаты вручную возвращаются в `content/`.  
-          4) **Публикация**: пометка `status: public` и экспорт.
-
-          ## CI
-          - `content-ci` — проверка ссылок и формата `registry.json`
-          - `agents-validate` — валидация JSON-манифестов агентов
-          - `repo-inventory` — снимок дерева в `artifacts/inventories/repo_inventory.tsv`
-
-          ## Реестр агентов
-          См. `registry.json` и `content/agents/00-Index.md`.
-          MD
-
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
-          title: 'PR #5 – agents-starter + contracts + validate + README'
+          title: 'feat(agents): seed agents-core manifests + content/agents index + template'
           body: |
-            Этот PR добавляет стартовый слой ИИ-агентов и регламентную структуру:
-            - agents-core/*/manifest.json (Architect/Docs/Code/Critique)
-            - content/agents/00-Index.md (реестр агентов)
-            - content/templates/Agent-Template.md (паспорт агента)
-            - content/contracts/README.md (контракты)
-            - .github/workflows/agents-validate.yml (валидация манифестов)
-            - README.md (карта слоёв и цикл работы)
+            Добавлен стартовый каркас ИИ-агентов:
+            - agents-core/*/manifest.json
+            - content/agents/00-Index.md
+            - content/templates/Agent-Template.md
 
-            После merge: запустить `repo-inventory`, затем можно создавать задания для агентов в `artifacts/*`.
-          commit-message: 'feat(agents): seed agents-core + index + template + contracts + validate + README'
+            После merge рекомендуем запустить repo-inventory для обновления artifacts/inventories/repo_inventory.tsv.
+          commit-message: 'feat(agents): seed agents-core + index + template'
           branch: 'feat/agents-starter'
           base: 'main'
           delete-branch: true
-

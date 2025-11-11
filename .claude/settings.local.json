@@ -1,7 +1,17 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git pull:*)"
+      "Bash(sed:*)",
+      "WebFetch(domain:code.claude.com)",
+      "Bash(git check-ignore:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push)",
+      "Bash(git rev-parse:*)",
+      "Bash(git ls-tree:*)",
+      "Bash(git branch:*)",
+      "Bash(git fetch:*)",
+      "Bash(git checkout:*)"
     ],
     "deny": [],
     "ask": []

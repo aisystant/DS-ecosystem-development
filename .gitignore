@@ -1,6 +1,4 @@
-# ========================================
-# ОС и временные файлы
-# ========================================
+# === ОС и временные файлы ===
 .DS_Store
 Thumbs.db
 desktop.ini
@@ -12,91 +10,62 @@ Icon?
 *.swo
 *.log
 
-# ========================================
-# Служебные архивы и бэкапы (НЕ В GIT!)
-# ========================================
+# === Служебные архивы/пакеты ===
 *.zip
 *.tar
 *.gz
 *.7z
-repo_full.zip
-part_*.zip
+
+# === Обработанные выгрузки (если используешь bundle_all.md, bundle_*.md) ===
 bundle_*.md
 bundle_*.ndjson
+repo_full.zip
+part_*.zip
 structure_full.txt
 manifest.csv
 
-# ========================================
-# Obsidian: НЕ коммитим личные настройки
-# ========================================
-.obsidian/workspace.json
-.obsidian/workspace-mobile.json
-.obsidian/appearance.json
-.obsidian/graph.json
-.obsidian/core-plugins.json
-.obsidian/community-plugins.json
-.obsidian/hotkeys.json
-.obsidian/daily-notes.json
-.obsidian/bookmarks.json
+# === Обработка Git и LFS ===
+# .gitignore    ← Закомментировано, чтобы изменения попадали в Git
+.gitmodules
+.gitconfig
 
-# Кэш и временные данные плагинов
-.obsidian/cache/
-.obsidian/.temp/
-.obsidian/.trash/
-.obsidian/snippets/
-.obsidian/backups/
-
-# Плагины (data.json — НЕ коммитим, чтобы не было конфликтов!)
-.obsidian/plugins/*/cache*/
+# === Плагины Obsidian ===
+# .obsidian/plugins/*/data.json      ← Разрешено для синхронизации настроек
+.obsidian/plugins/*/cache*
+# .obsidian/plugins/*/manifest.json   ← Разрешено
 .obsidian/plugins/*/main.js
 .obsidian/plugins/*/styles.css
+.obsidian/workspace.json
+.obsidian/appearance.json
+.obsidian/graph.json
 
-# Локальные плагины
+# === Обсидиан и IDE-кэш ===
+.obsidian/snippets/
+.obsidian/backups/
 .obsidian/plugins-local/
-
-# ========================================
-# IDE и редакторы
-# ========================================
 .vscode/
 .idea/
-.cursor/
 cursor-history/
 cursor-tmp/
 *.code-workspace
 
-# ========================================
-# Локальные скрипты и отладка
-# ========================================
+# === Локальные системные скрипты, не для GitHub ===
 ops/tmp/
 ops/local/
 ops/tests/
 ops/debug/
+
+# === Автоматические сборки и временные выгрузки ===
 _autogen/
-_auto_/
+_auto/
 _output/
 build/
 dist/
 cache/
 tmp/
 __pycache__/
+
+# === Node/Python (если появятся утилиты) ===
 node_modules/
 venv/
 .env
-.env.local
-
-# ========================================
-# Git: НЕ игнорируем!
-# ========================================
-!.gitignore
-!.gitattributes
-!README.md
-!LICENSE
-
-# ========================================
-# РАЗРЕШИТЬ `repo_full.zip` ТОЛЬКО ЕСЛИ НУЖНО
-# ========================================
-# Уберите эту строку, если хотите коммитить архив:
-# repo_full.zip
-
-# Или используйте Git LFS (рекомендуется для > 50 МБ):
-# *.zip filter=lfs diff=lfs merge=lfs -text
