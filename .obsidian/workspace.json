@@ -509,13 +509,14 @@
   },
   "active": "0800e22fe622294a",
   "lastOpenFiles": [
-    "content/0. Управление/0.5. Проверочный документ.md",
+    "ops/build_check_document.py.tmp.10897.1762874905671",
+    "test-sync.md.md",
     "content/0. Управление/0.91. Структура проверочного документа.md",
+    "content/0. Управление/0.5. Проверочный документ.md",
     "ops/README.md",
     "ops/README.md.tmp.10897.1762873807333",
     "ops/build_check_document.py",
     "ops/build_check_document.py.tmp.10897.1762873617475",
-    "test-sync.md.md",
     "backup_log.txt",
     "content/1. Идеи развития экосистемы/1.3. Идеи и принципы развития.md",
     "conflict-files-obsidian-git.md",
@@ -543,7 +544,6 @@
     "content/3. Библиотека/3.2. Программы развития.md",
     "content/4. Системы/4.0. Информация.md",
     "content/3. Библиотека/3.1. Картотека.md",
-    "content/2. Продвижение/Манифест.md",
-    "content/2. Продвижение/2.5. Маркетинговые материлы.md"
+    "content/2. Продвижение/Манифест.md"
   ]
 }
