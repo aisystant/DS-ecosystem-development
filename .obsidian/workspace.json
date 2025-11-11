@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/0. Управление/0.91. Структура проверочного документа.md",
+                "file": "content/0. Управление/0.5. Проверочный документ.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "0.91. Структура проверочного документа"
+              "title": "0.5. Проверочный документ"
             }
           }
         ]
@@ -172,6 +172,7 @@
   },
   "active": "04cbb09f9ac9a501",
   "lastOpenFiles": [
+    "content/0. Управление/0.91. Структура проверочного документа.md",
     "content/0. Управление/0.5. Проверочный документ.md",
     "conflict-files-obsidian-git.md",
     "ops/build_check_document.py.tmp.10897.1762875874650",
@@ -187,7 +188,6 @@
     "ops/README.md.tmp.10897.1762875089071",
     "ops/build_check_document.sh",
     "ops/build_check_document.sh.tmp.10897.1762875033650",
-    "content/0. Управление/0.91. Структура проверочного документа.md",
     "ops/build_check_document.py.tmp.10897.1762874905671",
     "test-sync.md.md",
     "ops/README.md",
