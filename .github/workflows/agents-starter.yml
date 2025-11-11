@@ -1,4 +1,4 @@
-name: agents-starter
+name: "agents-starter"
 on:
   workflow_dispatch:
 
