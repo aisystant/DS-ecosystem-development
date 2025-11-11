@@ -193,7 +193,8 @@ def adjust_heading_levels(content: str, section_num: str) -> str:
     """
     Корректирует уровни заголовков:
     - Цифровые разделы (1-9) -> H2
-    - Буквенные подразделы (A-Z) -> H3
+    - Буквенные подразделы (A-Z, А-Я) -> H3
+    - Все остальные заголовки -> H4 и ниже
     """
     lines = content.split('\n')
     result = []
@@ -204,15 +205,28 @@ def adjust_heading_levels(content: str, section_num: str) -> str:
             heading_match = re.match(r'^(#+)\s*(.+)$', line)
             if heading_match:
                 hashes, text = heading_match.groups()
+                current_level = len(hashes)
 
                 # Проверяем первый символ текста
                 text_start = text.lstrip()
                 if text_start and text_start[0].isdigit():
                     # Цифровой раздел -> H2
                     line = f"## {text}"
-                elif text_start and text_start[0].isupper() and text_start[0].isalpha():
-                    # Буквенный подраздел -> H3
-                    line = f"### {text}"
+                elif text_start and len(text_start) > 0:
+                    first_char = text_start[0]
+                    # Буквенный подраздел (латиница или кириллица) -> H3
+                    if (first_char.isupper() and first_char.isalpha() and
+                        (ord(first_char) < 128 or ord('А') <= ord(first_char) <= ord('Я'))):
+                        line = f"### {text}"
+                    else:
+                        # Все остальные заголовки -> минимум H4
+                        # Если исходный уровень был H1-H3, делаем H4
+                        # Если был H4+, оставляем как есть
+                        if current_level <= 3:
+                            line = f"#### {text}"
+                        else:
+                            # Оставляем как есть
+                            line = f"{'#' * current_level} {text}"
 
         result.append(line)
 
