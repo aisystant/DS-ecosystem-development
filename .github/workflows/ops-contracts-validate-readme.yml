@@ -1,0 +1,123 @@
+name: ops-contracts-validate-readme
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  ops:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Prepare files (contracts README, agents-validate CI, README)
+        run: |
+          set -e
+          mkdir -p content/contracts .github/workflows
+
+          # Contracts README
+          cat > content/contracts/README.md << 'MD'
+          ---
+          title: "Контракты данных и интерфейсов"
+          audience: hybrid
+          edit_mode: mixed
+          doc_class: contract-index
+          status: draft
+          ---
+          # Контракты данных и интерфейсов
+
+          Контракты описывают форматы входов/выходов для людей и агентов.
+
+          ## Слои
+          - `content/` — человеческий слой (источник истины)
+          - `artifacts/` — производные материалы ИИ (черновики, отчёты, сводки)
+          - `agents-core/` — манифесты и код инструментов (Apps SDK / MCP)
+
+          ## Форматы
+          - `registry.json` — реестр агентов: inputs/outputs/manifest
+          - JSON-схемы при необходимости: `content/contracts/schemas/*.json`
+
+          ## Рекомендации
+          - Все документы в `content/` имеют front-matter: audience, edit_mode, doc_class, status.
+          - Материалы из `artifacts/` не являются источником истины; отобранные результаты компилируются обратно в `content/`.
+          MD
+
+          # agents-validate CI (jq check)
+          cat > .github/workflows/agents-validate.yml << 'YML'
+          name: agents-validate
+          on:
+            pull_request:
+              branches: [ main ]
+            push:
+              branches: [ main ]
+          jobs:
+            validate:
+              runs-on: ubuntu-latest
+              steps:
+                - uses: actions/checkout@v4
+                - name: Validate JSON manifests (jq)
+                  run: |
+                    set -e
+                    for f in agents-core/*/manifest.json; do
+                      echo "Checking $f"
+                      jq . "$f" > /dev/null
+                    done
+          YML
+
+          # README update (map of layers & flow)
+          cat > README.md << 'MD'
+          # ecosystem-development
+
+          Каноническая структура личной экосистемы: **человеческий слой** (content), **производные ИИ** (artifacts), **исполняемые агенты** (agents-core), **контракты** и **шаблоны**.
+
+          ## Слои
+          - `content/` — человеческий слой (источник истины). Каждый .md имеет front-matter:
+            ```
+            ---
+            title: ...
+            audience: human|machine|hybrid
+            edit_mode: manual|mixed|auto
+            doc_class: concept|policy|spec|plan|adr|index|agent-passport|contract-index|...
+            status: draft|review|approved|public
+            ---
+            ```
+          - `artifacts/` — производные материалы ИИ до ревью (`architect/`, `docs/`, `code/`, `critique/`, `inventories/`).
+          - `agents-core/` — манифесты и код Apps SDK / MCP агентов (`architect|docs|code|critique`).
+          - `content/contracts/` — формальные контракты и схемы обмена.
+          - `content/templates/` — шаблоны (паспорт агента, ADR и т.п.).
+          - `content/agents/` — реестр и паспорта агентов.
+
+          ## Цикл работы
+          1) **Мысль** в `content/` (human/mixed)  
+          2) **Производные**: агенты → `artifacts/`  
+          3) **Компиляция**: отбор вручную обратно в `content/`  
+          4) **Публикация**: `status: public`
+
+          ## CI
+          - `content-ci` — проверка ссылок и `registry.json`
+          - `agents-validate` — валидация JSON-манифестов агентов
+          - `repo-inventory` — снимок дерева в `artifacts/inventories/repo_inventory.tsv`
+
+          ## Реестр агентов
+          См. `registry.json` и `content/agents/00-Index.md`.
+          MD
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          title: 'PR #7 – contracts + agents-validate CI + README update'
+          body: |
+            Добавлены:
+            - `content/contracts/README.md` (контракты)
+            - `.github/workflows/agents-validate.yml` (валидация манифестов)
+            - Обновлён `README.md` (карта слоёв, фронт-маттер и цикл работы)
+
+            После merge: запустить `repo-inventory` для обновления `artifacts/inventories/repo_inventory.tsv`.
+          commit-message: 'chore(ops): add contracts README + agents-validate CI + README update'
+          branch: 'feat/contracts-validate-readme'
+          base: 'main'
+          delete-branch: true
