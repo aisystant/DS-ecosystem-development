@@ -256,12 +256,14 @@ def extract_section_content_without_header(content: str, section_header: str) ->
     Извлекает СОДЕРЖИМОЕ раздела БЕЗ его заголовка.
     Например, для "## B. Главные процессы" вернёт только текст внутри этого раздела,
     пропустив сам заголовок "## B. Главные процессы"
+
+    Останавливается при встрече ЛЮБОГО заголовка (не только того же уровня),
+    чтобы не захватывать подразделы.
     """
     result = []
     lines = content.split('\n')
     capturing = False
     current_level = 0
-    skip_first_header = True  # Флаг для пропуска первого заголовка
 
     for line in lines:
         # Проверяем начало нужной секции
@@ -269,17 +271,13 @@ def extract_section_content_without_header(content: str, section_header: str) ->
             capturing = True
             current_level = line.count('#')
             # НЕ добавляем сам заголовок в result
-            skip_first_header = True
             continue  # Пропускаем эту строку
 
         if capturing:
-            # Останавливаем захват при встрече заголовка того же или более высокого уровня
-            line_level = 0
-            if line.startswith('#'):
-                line_level = len(line) - len(line.lstrip('#'))
-
-            if line_level > 0 and line_level <= current_level:
-                # Встретили новый раздел того же уровня - останавливаем
+            # Останавливаем захват при встрече ЛЮБОГО заголовка (H1-H6)
+            # Это предотвратит захват подразделов
+            if line.startswith('#') and not line.startswith('#' * 7):  # Любой заголовок от H1 до H6
+                # Встретили новый раздел - останавливаем
                 capturing = False
                 continue
 
@@ -290,11 +288,22 @@ def extract_section_content_without_header(content: str, section_header: str) ->
 
 
 def summarize_section(content: str, max_items: int = 10) -> str:
-    """Создает краткую сводку раздела"""
+    """Создает краткую сводку раздела, пропуская буквенные заголовки"""
     lines = content.split('\n')
     important_lines = []
 
     for line in lines:
+        # Пропускаем буквенные заголовки (A., B., C., А., Б., В. и т.д.)
+        if line.startswith('#'):
+            # Извлекаем текст заголовка без решеток
+            heading_text = line.lstrip('#').strip()
+            # Проверяем, начинается ли с одной буквы + точка/пробел
+            if (heading_text and len(heading_text) > 1 and
+                heading_text[0].isalpha() and heading_text[0].isupper() and
+                (heading_text[1] == '.' or heading_text[1] == ' ' or heading_text[1] == ')')):
+                # Это буквенный заголовок - пропускаем
+                continue
+
         # Собираем заголовки и важные маркеры
         if (line.startswith('#') or
             line.strip().startswith('**') or
@@ -310,8 +319,8 @@ def summarize_section(content: str, max_items: int = 10) -> str:
 def adjust_heading_levels(content: str, section_num: str) -> str:
     """
     Корректирует уровни заголовков:
-    - Цифровые разделы (1-9) -> H2
-    - Буквенные подразделы (одна заглавная буква A-Z, А-Я в начале) -> H3
+    - Буквенные заголовки (A., B., C. и т.д.) -> УДАЛЯЮТСЯ полностью
+    - Цифровые разделы (1-9, Принцип 1, и т.д.) -> H4
     - Все остальные заголовки -> H4 и ниже
     """
     lines = content.split('\n')
@@ -328,27 +337,23 @@ def adjust_heading_levels(content: str, section_num: str) -> str:
                 # Проверяем первый символ текста (без пробелов)
                 text_start = text.lstrip()
 
-                # Проверка: начинается ли с цифры
-                if text_start and text_start[0].isdigit():
-                    # Цифровой раздел -> H2
-                    line = f"## {text}"
-                # Проверка: начинается ли с одной заглавной буквы + точка/пробел
-                # Например: "A. ", "B. ", "А. ", "Б. "
-                elif (text_start and len(text_start) > 1 and
+                # Проверка: буквенный заголовок (A., B., C., А., Б., В. и т.д.)
+                if (text_start and len(text_start) > 1 and
                       text_start[0].isupper() and text_start[0].isalpha() and
                       (text_start[1] == '.' or text_start[1] == ' ' or text_start[1] == ')') and
-                      (ord(text_start[0]) < 128 or ord('А') <= ord(text_start[0]) <= ord('Я'))):
-                    # Буквенный подраздел -> H3
-                    line = f"### {text}"
+                      # Только одна буква в начале (не слово типа "Что")
+                      (len(text_start) < 3 or text_start[2] in '. )')):
+                    # Буквенный заголовок -> УДАЛЯЕМ (пропускаем строку)
+                    continue
+
+                # Все остальные заголовки -> минимум H4
+                # Если исходный уровень был H1-H3, делаем H4
+                # Если был H4+, оставляем как есть
+                if current_level <= 3:
+                    line = f"#### {text}"
                 else:
-                    # Все остальные заголовки -> минимум H4
-                    # Если исходный уровень был H1-H3, делаем H4
-                    # Если был H4+, оставляем как есть
-                    if current_level <= 3:
-                        line = f"#### {text}"
-                    else:
-                        # Оставляем как есть
-                        line = f"{'#' * current_level} {text}"
+                    # Оставляем как есть
+                    line = f"{'#' * current_level} {text}"
 
         result.append(line)
 
