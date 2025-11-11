@@ -28,6 +28,26 @@ from typing import Dict, List, Optional
 
 # Базовая директория проекта
 BASE_DIR = Path(__file__).parent.parent
+
+def load_env_file():
+    """Загружает переменные окружения из .env файла если он существует"""
+    env_file = BASE_DIR / '.env'
+    if env_file.exists():
+        with open(env_file, 'r', encoding='utf-8') as f:
+            for line in f:
+                line = line.strip()
+                # Пропускаем комментарии и пустые строки
+                if line and not line.startswith('#') and '=' in line:
+                    key, value = line.split('=', 1)
+                    # Убираем кавычки если есть
+                    value = value.strip().strip('"').strip("'")
+                    os.environ[key.strip()] = value
+        print(f"✅ Загружен .env файл: {env_file}")
+    else:
+        print(f"ℹ️  Файл .env не найден (опционально)")
+
+# Загружаем .env файл при старте
+load_env_file()
 CONTENT_DIR = BASE_DIR / "content"
 
 # Маркеры для исключения текста из обработки AI
