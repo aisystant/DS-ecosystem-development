@@ -257,9 +257,14 @@ def build_section(section_num: str, config: Dict) -> str:
                 result.append(adjusted)
         elif config.get('summarize'):
             summary = summarize_section(content)
-            result.append(summary)
+            # Также применяем корректировку заголовков к сводке
+            adjusted_summary = adjust_heading_levels(summary, section_num)
+            result.append(adjusted_summary)
         else:
-            result.append('\n'.join(content.split('\n')[:50]))
+            # Для остальных случаев тоже применяем корректировку
+            content_preview = '\n'.join(content.split('\n')[:50])
+            adjusted_preview = adjust_heading_levels(content_preview, section_num)
+            result.append(adjusted_preview)
 
     return '\n'.join(result)
 
