@@ -16,7 +16,15 @@
       "Bash(python3:*)",
       "Bash(cat:*)",
       "Bash(chmod:*)",
-      "Bash(./ops/build_check_document.sh:*)"
+      "Bash(./ops/build_check_document.sh:*)",
+      "Bash(pip install:*)",
+      "Bash(pip3 install:*)",
+      "Bash(sudo apt update:*)",
+      "Bash(sudo apt install:*)",
+      "Bash(curl:*)",
+      "Bash(.gitignore)",
+      "Bash(git stash:*)",
+      "Bash(git stash pop:*)"
     ],
     "deny": [],
     "ask": []

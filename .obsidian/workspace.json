@@ -167,11 +167,17 @@
       "templates:Вставить шаблон": false,
       "command-palette:Открыть палитру команд": false,
       "bases:Создать новую базу": false,
-      "obsidian-git:Open Git source control": false
+      "obsidian-git:Open Git source control": false,
+      "obsidian-shellcommands:Shell commands: Custom variables": false
     }
   },
   "active": "04cbb09f9ac9a501",
   "lastOpenFiles": [
+    "ops/build_check_document.py.tmp.10897.1762878177957",
+    "ops/build_check_document.py.tmp.10897.1762878124971",
+    "ops/build_check_document.py.tmp.10897.1762878101833",
+    "ops/build_check_document.py.tmp.10897.1762878068478",
+    "ops/build_check_document.py.tmp.10897.1762877332011",
     "content/0. Управление/0.91. Структура проверочного документа.md",
     "content/0. Управление/0.5. Проверочный документ.md",
     "conflict-files-obsidian-git.md",
@@ -185,10 +191,6 @@
     "content/0. Управление/0.2. План работ.md",
     "ops/README.md.tmp.10897.1762875117089",
     "ops/README.md.tmp.10897.1762875107112",
-    "ops/README.md.tmp.10897.1762875089071",
-    "ops/build_check_document.sh",
-    "ops/build_check_document.sh.tmp.10897.1762875033650",
-    "ops/build_check_document.py.tmp.10897.1762874905671",
     "test-sync.md.md",
     "ops/README.md",
     "content/1. Идеи развития экосистемы/1.3. Идеи и принципы развития.md",
