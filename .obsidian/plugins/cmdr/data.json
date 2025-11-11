@@ -14,10 +14,24 @@
       "name": "Git: Commit all changes",
       "mode": "any",
       "color": "#e0158b"
+    },
+    {
+      "id": "build-check-document",
+      "icon": "lucide-file-check-2",
+      "name": "Build Check Document",
+      "mode": "any",
+      "color": "#00ff00"
     }
   ],
   "pageHeader": [],
-  "macros": [],
+  "macros": [
+    {
+      "id": "build-check-document",
+      "name": "Build Check Document",
+      "icon": "lucide-file-check-2",
+      "color": "#00ff00"
+    }
+  ],
   "explorer": [],
   "hide": {
     "statusbar": [],
