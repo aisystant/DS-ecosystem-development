@@ -124,8 +124,7 @@ DOCUMENT_MAPPING = {
     },
     "8": {
         "title": "Классификация и теги",
-        "sources": ["0. Управление/0.7. Классификация документов и теги.md"],
-        "extract_sections": ["## Базовая схема", "## Карта"]
+        "generate_statistics": True  # Специальный флаг для генерации статистики
     },
     "9": {
         "title": "Заключение о противоречиях",
@@ -368,6 +367,65 @@ def build_section(section_num: str, config: Dict) -> str:
                 # Берём весь контент
                 adjusted_content = adjust_heading_levels(content, section_num)
                 result.append(adjusted_content)
+
+    return '\n'.join(result)
+
+
+def generate_document_statistics() -> str:
+    """
+    Генерирует статистику по документам в разделе 8 на основе классификации из 0.7
+    """
+    stats_by_folder = {}
+    total_docs = 0
+    total_size = 0
+
+    # Собираем статистику по папкам
+    for md_file in CONTENT_DIR.rglob("*.md"):
+        # Пропускаем служебные файлы
+        if "0.5. Проверочный документ" in md_file.name:
+            continue
+        if ".obsidian" in str(md_file):
+            continue
+
+        folder_name = md_file.parent.name
+
+        # Читаем размер файла
+        try:
+            file_size = md_file.stat().st_size
+            total_size += file_size
+            total_docs += 1
+
+            if folder_name not in stats_by_folder:
+                stats_by_folder[folder_name] = {"count": 0, "size": 0, "files": []}
+
+            stats_by_folder[folder_name]["count"] += 1
+            stats_by_folder[folder_name]["size"] += file_size
+            stats_by_folder[folder_name]["files"].append(md_file.name)
+        except:
+            continue
+
+    # Формируем отчет
+    result = []
+    result.append("### Статистика документов по категориям\n")
+    result.append("| Категория | Документов | Размер (KB) | Примеры |")
+    result.append("|-----------|------------|-------------|---------|")
+
+    # Сортируем по количеству документов
+    for folder, data in sorted(stats_by_folder.items(), key=lambda x: x[1]['count'], reverse=True):
+        size_kb = data['size'] / 1024
+        examples = ", ".join(data['files'][:3])  # Первые 3 файла
+        if len(data['files']) > 3:
+            examples += f" (+{len(data['files']) - 3})"
+        result.append(f"| {folder} | {data['count']} | {size_kb:.1f} | {examples} |")
+
+    result.append(f"\n**Итого**: {total_docs} документов, {total_size / 1024:.1f} KB")
+
+    result.append("\n### Применение классификации")
+    result.append("\nСогласно документу 0.7, документы классифицируются по 4 осям:")
+    result.append("- **Ось A (Вид)**: doc, data, code, model, policy, contract, metric, economy")
+    result.append("- **Ось B (Читаемость/Изменение)**: manual, mixed, machine")
+    result.append("- **Ось C (Слой)**: philosophy, methodology, ontology, program, architecture, service, data, analytics")
+    result.append("- **Ось D (Область)**: global-core, local-edge")
 
     return '\n'.join(result)
 
@@ -629,18 +687,7 @@ _Следующая проверка будет выполнена при сле
 
 ---
 
-### Информация о стоимости моделей OpenAI (2025)
-
-| Модель | Контекст | Input (1M tokens) | Output (1M tokens) | Рекомендуется для |
-|--------|----------|-------------------|--------------------|--------------------|
-| **GPT-4o-mini** ✅ | 128K | $0.150 | $0.600 | Текущий выбор (оптимально) |
-| GPT-4o | 128K | $2.50 | $10.00 | Сложный анализ |
-| GPT-4 Turbo | 128K | $10.00 | $30.00 | Максимальное качество |
-| GPT-3.5 Turbo | 16K | $0.50 | $1.50 | Простые задачи |
-
-**Примечание**: GPT-5 пока не выпущен (ожидается в 2025). Текущий выбор GPT-4o-mini обеспечивает оптимальный баланс цена/качество для анализа документации.
-
-**Текущая стоимость одного анализа**: ${total_cost:.4f} (~{total_cost * 100:.1f} центов)
+💰 **Стоимость данного анализа**: ${total_cost:.4f} (~{total_cost * 100:.1f} цента) | Модель: GPT-4o-mini
 """
 
     except Exception as e:
@@ -685,6 +732,19 @@ def build_check_document(use_ai: bool = False) -> str:
 
     for section_num in main_sections:
         config = DOCUMENT_MAPPING[section_num]
+
+        # Специальная обработка раздела 8 (статистика документов)
+        if config.get('generate_statistics'):
+            print(f"Собираю раздел {section_num}: {config['title']}...")
+            section_header = f"\n## {section_num}. {config['title']}\n"
+            sections.append(section_header)
+
+            # Генерируем статистику
+            statistics = generate_document_statistics()
+            sections.append(statistics)
+            all_content.append(section_header)
+            all_content.append(statistics)
+            continue
 
         # Специальная обработка раздела 9 (AI-анализ противоречий)
         if section_num == "9":
