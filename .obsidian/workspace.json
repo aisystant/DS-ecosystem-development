@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/0. Управление/0.5. Проверочный документ.md",
+                "file": "content/0. Управление/0.91. Структура проверочного документа.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "0.5. Проверочный документ"
+              "title": "0.91. Структура проверочного документа"
             }
           }
         ]
@@ -173,8 +173,10 @@
   },
   "active": "04cbb09f9ac9a501",
   "lastOpenFiles": [
-    "conflict-files-obsidian-git.md",
     "content/0. Управление/0.5. Проверочный документ.md",
+    "ops/build_check_document.py.tmp.10897.1762882514138",
+    "ops/build_check_document.py.tmp.10897.1762882503574",
+    "conflict-files-obsidian-git.md",
     "ops/build_check_document.py.tmp.10897.1762882059516",
     "ops/build_check_document.py.tmp.10897.1762882037776",
     "ops/build_check_document.py.tmp.10897.1762881945804",
@@ -183,8 +185,6 @@
     "ops/build_check_document.py.tmp.10897.1762881809654",
     "ops/build_check_document.py.tmp.10897.1762881796896",
     "ops/build_check_document.py.tmp.10897.1762881755347",
-    "ops/build_check_document.py.tmp.10897.1762881713967",
-    "ops/build_check_document.py.tmp.10897.1762881697487",
     "content/0. Управление/0.91. Структура проверочного документа.md",
     "content/0. Управление/0.6. Структура этого хранилища.md",
     "content/0. Управление/0.7. Классификация документов и теги.md",
