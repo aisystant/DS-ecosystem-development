@@ -349,12 +349,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/0. Управление/0.91. Структура проверочного документа.md",
+                "file": "content/0. Управление/0.5. Проверочный документ.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "0.91. Структура проверочного документа"
+              "title": "0.5. Проверочный документ"
             }
           }
         ],
@@ -509,10 +509,10 @@
   },
   "active": "0800e22fe622294a",
   "lastOpenFiles": [
+    "content/0. Управление/0.91. Структура проверочного документа.md",
     "content/0. Управление/0.5. Проверочный документ.md",
     "ops/README.md",
     "ops/README.md.tmp.10897.1762873807333",
-    "content/0. Управление/0.91. Структура проверочного документа.md",
     "ops/build_check_document.py",
     "ops/build_check_document.py.tmp.10897.1762873617475",
     "test-sync.md.md",
