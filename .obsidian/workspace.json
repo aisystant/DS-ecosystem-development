@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/0. Управление/0.6. Структура этого хранилища.md",
+                "file": "content/0. Управление/0.5. Проверочный документ.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "0.6. Структура этого хранилища"
+              "title": "0.5. Проверочный документ"
             }
           }
         ]
@@ -173,6 +173,7 @@
   },
   "active": "04cbb09f9ac9a501",
   "lastOpenFiles": [
+    "content/0. Управление/0.6. Структура этого хранилища.md",
     "ops/USAGE.md.tmp.10897.1762885991568",
     "ops/USAGE_WINDOWS.md",
     "ops/USAGE_WINDOWS.md.tmp.10897.1762885972138",
@@ -186,11 +187,9 @@
     "ops/save_manual_edits.py",
     "ops/save_manual_edits.py.tmp.10897.1762885195541",
     "ops/classify_documents.py.tmp.10897.1762885160186",
-    "content/0. Управление/sedsHnQzL",
     "content/0. Управление/0.5. Проверочный документ.md",
     "content/0. Управление/0.91. Структура проверочного документа.md",
     "conflict-files-obsidian-git.md",
-    "content/0. Управление/0.6. Структура этого хранилища.md",
     "content/0. Управление/0.7. Классификация документов и теги.md",
     "ops/SETUP_GUIDE.md",
     "content/0. Управление/0.3. Решения.md",
