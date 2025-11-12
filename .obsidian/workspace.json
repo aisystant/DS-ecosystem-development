@@ -188,6 +188,8 @@
   },
   "active": "98a2a3b77de609a2",
   "lastOpenFiles": [
+    "agents-core/docs/check_quality.py",
+    "agents-core/docs/check_quality.py.tmp.10897.1762967899652",
     "content/4. Системы/4.7. CRM.md",
     "agents-core/docs/create_document.py",
     "agents-core/docs/create_document.py.tmp.10897.1762967825902",
@@ -218,7 +220,6 @@
     "ops/validate_classifications.py.tmp.10897.1762964378342",
     "ops/save_manual_edits.py.tmp.10897.1762964360311",
     "ops/save_manual_edits.py.tmp.10897.1762964343791",
-    "ops/classify_documents.py.tmp.10897.1762964311818",
     "content/0. Управление/0.7. Классификация документов и теги.md",
     "ops/USAGE_WINDOWS.md",
     "ops/USAGE.md",
