@@ -174,6 +174,7 @@
   "active": "04cbb09f9ac9a501",
   "lastOpenFiles": [
     "content/4. Системы/4.12. Единое хранилище знаний (Memory Bank).md",
+    "content/0. Управление/0.1. Входящее.md",
     "content/0. Управление/0.0. Информация.md",
     "content/0. Управление/0.6. Структура этого хранилища.md",
     "ops/validate_classifications.py.tmp.10897.1762964378342",
@@ -183,7 +184,6 @@
     "ops/classify_documents.py.tmp.10897.1762964299499",
     "ops/classify_documents.py.tmp.10897.1762964287934",
     "ops/classify_documents.py.tmp.10897.1762964279877",
-    "content/0. Управление/0.1. Входящее.md",
     "content/0. Управление/0.7. Классификация документов и теги.md",
     "repo_full_2025-11-11.zip",
     "repo_full.zip",
