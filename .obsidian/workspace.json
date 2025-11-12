@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/4. Системы/4.7. CRM.md",
+                "file": "content/4. Системы/4.4. Платформа обучения LMS.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "4.7. CRM"
+              "title": "4.4. Платформа обучения LMS"
             }
           }
         ],
@@ -188,10 +188,12 @@
   },
   "active": "98a2a3b77de609a2",
   "lastOpenFiles": [
+    "content/4. Системы/4.7. CRM.md",
+    "agents-core/docs/create_document.py",
+    "agents-core/docs/create_document.py.tmp.10897.1762967825902",
     "content/agents/docs.md",
     "content/agents/docs.md.tmp.10897.1762967772997",
     "content/4. Системы/4.4. Платформа обучения LMS.md",
-    "content/4. Системы/4.7. CRM.md",
     "content/4. Системы/4.10. Финансовая система токеномики.md",
     "content/4. Системы/4.12. Единое хранилище знаний (Memory Bank).md",
     "content/4. Системы/4.11. Цифровой двойник.md",
@@ -217,12 +219,9 @@
     "ops/save_manual_edits.py.tmp.10897.1762964360311",
     "ops/save_manual_edits.py.tmp.10897.1762964343791",
     "ops/classify_documents.py.tmp.10897.1762964311818",
-    "ops/classify_documents.py.tmp.10897.1762964299499",
-    "ops/classify_documents.py.tmp.10897.1762964287934",
     "content/0. Управление/0.7. Классификация документов и теги.md",
     "ops/USAGE_WINDOWS.md",
     "ops/USAGE.md",
-    "ops/SETUP_GUIDE.md",
-    "ops/README_CLASSIFICATION.md"
+    "ops/SETUP_GUIDE.md"
   ]
 }
