@@ -36,7 +36,8 @@
       "Bash(git remote set-url:*)",
       "Bash(ssh:*)",
       "Bash(ssh-keyscan:*)",
-      "Bash(~/.ssh/known_hosts)"
+      "Bash(~/.ssh/known_hosts)",
+      "Bash(git pull:*)"
     ],
     "deny": [],
     "ask": []
