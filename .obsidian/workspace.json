@@ -179,12 +179,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/4. Системы/4.13. Система управления кейсами.md",
+                "file": "content/0. Управление/0.5. Проверочный документ.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "4.13. Система управления кейсами"
+              "title": "0.5. Проверочный документ"
             }
           }
         ],
@@ -340,8 +340,8 @@
   },
   "active": "b9fad065c1fc131c",
   "lastOpenFiles": [
-    "conflict-files-obsidian-git.md",
     "content/4. Системы/4.13. Система управления кейсами.md",
+    "conflict-files-obsidian-git.md",
     "content/4. Системы/4.10. Финансовая система токеномики.md",
     "content/4. Системы/4.9. Биллинг.md",
     "content/4. Системы/4.11. Цифровой двойник.md",
