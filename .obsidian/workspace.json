@@ -41,12 +41,24 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/2. Созидатель/Описание идеи модели данных цифрового двойника.md",
+                "file": "content/2. Созидатель/Предложение по модели данных цифрового двойника.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Описание идеи модели данных цифрового двойника"
+              "title": "Предложение по модели данных цифрового двойника"
+            }
+          },
+          {
+            "id": "0e2c6285f25ed3fd",
+            "type": "leaf",
+            "state": {
+              "type": "release-notes",
+              "state": {
+                "currentVersion": "1.10.6"
+              },
+              "icon": "lucide-book-up",
+              "title": "примечания к выпуску 1.10.6"
             }
           }
         ],
@@ -179,12 +191,23 @@
               "icon": "lucide-list",
               "title": "Структура Организация этого хранилища"
             }
+          },
+          {
+            "id": "b4e1a0a62021da15",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {},
+              "icon": "git-pull-request",
+              "title": "Source Control"
+            }
           }
-        ]
+        ],
+        "currentTab": 4
       }
     ],
     "direction": "horizontal",
-    "width": 300,
+    "width": 200,
     "collapsed": true
   },
   "left-ribbon": {
@@ -200,10 +223,10 @@
       "obsidian-shellcommands:Shell commands: Custom variables": false
     }
   },
-  "active": "bc9968b7d54c1af2",
+  "active": "9501200d1d9d5df0",
   "lastOpenFiles": [
     "Курс Системное саморазвитие.md",
-    "content/2. Созидатель/Описание идеи модели данных цифрового двойника.md",
+    "content/2. Созидатель/Предложение по модели данных цифрового двойника.md",
     "content/2. Созидатель/3.2. Программы развития.md",
     "content/3. Экосистема развития/3.4. Описание единого хранилища знаний (Memory Bank).md",
     "content/3. Библиотека/3.3. Понятия.md",
