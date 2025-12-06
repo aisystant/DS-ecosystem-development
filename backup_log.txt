@@ -1,6 +1,0 @@
-﻿2025-11-11 10:39:36 - Запуск бэкапа...
-2025-11-11 10:39:36 - Архив создан: C:\ecosystem-development\repo_full.zip
-2025-11-11 10:39:36 - Коммит создан
-2025-11-11 10:39:36 - Успешно запушено в feat/ci-and-ops!
-2025-11-11 10:39:36 - Ссылка: https://github.com/TserenTserenov/ecosystem-development/commits/feat/ci-and-ops
-2025-11-11 10:39:36 - Сохранён дневной архив: repo_full_2025-11-11.zip
