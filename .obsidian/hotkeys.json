@@ -7,6 +7,23 @@
       "key": "T"
     }
   ],
+  "obsidian-git:pull": [
+    {
+      "modifiers": [
+        "Mod"
+      ],
+      "key": "D"
+    }
+  ],
+  "obsidian-git:push2": [
+    {
+      "modifiers": [
+        "Mod"
+      ],
+      "key": "J"
+    }
+  ],
+  "editor:delete-paragraph": [],
   "obsidian-shellcommands:shell-command-7gw8tl0vn8": [
     {
       "modifiers": [
