@@ -129,7 +129,7 @@
                 "autoReveal": false
               },
               "icon": "lucide-folder-closed",
-              "title": "Files"
+              "title": "Файловый менеджер"
             }
           },
           {
@@ -256,18 +256,20 @@
   },
   "left-ribbon": {
     "hiddenItems": {
-      "switcher:Open quick switcher": false,
-      "graph:Open graph view": false,
-      "canvas:Create new canvas": false,
-      "daily-notes:Open today's daily note": false,
-      "templates:Insert template": false,
-      "command-palette:Open command palette": false,
-      "bases:Create new base": false,
-      "obsidian-git:Open Git source control": false
+      "switcher:Меню быстрого перехода": false,
+      "graph:Граф": false,
+      "canvas:Создать новый холст": false,
+      "daily-notes:Сегодняшняя заметка": false,
+      "templates:Вставить шаблон": false,
+      "command-palette:Открыть палитру команд": false,
+      "bases:Создать новую базу": false,
+      "obsidian-git:Open Git source control": false,
+      "obsidian-shellcommands:Shell commands: Custom variables": false
     }
   },
-  "active": "bc9968b7d54c1af2",
+  "active": "7c82b636b339d11f",
   "lastOpenFiles": [
+    "Untitled.md",
     "content/1. Мир (Надсистема)/1.1. Смыслы — Продвижение/1.1.1. Просвещение/Проблемы и вызовы мира 1.1.md",
     "content/0. Управление/0.4. Автоматические отчёты ИИ/0.4.1. Структура автоматических отчётов/ТЗ Архитектурный слепок 0.4.1.md",
     "content/0. Управление/0.5. Проверочный документ.md",
@@ -298,7 +300,6 @@
     "content/0. Управление/0.3. Планы и совещания/План работ 0.3.md",
     "content/0. Управление/0.3. Планы и совещания",
     "content/0. Управление/0.5. Совещания и встречи/Встречи.md",
-    "content/0. Управление/0.5. Планы и совещания/План работ 0.5.md",
     "content/0. Управление/0.5. Планы и совещания",
     "content/3. Экосистема развития (Система создания)/3.2. Архитектура — Платформа и подсистемы/3.2.3. ИТ-системы/3.2.3.1. Цифровой двойник",
     "content/3. Экосистема развития (Система создания)/3.2. Архитектура — Платформа и подсистемы/3.2.4. ИИ-ассистенты/Проводник",
