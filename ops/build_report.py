@@ -1057,24 +1057,54 @@ class ReportGenerator:
 
         return heatmap + "\n---\n\n"
 
-    def _find_duplicate_folders(self) -> List[Tuple[str, List[str]]]:
-        """Поиск папок с одинаковыми названиями."""
-        folder_names = defaultdict(list)
+    def _find_duplicate_folders(self) -> List[Tuple[str, List[str], str]]:
+        """Поиск папок с одинаковыми названиями или номерами.
 
-        for doc in self.documents:
-            for parent in doc.path.parents:
-                if parent == CONTENT_DIR or not parent.is_relative_to(CONTENT_DIR):
+        Возвращает список кортежей: (ключ_дубля, [пути], тип_дубля)
+        Типы: 'number' (одинаковый номер раздела), 'name' (одинаковое название)
+        """
+        # Сканируем ВСЕ папки рекурсивно, а не только родителей документов
+        all_folders = set()
+        for folder in CONTENT_DIR.rglob("*"):
+            if folder.is_dir():
+                # Пропускаем служебные папки
+                if any(skip in str(folder) for skip in [".obsidian", "node_modules", ".git"]):
                     continue
-                # Убираем номер из названия папки
-                name = re.sub(r'^\d+\.?\d*\.?\s*', '', parent.name).lower().strip()
-                if name:
-                    folder_names[name].append(str(parent.relative_to(CONTENT_DIR)))
+                if folder != CONTENT_DIR:
+                    all_folders.add(folder)
+
+        # Словари для поиска дублей
+        folder_numbers = defaultdict(list)  # номер раздела -> пути
+        folder_names = defaultdict(list)    # название (без номера) -> пути
+
+        for folder in all_folders:
+            rel_path = str(folder.relative_to(CONTENT_DIR))
+            folder_name = folder.name
+
+            # Извлекаем номер раздела (например, "0.4.1." из "0.4.1. Название")
+            number_match = re.match(r'^(\d+(?:\.\d+)*\.?)\s*', folder_name)
+            if number_match:
+                section_number = number_match.group(1).rstrip('.')  # "0.4.1"
+                folder_numbers[section_number].append(rel_path)
+
+            # Извлекаем название без номера
+            name = re.sub(r'^\d+(?:\.\d+)*\.?\s*', '', folder_name).lower().strip()
+            if name:
+                folder_names[name].append(rel_path)
 
         duplicates = []
+
+        # Дублирование номеров разделов (критично!)
+        for number, paths in folder_numbers.items():
+            unique_paths = list(set(paths))
+            if len(unique_paths) > 1:
+                duplicates.append((f"Номер {number}", unique_paths, "number"))
+
+        # Дублирование названий
         for name, paths in folder_names.items():
             unique_paths = list(set(paths))
             if len(unique_paths) > 1:
-                duplicates.append((name, unique_paths))
+                duplicates.append((name, unique_paths, "name"))
 
         return duplicates
 
@@ -1126,17 +1156,37 @@ class ReportGenerator:
         return missing[:30]  # Ограничиваем вывод
 
     def _technical_dup_folders(self, duplicates) -> str:
-        section = "## 2. Дублирование названий папок\n\n"
+        section = "## 2. Дублирование папок\n\n"
 
         if not duplicates:
             return section + "*Дублирования не обнаружено* 🟢\n\n---\n\n"
 
-        for i, (name, paths) in enumerate(duplicates[:10], 1):
-            section += f"### 2.{i}. [DUP-F{i:03d}] Дублирование «{name}»\n\n"
-            section += "**Найдены папки:**\n"
-            for path in paths[:5]:
-                section += f"- `{path}`\n"
-            section += "\n**Рекомендация:** Объединить или переименовать\n\n"
+        # Разделяем по типу: сначала дубли номеров (критичнее), потом названий
+        number_dups = [(n, p, t) for n, p, t in duplicates if t == "number"]
+        name_dups = [(n, p, t) for n, p, t in duplicates if t == "name"]
+
+        idx = 1
+
+        if number_dups:
+            section += "### Дублирование номеров разделов 🔴\n\n"
+            for name, paths, _ in number_dups[:10]:
+                section += f"#### 2.{idx}. [DUP-F{idx:03d}] {name}\n\n"
+                section += "**Найдены папки с одинаковым номером:**\n"
+                for path in paths[:5]:
+                    section += f"- `{path}`\n"
+                section += "\n**Проблема:** Дублирование номера раздела нарушает иерархию хранилища.\n"
+                section += "**Рекомендация:** Переименовать одну из папок с новым номером.\n\n"
+                idx += 1
+
+        if name_dups:
+            section += "### Дублирование названий папок 🟡\n\n"
+            for name, paths, _ in name_dups[:10]:
+                section += f"#### 2.{idx}. [DUP-F{idx:03d}] Дублирование «{name}»\n\n"
+                section += "**Найдены папки:**\n"
+                for path in paths[:5]:
+                    section += f"- `{path}`\n"
+                section += "\n**Рекомендация:** Объединить или переименовать.\n\n"
+                idx += 1
 
         return section + "---\n\n"
 
