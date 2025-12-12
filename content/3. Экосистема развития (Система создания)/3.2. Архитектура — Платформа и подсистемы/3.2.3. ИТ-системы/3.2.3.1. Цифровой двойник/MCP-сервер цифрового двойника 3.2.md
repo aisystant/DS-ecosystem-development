@@ -16,6 +16,8 @@ type: doc
 created: '2025-12-12'
 layer: operations
 scope: local-edge
+aliases:
+- MCP-сервер цифрового двойника 32md
 ---
 # MCP-сервер цифрового двойника 3.2
 

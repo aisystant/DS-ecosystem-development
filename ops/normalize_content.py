@@ -22,6 +22,7 @@ import io
 import datetime
 import yaml
 from pathlib import Path
+import difflib
 
 CONTENT_DIR = Path('content')
 REPORT_PATH = Path('content') / '0. Управление' / '0.4. Автоматические отчёты ИИ' / 'Противоречия и несогласованности 0.4.md'
@@ -167,6 +168,46 @@ print('Resolved', len(resolved), 'names,', len(unresolved), 'unresolved')
 if unresolved:
     print('Unresolved examples:', unresolved[:10])
 
+# 2b) Try fuzzy-matching for unresolved names using titles and basenames
+fuzzy_resolved = {}
+still_unresolved = []
+for name in unresolved:
+    # build candidate pool: basenames and titles
+    candidates = list(file_index.values()) + list(title_index.values())
+    # unique
+    candidates = list(dict.fromkeys(candidates))
+    # prepare keys for matching
+    keys = [str(p.name) for p in candidates] + [t for t in title_index.keys()]
+    # use difflib to find close matches
+    match = difflib.get_close_matches(name, keys, n=1, cutoff=0.65)
+    if match:
+        m = match[0]
+        # find corresponding path
+        target = None
+        # check filenames
+        for p in candidates:
+            if p.name == m:
+                target = p
+                break
+        # check titles
+        if target is None:
+            if m in title_index:
+                target = title_index[m]
+        if target:
+            fuzzy_resolved[name] = target
+        else:
+            still_unresolved.append(name)
+    else:
+        still_unresolved.append(name)
+
+print('Fuzzy-resolved', len(fuzzy_resolved), 'additional names,', len(still_unresolved), 'still unresolved')
+if fuzzy_resolved:
+    # merge into resolved
+    for k,v in fuzzy_resolved.items():
+        if k not in resolved:
+            resolved[k] = v
+    # rebuild unresolved list
+    unresolved = still_unresolved
 # 3) perform replacements: for each resolved name, replace [[Name]] -> [[TargetBasename]] across files
 replacements_made = 0
 frontmatter_fixed = 0
@@ -218,13 +259,18 @@ for p in md_files:
     orig = text
     def replace_link(m):
         label = m.group(1).strip()
+        # exact match
         if label in resolved:
             return f'[[{resolved[label].name}]]'
+        # try fuzzy match
+        if label in fuzzy_resolved:
+            return f'[[{fuzzy_resolved[label].name}]]'
         return m.group(0)
     new_text = wikilink_re.sub(replace_link, text)
     if new_text != orig:
         write_text(p, new_text)
-        replacements_made += len(list(wikilink_re.findall(orig)))
+        # count only actual substitutions
+        replacements_made += sum(1 for m in wikilink_re.findall(orig) if m in resolved or m in fuzzy_resolved)
         files_touched.add(str(p))
 
 # 4) Ensure every file has frontmatter with required keys
