@@ -103,6 +103,14 @@ else:
 
 print('Found', len(broken_names), 'candidate broken-names from report')
 
+# Remove obvious table-header false-positives
+HEADER_BLACKLIST = {'Название','Количество','№','Документ','Путь','Пути'}
+removed = [n for n in broken_names if n in HEADER_BLACKLIST]
+if removed:
+    for r in removed:
+        broken_names.discard(r)
+    print('Filtered out header-like tokens from report:', removed)
+
 # attempt to resolve broken names
 resolved = {}
 unresolved = []
