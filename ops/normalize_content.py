@@ -106,22 +106,53 @@ print('Found', len(broken_names), 'candidate broken-names from report')
 resolved = {}
 unresolved = []
 for name in sorted(broken_names):
-    # try exact basename match
+    # try exact basename match and several normalized variants
     candidates = []
-    # try with .md
-    if name + '.md' in file_index:
-        candidates.append(file_index[name + '.md'])
-    # try exact title
-    if name in title_index:
-        candidates.append(title_index[name])
-    # try substring match in basenames
-    for k,v in file_index.items():
-        if name.lower() in k.lower():
-            candidates.append(v)
-    # try substring in titles
-    for t,p in title_index.items():
-        if name.lower() in t.lower():
-            candidates.append(p)
+    def normalize(n):
+        s = n
+        # remove code-ish artifacts like 'md' suffix, stray punctuation and numeric noise
+        s = re.sub(r"\bmd\b", "", s, flags=re.IGNORECASE)
+        s = re.sub(r"[\d]+", "", s)
+        s = re.sub(r"[_\-]+", " ", s)
+        s = re.sub(r"[^\w\s\u0400-\u04FF]", " ", s)
+        s = re.sub(r"\s+", " ", s).strip()
+        return s
+
+    variants = set()
+    variants.add(name)
+    variants.add(name + '.md')
+    norm = normalize(name)
+    variants.add(norm)
+    variants.add(norm + '.md')
+    variants.add(norm.replace(' ', ''))
+    # also try lowercased and title-cased
+    variants.add(name.lower())
+    variants.add(norm.lower())
+
+    # search for candidates using variants
+    for v in variants:
+        if not v:
+            continue
+        # try with exact basename in index
+        if v in file_index:
+            candidates.append(file_index[v])
+        # try exact title
+        if v in title_index:
+            candidates.append(title_index[v])
+        # try substring match in basenames
+        for k,vk in file_index.items():
+            try:
+                if v.lower() in k.lower():
+                    candidates.append(vk)
+            except Exception:
+                pass
+        # try substring in titles
+        for t,p in title_index.items():
+            try:
+                if v.lower() in t.lower():
+                    candidates.append(p)
+            except Exception:
+                pass
     # dedupe candidates
     candidates = list(dict.fromkeys(candidates))
     if len(candidates)==1:
