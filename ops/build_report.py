@@ -529,10 +529,11 @@ class ReportGenerator:
                     non_empty_docs += 1
 
                 # Проверяем соответствие типичным документам
+                # ВАЖНО: ищем только в НАЗВАНИИ документа, не в теле
+                # (иначе слово "партнёр" найдётся в любом документе)
                 doc_name_lower = doc.name.lower()
-                doc_body_lower = doc.body.lower()
                 for pattern in typical_patterns:
-                    if pattern in doc_name_lower or pattern in doc_body_lower:
+                    if pattern in doc_name_lower:
                         found_typical += 1
                         break
 
