@@ -351,14 +351,23 @@ class Document:
 
         # По пути
         path_str = str(self.relative_path)
+        path_segments = path_str.split("/")
+
         for pattern, family in FOLDER_TO_FAMILY.items():
             if pattern in path_str:
                 if family:
                     return family
                 # Для корневых папок смотрим подпапку
-                for sub_pattern, sub_family in FOLDER_TO_FAMILY.items():
-                    if sub_pattern in path_str and sub_family:
-                        return sub_family
+                # ВАЖНО: Проверяем, что паттерн находится В НАЧАЛЕ сегмента пути,
+                # а не просто как подстрока (иначе "1.1.3." ошибочно матчится на "1.3.")
+                # Сортируем в обратном порядке для корректного приоритета (3.3. > 3.2. > 3.1.)
+                sorted_patterns = sorted(FOLDER_TO_FAMILY.items(), key=lambda x: x[0], reverse=True)
+                for sub_pattern, sub_family in sorted_patterns:
+                    if sub_family:
+                        # Проверяем, что какой-то сегмент пути НАЧИНАЕТСЯ с паттерна
+                        for segment in path_segments:
+                            if segment.startswith(sub_pattern):
+                                return sub_family
 
         return None
 
@@ -520,8 +529,11 @@ class ReportGenerator:
 
             # Анализ содержания документов
             typical_patterns = typical_docs.get(family_id, [])
-            found_typical = 0
             non_empty_docs = 0
+
+            # ИСПРАВЛЕНО: Считаем сколько ПАТТЕРНОВ имеют хотя бы один документ,
+            # а не сколько документов соответствуют какому-либо паттерну
+            patterns_found = set()
 
             for doc in docs:
                 # Проверяем, что документ не пустой (> 500 слов)
@@ -530,21 +542,20 @@ class ReportGenerator:
 
                 # Проверяем соответствие типичным документам
                 # ВАЖНО: ищем только в НАЗВАНИИ документа, не в теле
-                # (иначе слово "партнёр" найдётся в любом документе)
                 doc_name_lower = doc.name.lower()
                 for pattern in typical_patterns:
                     if pattern in doc_name_lower:
-                        found_typical += 1
-                        break
+                        patterns_found.add(pattern)
 
             # Оценка статуса согласно ТЗ (п. 2.3)
-            # Главный критерий: typical_ratio — есть ли НУЖНЫЕ документы
+            # Главный критерий: typical_ratio — доля паттернов, для которых есть документы
             # Вторичный: non_empty_ratio — насколько они заполнены
             #
             # 🟢 Полный: ≥ 70% типичных документов И ≥ 50% непустых
             # 🟡 Частичный: 30–69% типичных документов
             # 🔴 Минимальный: < 30% типичных документов (даже если много других)
 
+            found_typical = len(patterns_found)
             typical_ratio = found_typical / len(typical_patterns) if typical_patterns else 0
             non_empty_ratio = non_empty_docs / count if count > 0 else 0
 
