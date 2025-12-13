@@ -521,50 +521,66 @@ class ReportGenerator:
             # Анализ содержания документов
             typical_patterns = typical_docs.get(family_id, [])
             found_typical = 0
-            non_empty_docs = 0
+            meaningful_docs = 0  # документы, которые не являются заглушками
+            complete_docs = 0    # документы, отвечающие на главный вопрос
 
             for doc in docs:
-                # Проверяем, что документ не пустой (> 500 слов)
-                if len(doc.body.split()) >= 500:
-                    non_empty_docs += 1
-
-                # Проверяем соответствие типичным документам
-                # ВАЖНО: ищем только в НАЗВАНИИ документа, не в теле
-                # (иначе слово "партнёр" найдётся в любом документе)
                 doc_name_lower = doc.name.lower()
+                doc_body_lower = doc.body.lower()
+
+                # Проверяем соответствие типичным документам (в названии ИЛИ теле)
+                is_typical = False
                 for pattern in typical_patterns:
-                    if pattern in doc_name_lower:
+                    if pattern in doc_name_lower or pattern in doc_body_lower:
                         found_typical += 1
+                        is_typical = True
                         break
 
+                # Анализируем качество документа
+                word_count = len(doc.body.split())
+                is_stub = self._is_stub_document(doc)
+                answers_main_question = self._answers_main_question(doc, main_questions[family_id])
+
+                # Документ считается осмысленным, если:
+                # - не является заглушкой
+                # - имеет достаточную длину (> 200 слов) ИЛИ отвечает на главный вопрос
+                if not is_stub and (word_count >= 200 or answers_main_question):
+                    meaningful_docs += 1
+
+                # Документ считается полным, если отвечает на главный вопрос семейства
+                if answers_main_question:
+                    complete_docs += 1
+
             # Оценка статуса согласно ТЗ (п. 2.3)
-            # Главный критерий: typical_ratio — есть ли НУЖНЫЕ документы
-            # Вторичный: non_empty_ratio — насколько они заполнены
-            #
-            # 🟢 Полный: ≥ 70% типичных документов И ≥ 50% непустых
-            # 🟡 Частичный: 30–69% типичных документов
-            # 🔴 Минимальный: < 30% типичных документов (даже если много других)
+            # 🟢 Полный: ≥ 70% типичных документов присутствуют И отвечают на главный вопрос
+            # 🟡 Частичный: 30–69% типичных документов присутствуют ИЛИ документы неполные
+            # 🔴 Минимальный: < 30% типичных документов ИЛИ только заглушки
 
             typical_ratio = found_typical / len(typical_patterns) if typical_patterns else 0
-            non_empty_ratio = non_empty_docs / count if count > 0 else 0
+            meaningful_ratio = meaningful_docs / count if count > 0 else 0
+            complete_ratio = complete_docs / count if count > 0 else 0
 
-            if typical_ratio >= 0.7 and non_empty_ratio >= 0.5:
+            if typical_ratio >= 0.7 and complete_ratio >= 0.5:
                 status = "🟢"
                 comment = "Ключевые документы присутствуют"
-            elif typical_ratio >= 0.3:
+            elif typical_ratio >= 0.3 or meaningful_ratio >= 0.5:
                 status = "🟡"
-                if non_empty_ratio < 0.5:
-                    comment = f"{int(non_empty_ratio*100)}% документов полные"
+                if complete_ratio < 0.3:
+                    comment = f"{int(complete_ratio*100)}% отвечают на главный вопрос"
+                elif meaningful_ratio < 0.5:
+                    comment = f"{int(meaningful_ratio*100)}% содержательных документов"
                 else:
-                    comment = f"Найдено {found_typical}/{len(typical_patterns)} типичных документов"
+                    comment = f"Найдено {found_typical}/{len(typical_patterns)} типичных"
             else:
                 status = "🔴"
                 if count == 0:
                     comment = "Документы отсутствуют"
                 elif found_typical == 0:
                     comment = f"Нет типичных документов (есть {count} других)"
+                elif meaningful_docs == 0:
+                    comment = f"Только заглушки ({count} документов)"
                 else:
-                    comment = f"Только {found_typical}/{len(typical_patterns)} типичных"
+                    comment = f"Недостаточно содержательных документов"
 
             status_counts[status] += 1
             heatmap += f"| {family_id} | {family['name']} | {status} | {count} | {comment} |\n"
