@@ -1,0 +1,134 @@
+name: Generate AI Reports
+
+on:
+  # Еженедельный запуск (воскресенье в 05:00 UTC = 08:00 МСК)
+  schedule:
+    - cron: '0 5 * * 0'
+
+  # Ручной запуск с выбором опций
+  workflow_dispatch:
+    inputs:
+      ai_analysis:
+        description: 'Включить AI-анализ (требует ANTHROPIC_API_KEY)'
+        required: false
+        type: boolean
+        default: false
+      report_type:
+        description: 'Тип отчёта для генерации'
+        required: false
+        type: choice
+        default: 'all'
+        options:
+          - all
+          - architecture-snapshot
+          - content-completeness
+          - technical-issues
+          - terminology
+          - recommendations
+          - links-map
+
+jobs:
+  generate-reports:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install pyyaml
+          # Устанавливаем anthropic только если нужен AI-анализ
+          if [ "${{ github.event_name }}" == "schedule" ] || [ "${{ github.event.inputs.ai_analysis }}" == "true" ]; then
+            pip install anthropic
+          fi
+
+      - name: Generate reports
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          REPORT_TYPE="${{ github.event.inputs.report_type || 'all' }}"
+
+          echo "📊 Генерация отчётов: $REPORT_TYPE"
+          echo ""
+
+          # Определяем нужен ли AI-анализ
+          AI_FLAG=""
+          if [ "${{ github.event_name }}" == "schedule" ]; then
+            echo "📅 Еженедельный запуск - AI-анализ включен"
+            AI_FLAG="--ai-analysis"
+          elif [ "${{ github.event.inputs.ai_analysis }}" == "true" ]; then
+            echo "🔧 Ручной запуск с AI-анализом"
+            AI_FLAG="--ai-analysis"
+          else
+            echo "ℹ️ Базовая генерация без AI-анализа"
+          fi
+
+          # Запускаем генерацию
+          python3 ops/build_report.py --report "$REPORT_TYPE" $AI_FLAG
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if git diff --quiet "content/0. Управление/0.4. Автоматические отчёты ИИ/"; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit changes
+        if: steps.check_changes.outputs.changed == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          git add "content/0. Управление/0.4. Автоматические отчёты ИИ/"
+
+          REPORT_TYPE="${{ github.event.inputs.report_type || 'all' }}"
+
+          git commit -m "chore: автоматическое обновление отчётов ИИ
+
+          Сгенерированы отчёты: $REPORT_TYPE
+          Триггер: ${{ github.event_name }}
+          Время: $(date -u '+%Y-%m-%d %H:%M:%S UTC')
+
+          Generated with [Claude Code](https://claude.com/claude-code)"
+
+      - name: Push changes
+        if: steps.check_changes.outputs.changed == 'true'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
+
+      - name: Create summary
+        run: |
+          echo "### 📊 Результаты генерации отчётов" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Статус изменений
+          if [ "${{ steps.check_changes.outputs.changed }}" == "true" ]; then
+            echo "✅ Отчёты обновлены и закоммичены" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "ℹ️ Изменений не обнаружено" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Детали запуска
+          echo "| Параметр | Значение |" >> $GITHUB_STEP_SUMMARY
+          echo "|----------|----------|" >> $GITHUB_STEP_SUMMARY
+          echo "| **Тип отчёта** | \`${{ github.event.inputs.report_type || 'all' }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| **AI-анализ** | ${{ github.event_name == 'schedule' && '✅ Да' || (github.event.inputs.ai_analysis == 'true' && '✅ Да' || '❌ Нет') }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Триггер** | ${{ github.event_name }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Время** | $(date -u '+%Y-%m-%d %H:%M:%S UTC') |" >> $GITHUB_STEP_SUMMARY
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "📁 **Папка отчётов:** \`content/0. Управление/0.4. Автоматические отчёты ИИ/\`" >> $GITHUB_STEP_SUMMARY
