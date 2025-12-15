@@ -1503,25 +1503,209 @@ class ReportGenerator:
         return report
 
     def _generate_recommendations(self) -> str:
-        """Генерация отчёта с рекомендациями по развитию."""
+        """
+        Генерация отчёта с рекомендациями по развитию.
+        Работает БЕЗ AI-анализа, агрегируя данные из всех отчетов согласно ТЗ 0.4.1.
+        """
         report = self._header("Рекомендации по развитию")
 
-        if not self.ai_analyzer:
-            report += "*Этот отчёт требует AI-анализа для формирования рекомендаций.*\n\n"
-            report += "Запустите с флагом `--ai-analysis` для полного анализа:\n"
-            report += "```bash\n"
-            report += "python3 ops/build_report.py --report recommendations --ai-analysis\n"
-            report += "```\n\n"
-            report += "**Требования:**\n"
-            report += "- Установите: `pip install anthropic`\n"
-            report += "- Задайте переменную окружения `ANTHROPIC_API_KEY`\n"
-            return report
+        # Агрегированный анализ (без AI)
+        report += self._recommendations_heatmap()
+        report += self._recommendations_metrics()
+        report += self._recommendations_critical_issues()
+        report += self._recommendations_priorities()
 
-        print("   🤖 Выполняется AI-анализ для рекомендаций...")
-        ai_analysis = self.ai_analyzer.analyze_recommendations(self.documents, self.by_family)
-        report += ai_analysis
+        # Если есть AI-анализатор, добавляем AI-рекомендации
+        if self.ai_analyzer:
+            print("   🤖 Выполняется AI-анализ для дополнительных рекомендаций...")
+            ai_analysis = self.ai_analyzer.analyze_recommendations(self.documents, self.by_family)
+            report += "\n---\n\n## Дополнительные рекомендации AI\n\n"
+            report += ai_analysis
 
         return report
+
+    def _recommendations_heatmap(self) -> str:
+        """Тепловая карта здоровья хранилища согласно ТЗ."""
+        # Расчет показателей
+        full_docs = [d for d in self.documents if d.is_full]
+        full_docs_count = len(full_docs)
+        full_ratio = full_docs_count / len(self.documents) if self.documents else 0
+
+        docs_with_links = sum(1 for d in self.documents if len(d.wikilinks) > 0)
+        links_ratio = docs_with_links / len(self.documents) if self.documents else 0
+
+        # Подсчет критических проблем (семейства с 🔴 статусом)
+        critical_families = 0
+        for family_id in ["F0", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9"]:
+            docs = self.by_family.get(family_id, [])
+            if not docs:
+                critical_families += 1
+                continue
+            full_count = sum(1 for d in docs if d.is_full)
+            full_fam_ratio = full_count / len(docs)
+            if full_fam_ratio < 0.5:
+                critical_families += 1
+
+        # Взвешенная оценка здоровья (согласно ТЗ)
+        # Вес показателей: полнота документов 40%, связность 30%, отсутствие проблем 30%
+        health_score = (
+            (full_ratio * 40) +  # 40% вес
+            (links_ratio * 30) +  # 30% вес
+            ((1 - critical_families / 10) * 30)  # 30% вес
+        )
+
+        # Определение статуса согласно ТЗ п. 2
+        if (full_docs_count >= 90 and
+            health_score >= 90 and
+            links_ratio >= 0.8 and
+            critical_families < 10):
+            overall_status = "🟢"
+            status_desc = "Здоровое"
+        elif (full_docs_count >= 60 and
+              health_score >= 75 and
+              links_ratio >= 0.4 and
+              critical_families <= 30):
+            overall_status = "🟡"
+            status_desc = "Требует внимания"
+        else:
+            overall_status = "🔴"
+            status_desc = "Критическое"
+
+        heatmap = "## Тепловая карта здоровья хранилища\n\n"
+        heatmap += f"**Общий статус:** {overall_status} {status_desc}\n\n"
+
+        heatmap += "| Измерение | Оценка | Вес | Вклад | Статус |\n"
+        heatmap += "|-----------|--------|-----|-------|--------|\n"
+        heatmap += f"| Полнота документов | {full_docs_count}/{len(self.documents)} ({int(full_ratio*100)}%) | 40% | {full_ratio*40:.1f} | {'🟢' if full_ratio >= 0.8 else '🟡' if full_ratio >= 0.5 else '🔴'} |\n"
+        heatmap += f"| Связность | {docs_with_links}/{len(self.documents)} ({int(links_ratio*100)}%) | 30% | {links_ratio*30:.1f} | {'🟢' if links_ratio >= 0.7 else '🟡' if links_ratio >= 0.4 else '🔴'} |\n"
+        heatmap += f"| Отсутствие проблем | {10-critical_families}/10 семейств | 30% | {(1-critical_families/10)*30:.1f} | {'🟢' if critical_families < 3 else '🟡' if critical_families <= 5 else '🔴'} |\n"
+        heatmap += f"| **Итого** | — | 100% | **{health_score:.1f}** | {overall_status} |\n\n"
+
+        heatmap += f"**Интерпретация:** {'✅ Хранилище в хорошем состоянии' if overall_status == '🟢' else '⚠️ Требуется внимание и улучшения' if overall_status == '🟡' else '🚨 Критическое состояние, требуется срочное вмешательство'}\n\n"
+
+        return heatmap + "---\n\n"
+
+    def _recommendations_metrics(self) -> str:
+        """Детальные показатели по отчетам."""
+        metrics = "## 1. Детальные показатели\n\n"
+
+        # Архитектурная полнота
+        metrics += "### 1.1. Архитектурная полнота (по семействам F0-F9)\n\n"
+        metrics += "| Семейство | Документов | Полных | % | Статус |\n"
+        metrics += "|-----------|------------|--------|---|--------|\n"
+
+        for family_id in ["F0", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9"]:
+            family = FAMILIES[family_id]
+            docs = self.by_family.get(family_id, [])
+            count = len(docs)
+            full_count = sum(1 for d in docs if d.is_full)
+            full_pct = int(full_count / count * 100) if count > 0 else 0
+            status = "🟢" if full_pct >= 80 else "🟡" if full_pct >= 50 else "🔴"
+            metrics += f"| {family_id} | {count} | {full_count} | {full_pct}% | {status} |\n"
+
+        metrics += "\n### 1.2. Связность документов\n\n"
+        docs_with_links = sum(1 for d in self.documents if len(d.wikilinks) > 0)
+        isolated = len(self.documents) - docs_with_links
+        metrics += f"- **Документов со связями:** {docs_with_links} ({int(docs_with_links/len(self.documents)*100)}%)\n"
+        metrics += f"- **Изолированных документов:** {isolated} ({int(isolated/len(self.documents)*100)}%)\n"
+        metrics += f"- **Среднее связей на документ:** {sum(len(d.wikilinks) for d in self.documents) / len(self.documents):.1f}\n\n"
+
+        return metrics + "---\n\n"
+
+    def _recommendations_critical_issues(self) -> str:
+        """Критические проблемы."""
+        issues = "## 2. Критические проблемы 🔴\n\n"
+
+        critical_found = False
+
+        # Семейства с критическим статусом
+        critical_families = []
+        for family_id in ["F0", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9"]:
+            docs = self.by_family.get(family_id, [])
+            if not docs:
+                critical_families.append((family_id, FAMILIES[family_id]['name'], 0, "Документы отсутствуют"))
+                continue
+            full_count = sum(1 for d in docs if d.is_full)
+            full_ratio = full_count / len(docs)
+            if full_ratio < 0.5:
+                critical_families.append((family_id, FAMILIES[family_id]['name'], int(full_ratio*100), f"Только {int(full_ratio*100)}% документов полные"))
+
+        if critical_families:
+            critical_found = True
+            issues += "### 2.1. Семейства с критическим уровнем полноты (<50%)\n\n"
+            issues += "| Семейство | Название | % полных | Проблема |\n"
+            issues += "|-----------|----------|----------|----------|\n"
+            for fid, fname, pct, problem in critical_families[:5]:
+                issues += f"| {fid} | {fname} | {pct}% | {problem} |\n"
+            issues += "\n"
+
+        # Изолированные документы
+        isolated = [d for d in self.documents if len(d.wikilinks) == 0]
+        if len(isolated) > 50:
+            critical_found = True
+            issues += f"### 2.2. Массовая изоляция документов\n\n"
+            issues += f"**{len(isolated)} документов ({int(len(isolated)/len(self.documents)*100)}%) не имеют связей с другими документами.**\n\n"
+            issues += "Это затрудняет навигацию и понимание структуры хранилища.\n\n"
+
+        if not critical_found:
+            issues += "*Критических проблем не обнаружено.*\n\n"
+
+        return issues + "---\n\n"
+
+    def _recommendations_priorities(self) -> str:
+        """Приоритизированные рекомендации."""
+        rec = "## 3. Рекомендации по приоритетам\n\n"
+
+        rec += "### 3.1. Срочные (эта неделя)\n\n"
+
+        urgent = []
+
+        # Проверка семейств с 0% полноты
+        for family_id in ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9"]:
+            docs = self.by_family.get(family_id, [])
+            if not docs:
+                continue
+            full_count = sum(1 for d in docs if d.is_full)
+            if full_count == 0:
+                urgent.append(f"**{family_id} ({FAMILIES[family_id]['name']}):** Наполнить семейство полными документами (сейчас 0/{len(docs)} полных)")
+
+        if urgent:
+            for item in urgent[:3]:
+                rec += f"1. {item}\n"
+        else:
+            rec += "1. Продолжить развитие документации согласно плану\n"
+
+        rec += "\n### 3.2. Важные (этот месяц)\n\n"
+
+        important = []
+
+        # Семейства с 1-49% полноты
+        for family_id in ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9"]:
+            docs = self.by_family.get(family_id, [])
+            if not docs:
+                continue
+            full_count = sum(1 for d in docs if d.is_full)
+            full_ratio = full_count / len(docs)
+            if 0 < full_ratio < 0.5:
+                important.append(f"**{family_id}:** Довести полноту до 50%+ (сейчас {int(full_ratio*100)}%)")
+
+        # Связность
+        isolated_pct = sum(1 for d in self.documents if len(d.wikilinks) == 0) / len(self.documents)
+        if isolated_pct > 0.5:
+            important.append(f"**Связность:** Добавить wikilinks в изолированные документы (сейчас {int(isolated_pct*100)}% без связей)")
+
+        if important:
+            for i, item in enumerate(important[:3], 1):
+                rec += f"{i}. {item}\n"
+        else:
+            rec += "1. Улучшить качество существующих документов\n"
+
+        rec += "\n### 3.3. Желательные (бэклог)\n\n"
+        rec += "1. Добавить диаграммы и визуализации в документы\n"
+        rec += "2. Обновить устаревшие документы (>6 месяцев)\n"
+        rec += "3. Добавить примеры и метрики в документы\n\n"
+
+        return rec + "---\n\n"
 
     def _generate_links_map(self) -> str:
         """
