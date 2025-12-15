@@ -379,6 +379,45 @@ class Document:
         return len(body_clean.strip()) < 200
 
     @property
+    def is_full(self) -> bool:
+        """
+        Документ считается полным согласно обновленным ТЗ:
+        - >500 слов реального содержания
+        - Структурированное изложение (≥3 заголовков)
+        - Есть примеры (числа/метрики) ИЛИ диаграммы/таблицы
+        - Не является заглушкой (<10% TODO/TBD)
+        - Есть связи с другими документами
+        """
+        # Критерий 1: Объем >500 слов
+        word_count = len(self.body.split())
+        if word_count < 500:
+            return False
+
+        # Критерий 2: Структура (≥3 заголовков)
+        if len(self.headings) < 3:
+            return False
+
+        # Критерий 3: Есть примеры (числа) ИЛИ визуализация (таблицы/диаграммы)
+        has_numbers = bool(re.search(r'\d+[.,]?\d*\s*(%|руб|USD|слов|документов|человек)', self.body))
+        has_tables = bool(re.search(r'\|.*\|.*\|', self.body))  # Markdown таблицы
+        has_diagrams = bool(re.search(r'```(mermaid|plantuml|graphviz)', self.body, re.IGNORECASE))
+        has_examples = has_numbers or has_tables or has_diagrams
+        if not has_examples:
+            return False
+
+        # Критерий 4: Не заглушка (<10% TODO/TBD)
+        todo_count = len(re.findall(r'TODO|TBD|FIXME|\.\.\.', self.body, re.IGNORECASE))
+        total_lines = len(self.body.split('\n'))
+        if total_lines > 0 and (todo_count / total_lines) > 0.1:
+            return False
+
+        # Критерий 5: Есть связи (wikilinks)
+        if len(self.wikilinks) == 0:
+            return False
+
+        return True
+
+    @property
     def status(self) -> str:
         return self.frontmatter.get("status", "unknown")
 
@@ -485,6 +524,39 @@ class ReportGenerator:
 
         return report
 
+    def _check_main_question_coverage(self, family_id: str, docs: list, main_question: str) -> bool:
+        """
+        Проверяет, раскрыт ли главный вопрос семейства в документах.
+
+        Критерий: хотя бы один полный документ содержит детальный ответ на главный вопрос
+        (>3 абзацев с примерами и структурой)
+        """
+        if not main_question or not docs:
+            return False
+
+        # Извлекаем ключевые слова из вопроса
+        question_keywords = set(re.findall(r'\w+', main_question.lower()))
+        question_keywords -= {'как', 'что', 'зачем', 'для', 'кого', 'это', 'устроен', 'устроена', 'устроено'}
+
+        for doc in docs:
+            if not doc.is_full:
+                continue
+
+            # Подсчитываем абзацы
+            paragraphs = [p.strip() for p in doc.body.split('\n\n') if len(p.strip()) > 100]
+            if len(paragraphs) < 3:
+                continue
+
+            # Проверяем наличие ключевых слов вопроса в содержании
+            body_lower = doc.body.lower()
+            matches = sum(1 for keyword in question_keywords if keyword in body_lower)
+
+            # Если хотя бы 50% ключевых слов найдены и есть структура
+            if matches >= len(question_keywords) * 0.5 and len(doc.headings) >= 3:
+                return True
+
+        return False
+
     def _architecture_heatmap(self) -> str:
         """Тепловая карта по семействам F0-F9 согласно ТЗ Архитектурный слепок 0.4.1."""
 
@@ -527,55 +599,61 @@ class ReportGenerator:
             docs = self.by_family.get(family_id, [])
             count = len(docs)
 
-            # Анализ содержания документов
+            # Анализ СОДЕРЖАНИЯ документов согласно обновленному ТЗ 0.4.1
+            # Критерии полноты: >500 слов + структура + примеры + диаграммы + связи
             typical_patterns = typical_docs.get(family_id, [])
-            non_empty_docs = 0
-
-            # ИСПРАВЛЕНО: Считаем сколько ПАТТЕРНОВ имеют хотя бы один документ,
-            # а не сколько документов соответствуют какому-либо паттерну
-            patterns_found = set()
+            full_docs_count = 0  # Документы, удовлетворяющие is_full
+            typical_full_docs = 0  # Типичные документы, которые полные
 
             for doc in docs:
-                # Проверяем, что документ не пустой (> 500 слов)
-                if len(doc.body.split()) >= 500:
-                    non_empty_docs += 1
+                # Проверяем полноту документа (используем is_full property)
+                if doc.is_full:
+                    full_docs_count += 1
 
-                # Проверяем соответствие типичным документам
-                # ВАЖНО: ищем только в НАЗВАНИИ документа, не в теле
-                doc_name_lower = doc.name.lower()
-                for pattern in typical_patterns:
-                    if pattern in doc_name_lower:
-                        patterns_found.add(pattern)
+                    # Проверяем, является ли документ типичным для семейства
+                    doc_name_lower = doc.name.lower()
+                    for pattern in typical_patterns:
+                        if pattern in doc_name_lower:
+                            typical_full_docs += 1
+                            break  # Один документ может соответствовать только одному паттерну
 
-            # Оценка статуса согласно ТЗ (п. 2.3)
-            # Главный критерий: typical_ratio — доля паттернов, для которых есть документы
-            # Вторичный: non_empty_ratio — насколько они заполнены
-            #
-            # 🟢 Полный: ≥ 70% типичных документов И ≥ 50% непустых
-            # 🟡 Частичный: 30–69% типичных документов
-            # 🔴 Минимальный: < 30% типичных документов (даже если много других)
+            # Оценка статуса согласно ОБНОВЛЕННОМУ ТЗ (п. 2.1)
+            # Главный критерий: процент ПОЛНЫХ типичных документов
+            # 🟢 Полный: ≥80% типичных документов полные (>500 слов + структура + примеры + диаграммы + связи)
+            # 🟡 Частичный: 50-79% типичных документов полные
+            # 🔴 Минимальный (ПО УМОЛЧАНИЮ): <50% типичных документов полные
 
-            found_typical = len(patterns_found)
-            typical_ratio = found_typical / len(typical_patterns) if typical_patterns else 0
-            non_empty_ratio = non_empty_docs / count if count > 0 else 0
+            typical_count = len(typical_patterns)
+            full_ratio = full_docs_count / count if count > 0 else 0
+            typical_full_ratio = typical_full_docs / typical_count if typical_count > 0 else 0
 
-            if typical_ratio >= 0.7 and non_empty_ratio >= 0.5:
+            # Проверяем главный вопрос семейства (анализ содержания)
+            main_question_covered = self._check_main_question_coverage(family_id, docs, main_questions.get(family_id, ""))
+
+            # Проверяем процент документов со связями
+            docs_with_links = sum(1 for doc in docs if len(doc.wikilinks) > 0)
+            links_ratio = docs_with_links / count if count > 0 else 0
+
+            # ЖЕСТКИЕ критерии согласно ТЗ
+            if (typical_full_ratio >= 0.8 and
+                full_ratio >= 0.8 and
+                main_question_covered and
+                links_ratio >= 0.7):
                 status = "🟢"
-                comment = "Ключевые документы присутствуют"
-            elif typical_ratio >= 0.3:
+                comment = f"{int(full_ratio*100)}% документов полные, главный вопрос раскрыт"
+            elif (typical_full_ratio >= 0.5 and
+                  full_ratio >= 0.5):
                 status = "🟡"
-                if non_empty_ratio < 0.5:
-                    comment = f"{int(non_empty_ratio*100)}% документов полные"
-                else:
-                    comment = f"Найдено {found_typical}/{len(typical_patterns)} типичных документов"
+                comment = f"{int(full_ratio*100)}% документов полные"
             else:
+                # ПО УМОЛЧАНИЮ 🔴
                 status = "🔴"
                 if count == 0:
                     comment = "Документы отсутствуют"
-                elif found_typical == 0:
-                    comment = f"Нет типичных документов (есть {count} других)"
+                elif full_docs_count == 0:
+                    comment = "Нет полных документов (только заглушки/TODO)"
                 else:
-                    comment = f"Только {found_typical}/{len(typical_patterns)} типичных"
+                    comment = f"Только {int(full_ratio*100)}% документов полные (требуется ≥80%)"
 
             status_counts[status] += 1
             heatmap += f"| {family_id} | {family['name']} | {status} | {count} | {comment} |\n"
@@ -900,24 +978,102 @@ class ReportGenerator:
         return report
 
     def _completeness_heatmap(self) -> str:
-        """Тепловая карта 3x3 для содержательной полноты."""
+        """
+        Тепловая карта 3x3 для содержательной полноты.
+        Согласно обновленному ТЗ 0.4.1, проверяем:
+        1. Процент ПОЛНЫХ документов (>500 слов + структура + примеры + диаграммы)
+        2. Применение SoTA-методов
+        3. Наличие текстовых связей
+        4. Актуальность (обновлены за 6 месяцев)
+        """
         heatmap = "## Тепловая карта содержательной полноты\n\n"
 
-        # Ожидаемое количество документов по семействам
-        expected = {"F1": 8, "F2": 6, "F3": 6, "F4": 6, "F5": 8, "F6": 6, "F7": 6, "F8": 15, "F9": 10}
+        # SoTA-методы для каждой роли (из ТЗ)
+        sota_methods = {
+            "Предприниматель": ["jtbd", "business model", "value proposition", "бизнес-модел", "ценностн"],
+            "Инженер": ["c4", "adr", "architecture", "архитектур", "диаграмм"],
+            "Менеджер": ["conops", "okr", "метрик", "процесс", "эксплуатац"],
+        }
 
-        def status(family):
-            count = len(self.by_family.get(family, []))
-            exp = expected.get(family, 5)
-            ratio = count / exp
-            return "🟢" if ratio >= 0.8 else ("🟡" if ratio >= 0.4 else "🔴")
+        def cell_status(family_id):
+            """Оценка статуса ячейки согласно ЖЕСТКИМ критериям ТЗ."""
+            docs = self.by_family.get(family_id, [])
+            if not docs:
+                return "🔴", 0
 
+            # 1. Подсчет ПОЛНЫХ документов
+            full_docs = [d for d in docs if d.is_full]
+            full_ratio = len(full_docs) / len(docs)
+
+            # 2. Проверка SoTA-методов для роли
+            family = FAMILIES[family_id]
+            role = family['role']
+            required_methods = sota_methods.get(role, [])
+            methods_found = 0
+            for doc in full_docs:
+                body_lower = doc.body.lower()
+                for method in required_methods:
+                    if method in body_lower:
+                        methods_found += 1
+                        break
+            sota_ratio = methods_found / len(full_docs) if full_docs else 0
+
+            # 3. Проверка текстовых связей
+            docs_with_links = sum(1 for d in docs if len(d.wikilinks) > 0)
+            links_ratio = docs_with_links / len(docs)
+
+            # 4. Проверка актуальности (обновлены за 6 месяцев)
+            import datetime
+            six_months_ago = datetime.datetime.now() - datetime.timedelta(days=180)
+            # Примечание: frontmatter.get('updated') может отсутствовать, используем created
+            recent_docs = 0
+            for doc in docs:
+                doc_date_str = doc.frontmatter.get('updated') or doc.frontmatter.get('created')
+                if doc_date_str:
+                    try:
+                        doc_date = datetime.datetime.fromisoformat(str(doc_date_str))
+                        if doc_date >= six_months_ago:
+                            recent_docs += 1
+                    except:
+                        pass
+            actuality_ratio = recent_docs / len(docs) if len(docs) > 0 else 0
+
+            # ЖЕСТКИЕ критерии согласно ТЗ п. 4.2
+            # 🟢 Полно (≥90%): ВСЕ условия одновременно
+            if (full_ratio >= 0.8 and
+                sota_ratio >= 0.5 and
+                links_ratio >= 0.7 and
+                actuality_ratio >= 0.7):
+                return "🟢", int(full_ratio * 100)
+
+            # 🟡 Частично (50–89%): большинство критериев
+            elif (full_ratio >= 0.5 and
+                  (sota_ratio >= 0.3 or links_ratio >= 0.5)):
+                return "🟡", int(full_ratio * 100)
+
+            # 🔴 Минимально (ПО УМОЛЧАНИЮ): <50% ИЛИ не выполнены другие критерии
+            else:
+                return "🔴", int(full_ratio * 100)
+
+        # Построение таблицы
         heatmap += "|                    | Предприниматель | Инженер | Менеджер |\n"
         heatmap += "|                    | (Смыслы)        | (Архитектура) | (Операции) |\n"
         heatmap += "|--------------------|-----------------|---------|----------|\n"
-        heatmap += f"| **Мир (Надсистема)** | {status('F1')} F1 ({len(self.by_family.get('F1', []))}) | {status('F2')} F2 ({len(self.by_family.get('F2', []))}) | {status('F3')} F3 ({len(self.by_family.get('F3', []))}) |\n"
-        heatmap += f"| **Созидатель (Целевая)** | {status('F4')} F4 ({len(self.by_family.get('F4', []))}) | {status('F5')} F5 ({len(self.by_family.get('F5', []))}) | {status('F6')} F6 ({len(self.by_family.get('F6', []))}) |\n"
-        heatmap += f"| **Экосистема (Создания)** | {status('F7')} F7 ({len(self.by_family.get('F7', []))}) | {status('F8')} F8 ({len(self.by_family.get('F8', []))}) | {status('F9')} F9 ({len(self.by_family.get('F9', []))}) |\n"
+
+        f1_status, f1_pct = cell_status('F1')
+        f2_status, f2_pct = cell_status('F2')
+        f3_status, f3_pct = cell_status('F3')
+        heatmap += f"| **Мир (Надсистема)** | {f1_status} F1 ({f1_pct}%) | {f2_status} F2 ({f2_pct}%) | {f3_status} F3 ({f3_pct}%) |\n"
+
+        f4_status, f4_pct = cell_status('F4')
+        f5_status, f5_pct = cell_status('F5')
+        f6_status, f6_pct = cell_status('F6')
+        heatmap += f"| **Созидатель (Целевая)** | {f4_status} F4 ({f4_pct}%) | {f5_status} F5 ({f5_pct}%) | {f6_status} F6 ({f6_pct}%) |\n"
+
+        f7_status, f7_pct = cell_status('F7')
+        f8_status, f8_pct = cell_status('F8')
+        f9_status, f9_pct = cell_status('F9')
+        heatmap += f"| **Экосистема (Создания)** | {f7_status} F7 ({f7_pct}%) | {f8_status} F8 ({f8_pct}%) | {f9_status} F9 ({f9_pct}%) |\n"
 
         return heatmap + "\n---\n\n"
 
@@ -1368,34 +1524,158 @@ class ReportGenerator:
         return report
 
     def _generate_links_map(self) -> str:
-        """Генерация карты связей между документами."""
+        """
+        Генерация карты связей между документами.
+        Согласно обновленному ТЗ 0.4.1:
+        - Детальная таблица для ВСЕХ документов
+        - Проверка качества связанных документов (полные или заглушки)
+        - Статус связности на основе содержания
+        """
         report = self._header("Карта связей между документами")
 
-        # Статистика связей
-        total_links = sum(len(d.wikilinks) for d in self.documents)
-        docs_with_links = sum(1 for d in self.documents if d.wikilinks)
-
-        report += "## 1. Общая статистика\n\n"
-        report += f"- Всего ссылок: {total_links}\n"
-        report += f"- Документов со ссылками: {docs_with_links}\n"
-        report += f"- Среднее ссылок на документ: {total_links / len(self.documents):.1f}\n\n"
-
-        # Топ документов по входящим ссылкам
+        # Подсчет входящих ссылок
         incoming = defaultdict(int)
         for doc in self.documents:
             for link in doc.wikilinks:
                 incoming[link.lower()] += 1
 
-        report += "## 2. Топ-10 документов по входящим ссылкам\n\n"
-        report += "| № | Документ | Входящих ссылок |\n"
-        report += "|---|----------|----------------|\n"
+        # Индекс документов по имени для быстрого поиска
+        doc_by_name = {d.name.lower(): d for d in self.documents}
 
-        for i, (name, count) in enumerate(sorted(incoming.items(), key=lambda x: -x[1])[:10], 1):
-            report += f"| {i} | {name[:50]} | {count} |\n"
+        # Анализ каждого документа
+        doc_stats = []
+        for doc in self.documents:
+            # Исходящие связи
+            outgoing = len(doc.wikilinks)
 
-        report += "\n## 3. Изолированные документы (без ссылок)\n\n"
-        isolated = [d for d in self.documents if not d.wikilinks]
-        report += f"Найдено {len(isolated)} документов без исходящих ссылок.\n\n"
+            # Входящие связи
+            incoming_count = incoming.get(doc.name.lower(), 0)
+
+            # Всего связей
+            total_links = incoming_count + outgoing
+
+            # Текстовые связи (wikilinks в теле документа, не в frontmatter)
+            text_links = len(doc.wikilinks)  # Все wikilinks уже из текста
+
+            # Процент полных связанных документов
+            linked_full_count = 0
+            linked_total = 0
+            for link in doc.wikilinks:
+                linked_doc = doc_by_name.get(link.lower())
+                if linked_doc:
+                    linked_total += 1
+                    if linked_doc.is_full:
+                        linked_full_count += 1
+
+            full_linked_ratio = (linked_full_count / linked_total * 100) if linked_total > 0 else 0
+
+            # Определение статуса согласно ЖЕСТКИМ критериям ТЗ
+            # 🟢 Хорошо связан: ≥5 связей + ≥70% текстовых + ≥70% связанных полные
+            # 🟡 Слабо связан: 3-4 связи + ≥40% текстовых + ≥50% связанных полные
+            # 🔴 Изолирован (ПО УМОЛЧАНИЮ): ≤2 связей ИЛИ связи нерелевантны/неполные
+
+            if (total_links >= 5 and
+                text_links >= total_links * 0.7 and
+                full_linked_ratio >= 70):
+                status = "🟢"
+            elif (total_links >= 3 and
+                  text_links >= total_links * 0.4 and
+                  full_linked_ratio >= 50):
+                status = "🟡"
+            else:
+                status = "🔴"
+
+            doc_stats.append({
+                'name': doc.name,
+                'total': total_links,
+                'text': text_links,
+                'incoming': incoming_count,
+                'outgoing': outgoing,
+                'full_linked_pct': int(full_linked_ratio),
+                'status': status
+            })
+
+        # Сортировка по количеству связей (убывание)
+        doc_stats.sort(key=lambda x: x['total'], reverse=True)
+
+        # Подсчет статусов
+        status_counts = {"🟢": 0, "🟡": 0, "🔴": 0}
+        for stat in doc_stats:
+            status_counts[stat['status']] += 1
+
+        # Тепловая карта связности (согласно ТЗ п. 2)
+        report += "## Тепловая карта связей\n\n"
+        report += "**Сводка по статусам:**\n"
+        report += f"- 🟢 Хорошо связаны: {status_counts['🟢']} документов ({int(status_counts['🟢']/len(doc_stats)*100)}%)\n"
+        report += f"- 🟡 Слабо связаны: {status_counts['🟡']} документов ({int(status_counts['🟡']/len(doc_stats)*100)}%)\n"
+        report += f"- 🔴 Изолированы: {status_counts['🔴']} документов ({int(status_counts['🔴']/len(doc_stats)*100)}%)\n\n"
+
+        report += "**Детализация по документам (первые 20, полный список см. ниже):**\n\n"
+        report += "| Документ | Всего связей | Текстовых | Входящих | Исходящих | % полных связанных | Статус |\n"
+        report += "|----------|--------------|-----------|----------|-----------|-------------------|--------|\n"
+
+        # Первые 20 для preview
+        for stat in doc_stats[:20]:
+            name_short = stat['name'][:60]
+            report += f"| {name_short} | {stat['total']} | {stat['text']} ({int(stat['text']/stat['total']*100) if stat['total'] > 0 else 0}%) | {stat['incoming']} | {stat['outgoing']} | {stat['full_linked_pct']}% | {stat['status']} |\n"
+
+        report += f"\n*Полная таблица со всеми {len(doc_stats)} документами представлена в разделе 3.*\n\n"
+        report += "---\n\n"
+
+        # Секция 1: Executive Summary
+        total_links = sum(stat['total'] for stat in doc_stats)
+        avg_links = total_links / len(doc_stats) if doc_stats else 0
+
+        report += "## 1. Executive Summary\n\n"
+        report += f"- **Всего документов:** {len(doc_stats)}\n"
+        report += f"- **Всего связей:** {total_links}\n"
+        report += f"- **Изолированных документов:** {status_counts['🔴']} ({int(status_counts['🔴']/len(doc_stats)*100)}%)\n"
+        report += f"- **Среднее связей на документ:** {avg_links:.1f}\n\n"
+        report += "---\n\n"
+
+        # Секция 2: Топ-10 хабов
+        report += "## 2. Топ-10 документов по входящим связям (хабы)\n\n"
+        report += "| № | Документ | Входящих | Исходящих | Всего |\n"
+        report += "|---|----------|----------|-----------|-------|\n"
+
+        top_incoming = sorted(doc_stats, key=lambda x: x['incoming'], reverse=True)[:10]
+        for i, stat in enumerate(top_incoming, 1):
+            report += f"| {i} | [[{stat['name']}]] | {stat['incoming']} | {stat['outgoing']} | {stat['total']} |\n"
+
+        report += "\n---\n\n"
+
+        # Секция 3: Полная таблица всех документов
+        report += f"## 3. Полная таблица всех документов ({len(doc_stats)})\n\n"
+        report += "| Документ | Всего связей | Текстовых | Входящих | Исходящих | % полных связанных | Статус |\n"
+        report += "|----------|--------------|-----------|----------|-----------|-------------------|--------|\n"
+
+        for stat in doc_stats:
+            name_short = stat['name'][:60]
+            text_pct = int(stat['text']/stat['total']*100) if stat['total'] > 0 else 0
+            report += f"| {name_short} | {stat['total']} | {stat['text']} ({text_pct}%) | {stat['incoming']} | {stat['outgoing']} | {stat['full_linked_pct']}% | {stat['status']} |\n"
+
+        report += "\n---\n\n"
+
+        # Секция 4: Изолированные документы
+        isolated = [stat for stat in doc_stats if stat['status'] == '🔴']
+        report += f"## 4. Изолированные документы 🔴 ({len(isolated)})\n\n"
+
+        if isolated:
+            report += "| № | Документ | Всего связей | Причина изоляции |\n"
+            report += "|---|----------|--------------|------------------|\n"
+
+            for i, stat in enumerate(isolated[:20], 1):
+                reason = "Нет связей" if stat['total'] == 0 else f"Только {stat['total']} связ."
+                if stat['full_linked_pct'] < 50:
+                    reason += f", связанные неполные ({stat['full_linked_pct']}%)"
+                report += f"| {i} | {stat['name'][:50]} | {stat['total']} | {reason} |\n"
+
+            if len(isolated) > 20:
+                report += f"\n*... и ещё {len(isolated) - 20} изолированных документов*\n"
+        else:
+            report += "*Изолированных документов нет*\n"
+
+        report += "\n---\n\n"
 
         return report
 
