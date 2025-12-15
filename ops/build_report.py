@@ -39,6 +39,13 @@ from datetime import datetime
 from collections import defaultdict
 from typing import Dict, List, Optional, Tuple, Any
 
+# Загрузка переменных окружения из .env файла
+try:
+    from dotenv import load_dotenv
+    load_dotenv()  # Загружает .env из корня проекта
+except ImportError:
+    pass  # python-dotenv не установлен, используем переменные окружения
+
 # Опциональная поддержка AI-анализа
 try:
     import anthropic
