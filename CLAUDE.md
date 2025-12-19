@@ -1,4 +1,4 @@
-﻿# CLAUDE.md — Инструкции для Claude Code
+﻿# CLAUDE.md — Инструкции для Claude Code (FPF)
 
 ## Проект
 
