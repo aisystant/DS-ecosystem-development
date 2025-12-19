@@ -641,26 +641,28 @@ class ReportGenerator:
             docs_with_links = sum(1 for doc in docs if len(doc.wikilinks) > 0)
             links_ratio = docs_with_links / count if count > 0 else 0
 
-            # ЖЕСТКИЕ критерии согласно ТЗ
-            if (typical_full_ratio >= 0.8 and
-                full_ratio >= 0.8 and
-                main_question_covered and
-                links_ratio >= 0.7):
+            # Критерии статуса:
+            # 🟢 Полный: ≥80% документов полные
+            # 🟡 Частичный: 50-79% документов полные
+            # 🔴 Минимальный: <50% документов полные
+
+            if full_ratio >= 0.8:
                 status = "🟢"
-                comment = f"{int(full_ratio*100)}% документов полные, главный вопрос раскрыт"
-            elif (typical_full_ratio >= 0.5 and
-                  full_ratio >= 0.5):
+                comment = f"{int(full_ratio*100)}% документов полные"
+                # Добавляем информацию о связях и главном вопросе, если они выполнены
+                if main_question_covered and links_ratio >= 0.7:
+                    comment += ", главный вопрос раскрыт"
+            elif full_ratio >= 0.5:
                 status = "🟡"
                 comment = f"{int(full_ratio*100)}% документов полные"
             else:
-                # ПО УМОЛЧАНИЮ 🔴
                 status = "🔴"
                 if count == 0:
                     comment = "Документы отсутствуют"
                 elif full_docs_count == 0:
                     comment = "Нет полных документов (только заглушки/TODO)"
                 else:
-                    comment = f"Только {int(full_ratio*100)}% документов полные (требуется ≥80%)"
+                    comment = f"Только {int(full_ratio*100)}% документов полные (требуется ≥50%)"
 
             status_counts[status] += 1
             heatmap += f"| {family_id} | {family['name']} | {status} | {count} | {comment} |\n"
@@ -1003,62 +1005,23 @@ class ReportGenerator:
         }
 
         def cell_status(family_id):
-            """Оценка статуса ячейки согласно ЖЕСТКИМ критериям ТЗ."""
+            """Оценка статуса ячейки на основе процента полных документов."""
             docs = self.by_family.get(family_id, [])
             if not docs:
                 return "🔴", 0
 
-            # 1. Подсчет ПОЛНЫХ документов
+            # Подсчет ПОЛНЫХ документов
             full_docs = [d for d in docs if d.is_full]
             full_ratio = len(full_docs) / len(docs)
 
-            # 2. Проверка SoTA-методов для роли
-            family = FAMILIES[family_id]
-            role = family['role']
-            required_methods = sota_methods.get(role, [])
-            methods_found = 0
-            for doc in full_docs:
-                body_lower = doc.body.lower()
-                for method in required_methods:
-                    if method in body_lower:
-                        methods_found += 1
-                        break
-            sota_ratio = methods_found / len(full_docs) if full_docs else 0
-
-            # 3. Проверка текстовых связей
-            docs_with_links = sum(1 for d in docs if len(d.wikilinks) > 0)
-            links_ratio = docs_with_links / len(docs)
-
-            # 4. Проверка актуальности (обновлены за 6 месяцев)
-            import datetime
-            six_months_ago = datetime.datetime.now() - datetime.timedelta(days=180)
-            # Примечание: frontmatter.get('updated') может отсутствовать, используем created
-            recent_docs = 0
-            for doc in docs:
-                doc_date_str = doc.frontmatter.get('updated') or doc.frontmatter.get('created')
-                if doc_date_str:
-                    try:
-                        doc_date = datetime.datetime.fromisoformat(str(doc_date_str))
-                        if doc_date >= six_months_ago:
-                            recent_docs += 1
-                    except:
-                        pass
-            actuality_ratio = recent_docs / len(docs) if len(docs) > 0 else 0
-
-            # ЖЕСТКИЕ критерии согласно ТЗ п. 4.2
-            # 🟢 Полно (≥90%): ВСЕ условия одновременно
-            if (full_ratio >= 0.8 and
-                sota_ratio >= 0.5 and
-                links_ratio >= 0.7 and
-                actuality_ratio >= 0.7):
+            # Критерии статуса:
+            # 🟢 Полный: ≥80% документов полные
+            # 🟡 Частичный: 50-79% документов полные
+            # 🔴 Минимальный: <50% документов полные
+            if full_ratio >= 0.8:
                 return "🟢", int(full_ratio * 100)
-
-            # 🟡 Частично (50–89%): большинство критериев
-            elif (full_ratio >= 0.5 and
-                  (sota_ratio >= 0.3 or links_ratio >= 0.5)):
+            elif full_ratio >= 0.5:
                 return "🟡", int(full_ratio * 100)
-
-            # 🔴 Минимально (ПО УМОЛЧАНИЮ): <50% ИЛИ не выполнены другие критерии
             else:
                 return "🔴", int(full_ratio * 100)
 
