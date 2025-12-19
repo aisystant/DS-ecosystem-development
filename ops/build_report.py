@@ -34,6 +34,7 @@ import json
 import yaml
 import argparse
 import hashlib
+import subprocess
 from pathlib import Path
 from datetime import datetime
 from collections import defaultdict
@@ -446,7 +447,6 @@ class ReportGenerator:
     def _get_git_hash(self) -> str:
         """Получение текущего git commit hash."""
         try:
-            import subprocess
             result = subprocess.run(
                 ["git", "rev-parse", "--short", "HEAD"],
                 capture_output=True, text=True, check=True
@@ -454,6 +454,146 @@ class ReportGenerator:
             return result.stdout.strip()
         except:
             return "unknown"
+
+    def _get_weekly_growth_metrics(self) -> List[Dict[str, Any]]:
+        """Получение метрик роста репозитория за последние 4 недели.
+
+        Возвращает список словарей с метриками для каждой недели:
+        - week: номер недели (W-4, W-3, W-2, W-1) или "Сейчас"
+        - date: дата последнего коммита недели
+        - files: количество .md файлов
+        - lines: количество строк
+        - chars: количество символов
+
+        Если история git короче 4 недель, использует первый коммит как начальную точку.
+        """
+        from datetime import timedelta
+
+        metrics = []
+        today = datetime.now()
+
+        # Получаем дату первого коммита для определения доступной истории
+        try:
+            result = subprocess.run(
+                ["git", "log", "--reverse", "--format=%ad", "--date=short", "-1"],
+                capture_output=True, text=True, check=True
+            )
+            first_commit_date_str = result.stdout.strip()
+            if first_commit_date_str:
+                first_commit_date = datetime.strptime(first_commit_date_str, "%Y-%m-%d")
+            else:
+                return []
+        except:
+            return []
+
+        # Определяем начальную дату для анализа (не раньше первого коммита)
+        four_weeks_ago = today - timedelta(weeks=4)
+        start_date = max(first_commit_date, four_weeks_ago)
+
+        # Вычисляем количество недель для анализа
+        days_available = (today - start_date).days
+        weeks_available = min(4, max(1, days_available // 7 + 1))
+
+        for week_offset in range(weeks_available, 0, -1):
+            # Дата конца недели (N недель назад от сегодня)
+            target_date = today - timedelta(weeks=week_offset)
+
+            # Если целевая дата раньше первого коммита, используем первый коммит
+            if target_date < first_commit_date:
+                target_date = first_commit_date
+
+            date_str = target_date.strftime("%Y-%m-%d")
+
+            try:
+                # Получаем последний коммит до этой даты
+                result = subprocess.run(
+                    ["git", "log", f"--until={date_str} 23:59:59", "--format=%H", "-1"],
+                    capture_output=True, text=True, check=True
+                )
+                commit_hash = result.stdout.strip()
+
+                if not commit_hash:
+                    continue
+
+                # Получаем список .md файлов в content/ на этот коммит
+                # Используем -c core.quotepath=false для корректной работы с кириллицей
+                result = subprocess.run(
+                    f"git -c core.quotepath=false ls-tree -r --name-only {commit_hash} -- content/ | grep '\\.md$'",
+                    shell=True, capture_output=True, text=True
+                )
+                md_files = [f for f in result.stdout.strip().split('\n') if f]
+
+                total_files = len(md_files)
+                total_lines = 0
+                total_chars = 0
+
+                # Подсчитываем строки и символы
+                for file_path in md_files:
+                    try:
+                        result = subprocess.run(
+                            ["git", "show", f"{commit_hash}:{file_path}"],
+                            capture_output=True, text=True
+                        )
+                        if result.returncode == 0:
+                            content = result.stdout
+                            total_lines += len(content.split('\n'))
+                            total_chars += len(content)
+                    except:
+                        pass
+
+                metrics.append({
+                    'week': f"W-{week_offset}",
+                    'date': date_str,
+                    'files': total_files,
+                    'lines': total_lines,
+                    'chars': total_chars
+                })
+            except Exception as e:
+                continue
+
+        # Добавляем текущее состояние (Сейчас)
+        try:
+            result = subprocess.run(
+                ["git", "rev-parse", "HEAD"],
+                capture_output=True, text=True, check=True
+            )
+            commit_hash = result.stdout.strip()
+
+            # Используем -c core.quotepath=false для корректной работы с кириллицей
+            result = subprocess.run(
+                f"git -c core.quotepath=false ls-tree -r --name-only {commit_hash} -- content/ | grep '\\.md$'",
+                shell=True, capture_output=True, text=True
+            )
+            md_files = [f for f in result.stdout.strip().split('\n') if f]
+
+            total_files = len(md_files)
+            total_lines = 0
+            total_chars = 0
+
+            for file_path in md_files:
+                try:
+                    result = subprocess.run(
+                        ["git", "show", f"{commit_hash}:{file_path}"],
+                        capture_output=True, text=True
+                    )
+                    if result.returncode == 0:
+                        content = result.stdout
+                        total_lines += len(content.split('\n'))
+                        total_chars += len(content)
+                except:
+                    pass
+
+            metrics.append({
+                'week': "Сейчас",
+                'date': today.strftime("%Y-%m-%d"),
+                'files': total_files,
+                'lines': total_lines,
+                'chars': total_chars
+            })
+        except:
+            pass
+
+        return metrics
 
     def scan_documents(self):
         """Сканирование всех документов в хранилище."""
@@ -946,7 +1086,94 @@ class ReportGenerator:
         section += f"| Активных | {active} |\n"
         section += f"| Черновиков | {draft} |\n\n"
 
+        # Раздел 12.1: Динамика роста за 4 недели
+        section += self._architecture_section_12_1_growth()
+
         return section + "---\n\n"
+
+    def _architecture_section_12_1_growth(self) -> str:
+        """Раздел 12.1: Динамика роста за 4 недели."""
+        section = "### 12.1. Динамика роста за 4 недели\n\n"
+
+        metrics = self._get_weekly_growth_metrics()
+
+        if len(metrics) < 2:
+            section += "*Недостаточно данных для расчёта динамики (требуется минимум 2 недели истории)*\n\n"
+            return section
+
+        # Таблица динамики по неделям
+        section += "| Неделя | Документов | Строк | Символов | Прирост документов | Прирост строк |\n"
+        section += "|--------|------------|-------|----------|-------------------|---------------|\n"
+
+        prev_files = None
+        prev_lines = None
+        for m in metrics:
+            files_growth = ""
+            lines_growth = ""
+            if prev_files is not None:
+                files_diff = m['files'] - prev_files
+                files_pct = (files_diff / prev_files * 100) if prev_files > 0 else 0
+                files_growth = f"+{files_diff} ({files_pct:+.0f}%)" if files_diff >= 0 else f"{files_diff} ({files_pct:.0f}%)"
+            if prev_lines is not None:
+                lines_diff = m['lines'] - prev_lines
+                lines_pct = (lines_diff / prev_lines * 100) if prev_lines > 0 else 0
+                lines_growth = f"+{lines_diff:,} ({lines_pct:+.0f}%)" if lines_diff >= 0 else f"{lines_diff:,} ({lines_pct:.0f}%)"
+
+            section += f"| {m['week']} | {m['files']} | {m['lines']:,} | {m['chars']:,} | {files_growth or '—'} | {lines_growth or '—'} |\n"
+
+            prev_files = m['files']
+            prev_lines = m['lines']
+
+        section += "\n"
+
+        # Сводка динамики
+        first = metrics[0]
+        last = metrics[-1]
+
+        files_growth = last['files'] - first['files']
+        lines_growth = last['lines'] - first['lines']
+        chars_growth = last['chars'] - first['chars']
+
+        files_pct = (files_growth / first['files'] * 100) if first['files'] > 0 else 0
+        lines_pct = (lines_growth / first['lines'] * 100) if first['lines'] > 0 else 0
+        chars_pct = (chars_growth / first['chars'] * 100) if first['chars'] > 0 else 0
+
+        weeks_count = len(metrics)
+        files_per_week = files_growth / weeks_count if weeks_count > 0 else 0
+        lines_per_week = lines_growth / weeks_count if weeks_count > 0 else 0
+
+        section += "**Сводка динамики:**\n\n"
+        section += f"| Метрика | Начало ({first['week']}) | Конец ({last['week']}) | Прирост | В неделю |\n"
+        section += "|---------|--------|-------|---------|----------|\n"
+        section += f"| Документов (.md) | {first['files']} | {last['files']} | {files_growth:+} ({files_pct:+.0f}%) | {files_per_week:+.1f}/нед |\n"
+        section += f"| Строк | {first['lines']:,} | {last['lines']:,} | {lines_growth:+,} ({lines_pct:+.0f}%) | {lines_per_week:+,.0f}/нед |\n"
+        section += f"| Символов | {first['chars']:,} | {last['chars']:,} | {chars_growth:+,} ({chars_pct:+.0f}%) | — |\n\n"
+
+        # ASCII-график роста документов
+        section += "**ASCII-график роста документов:**\n\n"
+        section += "```\n"
+
+        max_files = max(m['files'] for m in metrics)
+        bar_width = 40
+
+        for m in metrics:
+            bar_len = int((m['files'] / max_files) * bar_width) if max_files > 0 else 0
+            bar = '█' * bar_len
+            section += f"{m['week']}: {bar} {m['files']}\n"
+
+        section += "```\n\n"
+
+        # Определяем тренд
+        if files_growth > 0:
+            trend = "↑ Рост"
+        elif files_growth < 0:
+            trend = "↓ Снижение"
+        else:
+            trend = "→ Стабильно"
+
+        section += f"**Тренд:** {trend}\n\n"
+
+        return section
 
     def _architecture_section_13_links(self) -> str:
         """Раздел 13: Связанные документы."""
