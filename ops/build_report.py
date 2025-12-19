@@ -55,7 +55,7 @@ except ImportError:
 
 # Константы
 CONTENT_DIR = Path("content")
-REPORTS_DIR = CONTENT_DIR / "0. Управление" / "0.4. Автоматические отчёты ИИ"
+REPORTS_DIR = CONTENT_DIR / "0. Управление" / "0.4. Автоматические отчёты ИИ" / "0.4.2. Актуальные автоматические отчеты"
 
 # Семейства документов F0-F9
 FAMILIES = {
