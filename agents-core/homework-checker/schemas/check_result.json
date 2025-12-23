@@ -1,69 +1,20 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://aisystant.system-school.ru/schemas/homework-checker/check_result.json",
-  "title": "CheckResult",
-  "description": "Результат проверки ДЗ от LLM",
+  "title": "CheckResult v0.1",
+  "description": "Результат проверки ДЗ от ДЗ-чекера к LMS (v0.1 — синхронный ответ)",
   "type": "object",
-  "required": ["verdict", "score", "strengths", "issues", "next_step"],
+  "required": ["comment", "checked_at"],
   "properties": {
-    "verdict": {
+    "comment": {
       "type": "string",
-      "enum": ["accepted", "needs_revision", "rejected"],
-      "description": "Вердикт проверки"
-    },
-    "score": {
-      "type": "integer",
-      "minimum": 0,
-      "maximum": 100,
-      "description": "Общий балл (0-100)"
-    },
-    "strengths": {
-      "type": "array",
-      "items": { "type": "string" },
-      "description": "Список сильных сторон ответа"
-    },
-    "issues": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "required": ["criterion", "issue", "suggestion"],
-        "properties": {
-          "criterion": {
-            "type": "string",
-            "description": "ID критерия, по которому выявлено замечание"
-          },
-          "issue": {
-            "type": "string",
-            "description": "Описание проблемы"
-          },
-          "suggestion": {
-            "type": "string",
-            "description": "Рекомендация по исправлению"
-          }
-        }
-      },
-      "description": "Список замечаний"
-    },
-    "next_step": {
-      "type": "string",
-      "description": "Рекомендация для следующего шага обучения"
-    },
-    "criterion_scores": {
-      "type": "object",
-      "additionalProperties": {
-        "type": "integer",
-        "minimum": 0
-      },
-      "description": "Баллы по отдельным критериям"
+      "description": "Форматированный текст комментария для отображения студенту (Markdown)"
     },
     "checked_at": {
       "type": "string",
       "format": "date-time",
       "description": "Время проверки (ISO 8601)"
-    },
-    "model_used": {
-      "type": "string",
-      "description": "Идентификатор использованной модели"
     }
-  }
+  },
+  "additionalProperties": false
 }
