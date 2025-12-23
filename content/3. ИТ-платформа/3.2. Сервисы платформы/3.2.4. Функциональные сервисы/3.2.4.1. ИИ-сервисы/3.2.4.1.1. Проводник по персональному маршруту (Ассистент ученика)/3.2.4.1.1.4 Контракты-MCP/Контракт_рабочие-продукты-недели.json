@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WeekProductsResponse",
+  "description": "Ответ инструмента get_week_products — рабочие продукты за неделю",
+  "version": "0.1.0",
+  "type": "object",
+  "required": ["total", "products"],
+  "properties": {
+    "total": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Общее количество рабочих продуктов за неделю"
+    },
+    "products_by_type": {
+      "type": "object",
+      "description": "Количество продуктов по типам",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "products": {
+      "type": "array",
+      "description": "Список рабочих продуктов",
+      "items": {
+        "type": "object",
+        "required": ["type", "title", "created_at"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Уникальный идентификатор продукта"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["note", "draft", "assignment", "plan", "review"],
+            "description": "Тип продукта"
+          },
+          "title": {
+            "type": "string",
+            "description": "Название или краткое описание"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date",
+            "description": "Дата создания (YYYY-MM-DD)"
+          }
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "total": 3,
+      "products_by_type": {
+        "note": 2,
+        "assignment": 1
+      },
+      "products": [
+        {"type": "note", "title": "Заметка о системах", "created_at": "2025-12-18"},
+        {"type": "note", "title": "Заметка о холонах", "created_at": "2025-12-19"},
+        {"type": "assignment", "title": "Модель команды", "created_at": "2025-12-20"}
+      ]
+    }
+  ]
+}

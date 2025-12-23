@@ -1,0 +1,69 @@
+{
+  "description": "Демо-профиль: слабая неделя (demo_weak)",
+  "twin_id": "demo_weak",
+
+  "week_state": {
+    "twin_id": "demo_weak",
+    "week_start": "2025-12-16",
+    "week_end": "2025-12-22",
+    "days_with_activity": 2,
+    "total_actions": 3,
+    "actions_by_type": {
+      "reading": 2,
+      "practice": 0,
+      "writing": 1,
+      "discussion": 0
+    }
+  },
+
+  "week_time": {
+    "twin_id": "demo_weak",
+    "week_start": "2025-12-16",
+    "week_end": "2025-12-22",
+    "total_minutes": 45,
+    "average_minutes_per_day": 6,
+    "time_by_type": {
+      "reading": 30,
+      "practice": 0,
+      "writing": 15,
+      "discussion": 0
+    }
+  },
+
+  "slot_consistency": {
+    "twin_id": "demo_weak",
+    "week_start": "2025-12-16",
+    "week_end": "2025-12-22",
+    "primary_slot": {
+      "name": "вечер",
+      "start_hour": 20,
+      "end_hour": 22
+    },
+    "consistency_percent": 29,
+    "days_in_slot": 2,
+    "total_days": 7
+  },
+
+  "work_products": {
+    "twin_id": "demo_weak",
+    "week_start": "2025-12-16",
+    "week_end": "2025-12-22",
+    "total_count": 1,
+    "products_by_type": {
+      "note": 1,
+      "post": 0,
+      "practice_answer": 0,
+      "comment": 0
+    },
+    "products": [
+      {
+        "id": "note_001",
+        "type": "note",
+        "title": "Заметка по главе 3",
+        "created_at": "2025-12-17T21:30:00Z"
+      }
+    ]
+  },
+
+  "expected_assistant_response": "На этой неделе: 2 дня активности, 45 минут, 1 заметка. Это немного, но это старт! Попробуйте добавить ещё один день на следующей неделе — даже 15 минут помогут закрепить привычку."
+}

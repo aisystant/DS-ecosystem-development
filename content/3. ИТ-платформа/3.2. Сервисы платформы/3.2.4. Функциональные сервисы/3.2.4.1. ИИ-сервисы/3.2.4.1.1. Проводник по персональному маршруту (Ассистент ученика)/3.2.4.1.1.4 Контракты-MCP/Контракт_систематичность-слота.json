@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SlotConsistencyResponse",
+  "description": "Ответ инструмента get_slot_consistency — систематичность слота саморазвития",
+  "version": "0.1.0",
+  "type": "object",
+  "required": ["slot_configured", "days_held", "target_days"],
+  "properties": {
+    "slot_configured": {
+      "type": "boolean",
+      "description": "Настроен ли слот саморазвития"
+    },
+    "slot_time": {
+      "type": "string",
+      "pattern": "^[0-2][0-9]:[0-5][0-9]$",
+      "description": "Время слота (HH:MM)",
+      "examples": ["07:30", "08:00"]
+    },
+    "slot_duration_minutes": {
+      "type": "integer",
+      "minimum": 5,
+      "description": "Длительность слота в минутах"
+    },
+    "slot_days": {
+      "type": "array",
+      "description": "Дни недели для слота",
+      "items": {
+        "type": "string",
+        "enum": ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"]
+      }
+    },
+    "days_held": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 7,
+      "description": "Сколько дней слот был удержан на этой неделе"
+    },
+    "target_days": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 7,
+      "description": "Сколько дней слот должен был быть"
+    },
+    "consistency_percent": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Процент выполнения (days_held / target_days * 100)"
+    }
+  },
+  "examples": [
+    {
+      "slot_configured": true,
+      "slot_time": "08:00",
+      "slot_duration_minutes": 30,
+      "slot_days": ["Пн", "Ср", "Пт"],
+      "days_held": 2,
+      "target_days": 3,
+      "consistency_percent": 66.7
+    },
+    {
+      "slot_configured": false,
+      "days_held": 0,
+      "target_days": 0
+    }
+  ]
+}

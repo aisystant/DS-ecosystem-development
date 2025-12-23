@@ -1,0 +1,58 @@
+{
+  "description": "Демо-профиль: пустая неделя (demo_empty)",
+  "twin_id": "demo_empty",
+
+  "week_state": {
+    "twin_id": "demo_empty",
+    "week_start": "2025-12-16",
+    "week_end": "2025-12-22",
+    "days_with_activity": 0,
+    "total_actions": 0,
+    "actions_by_type": {
+      "reading": 0,
+      "practice": 0,
+      "writing": 0,
+      "discussion": 0
+    }
+  },
+
+  "week_time": {
+    "twin_id": "demo_empty",
+    "week_start": "2025-12-16",
+    "week_end": "2025-12-22",
+    "total_minutes": 0,
+    "average_minutes_per_day": 0,
+    "time_by_type": {
+      "reading": 0,
+      "practice": 0,
+      "writing": 0,
+      "discussion": 0
+    }
+  },
+
+  "slot_consistency": {
+    "twin_id": "demo_empty",
+    "week_start": "2025-12-16",
+    "week_end": "2025-12-22",
+    "primary_slot": null,
+    "consistency_percent": 0,
+    "days_in_slot": 0,
+    "total_days": 7
+  },
+
+  "work_products": {
+    "twin_id": "demo_empty",
+    "week_start": "2025-12-16",
+    "week_end": "2025-12-22",
+    "total_count": 0,
+    "products_by_type": {
+      "note": 0,
+      "post": 0,
+      "practice_answer": 0,
+      "comment": 0
+    },
+    "products": []
+  },
+
+  "expected_assistant_response": "На этой неделе активности не зафиксировано. Попробуйте начать с 10 минут чтения — даже малый шаг лучше, чем ожидание идеального момента."
+}

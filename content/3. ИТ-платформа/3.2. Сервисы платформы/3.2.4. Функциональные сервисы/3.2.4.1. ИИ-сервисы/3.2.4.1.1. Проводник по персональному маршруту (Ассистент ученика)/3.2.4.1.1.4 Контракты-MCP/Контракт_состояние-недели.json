@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WeekStateResponse",
+  "description": "Ответ инструмента get_week_state — состояние недели",
+  "version": "0.1.0",
+  "type": "object",
+  "required": ["days_with_activity", "total_actions", "actions_by_type"],
+  "properties": {
+    "days_with_activity": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 7,
+      "description": "Количество дней с хотя бы одним действием"
+    },
+    "total_actions": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Общее количество действий за неделю"
+    },
+    "actions_by_type": {
+      "type": "object",
+      "description": "Количество действий по типам",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "examples": [
+        {"read": 5, "note": 3, "assignment": 2}
+      ]
+    },
+    "actions_by_day": {
+      "type": "array",
+      "description": "Действия по дням (опционально)",
+      "items": {
+        "type": "object",
+        "required": ["day", "count"],
+        "properties": {
+          "day": {
+            "type": "string",
+            "enum": ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"]
+          },
+          "count": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "days_with_activity": 3,
+      "total_actions": 8,
+      "actions_by_type": {
+        "read": 4,
+        "note": 3,
+        "assignment": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WeekTimeResponse",
+  "description": "Ответ инструмента get_week_time — инвестированное время за неделю",
+  "version": "0.1.0",
+  "type": "object",
+  "required": ["total_minutes", "average_per_day"],
+  "properties": {
+    "total_minutes": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Общее время за неделю в минутах"
+    },
+    "average_per_day": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Среднее время в день (по дням с активностью)"
+    },
+    "time_by_day": {
+      "type": "array",
+      "description": "Время по дням",
+      "items": {
+        "type": "object",
+        "required": ["day", "minutes"],
+        "properties": {
+          "day": {
+            "type": "string",
+            "enum": ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"]
+          },
+          "minutes": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "time_by_category": {
+      "type": "object",
+      "description": "Время по категориям (опционально)",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0
+      }
+    }
+  },
+  "examples": [
+    {
+      "total_minutes": 120,
+      "average_per_day": 30,
+      "time_by_day": [
+        {"day": "Пн", "minutes": 35},
+        {"day": "Ср", "minutes": 45},
+        {"day": "Пт", "minutes": 40}
+      ],
+      "time_by_category": {
+        "learning": 90,
+        "practice": 30
+      }
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "get_week_plan",
+  "description": "Возвращает план недели на основе двух чисел: целевые дни и целевые минуты",
+  "type": "object",
+  "properties": {
+    "twin_id": {
+      "type": "string",
+      "description": "ID цифрового двойника"
+    },
+    "target_days": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7,
+      "description": "Целевое количество дней активности"
+    },
+    "target_minutes_per_day": {
+      "type": "integer",
+      "minimum": 5,
+      "maximum": 180,
+      "description": "Целевое количество минут в день"
+    },
+    "suggested_slot": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Название слота (утро/день/вечер)"
+        },
+        "start_hour": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 23
+        },
+        "end_hour": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 23
+        }
+      },
+      "required": ["name", "start_hour", "end_hour"]
+    },
+    "weekly_target_minutes": {
+      "type": "integer",
+      "description": "Расчётное целевое время за неделю (target_days * target_minutes_per_day)"
+    },
+    "recommendation": {
+      "type": "string",
+      "description": "Текстовая рекомендация по плану"
+    }
+  },
+  "required": ["twin_id", "target_days", "target_minutes_per_day", "weekly_target_minutes"]
+}

@@ -1,0 +1,99 @@
+{
+  "description": "Демо-профиль: хорошая неделя (demo_good)",
+  "twin_id": "demo_good",
+
+  "week_state": {
+    "twin_id": "demo_good",
+    "week_start": "2025-12-16",
+    "week_end": "2025-12-22",
+    "days_with_activity": 5,
+    "total_actions": 12,
+    "actions_by_type": {
+      "reading": 5,
+      "practice": 3,
+      "writing": 3,
+      "discussion": 1
+    }
+  },
+
+  "week_time": {
+    "twin_id": "demo_good",
+    "week_start": "2025-12-16",
+    "week_end": "2025-12-22",
+    "total_minutes": 180,
+    "average_minutes_per_day": 26,
+    "time_by_type": {
+      "reading": 75,
+      "practice": 60,
+      "writing": 35,
+      "discussion": 10
+    }
+  },
+
+  "slot_consistency": {
+    "twin_id": "demo_good",
+    "week_start": "2025-12-16",
+    "week_end": "2025-12-22",
+    "primary_slot": {
+      "name": "утро",
+      "start_hour": 7,
+      "end_hour": 9
+    },
+    "consistency_percent": 71,
+    "days_in_slot": 5,
+    "total_days": 7
+  },
+
+  "work_products": {
+    "twin_id": "demo_good",
+    "week_start": "2025-12-16",
+    "week_end": "2025-12-22",
+    "total_count": 6,
+    "products_by_type": {
+      "note": 3,
+      "post": 1,
+      "practice_answer": 2,
+      "comment": 0
+    },
+    "products": [
+      {
+        "id": "note_101",
+        "type": "note",
+        "title": "Конспект: системное мышление",
+        "created_at": "2025-12-16T08:15:00Z"
+      },
+      {
+        "id": "note_102",
+        "type": "note",
+        "title": "Рефлексия по практикуму",
+        "created_at": "2025-12-17T07:45:00Z"
+      },
+      {
+        "id": "practice_101",
+        "type": "practice_answer",
+        "title": "Практикум 3.1: Определение системы",
+        "created_at": "2025-12-18T08:30:00Z"
+      },
+      {
+        "id": "post_101",
+        "type": "post",
+        "title": "Пост: Как я начал применять системное мышление",
+        "created_at": "2025-12-19T20:00:00Z"
+      },
+      {
+        "id": "note_103",
+        "type": "note",
+        "title": "Идеи для проекта",
+        "created_at": "2025-12-20T08:00:00Z"
+      },
+      {
+        "id": "practice_102",
+        "type": "practice_answer",
+        "title": "Практикум 3.2: Стейкхолдеры",
+        "created_at": "2025-12-21T08:20:00Z"
+      }
+    ]
+  },
+
+  "expected_assistant_response": "Отличная неделя! 5 дней активности, 3 часа времени, 6 рабочих продуктов. Утренний слот (7:00-9:00) работает на 71% — привычка почти закрепилась. Особенно ценно: вы создали пост и 2 практикума. Продолжайте в том же ритме!"
+}
