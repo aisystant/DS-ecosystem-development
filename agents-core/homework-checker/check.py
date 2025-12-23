@@ -127,23 +127,77 @@ def build_llm_request(
 
 def call_llm(llm_request: dict, config: dict) -> dict:
     """
-    Вызов LLM API.
+    Вызов LLM API (Anthropic Claude).
 
-    v0.1: Заглушка — возвращает демо-результат.
-    TODO: Интеграция с Claude API.
+    Возвращает структурированный результат проверки.
+    При отсутствии API-ключа возвращает демо-результат.
     """
+    import re
+
     provider = config["llm"]["provider"]
+    api_key = os.environ.get("ANTHROPIC_API_KEY")
 
     print(f"[INFO] Вызов {provider} API с моделью {llm_request['model']}", file=sys.stderr)
     print(f"[INFO] Промпт: {len(llm_request['messages'][1]['content'])} символов", file=sys.stderr)
 
-    # Проверяем наличие API-ключа
-    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    # Если API-ключ не установлен, возвращаем демо-результат
     if not api_key:
         print("[WARN] ANTHROPIC_API_KEY не установлен, возвращаем демо-результат", file=sys.stderr)
+        return _get_demo_result()
 
-    # TODO: Реализовать вызов к реальному API
-    # Для MVP возвращаем демо-результат
+    # Реальный вызов Claude API
+    try:
+        import httpx
+
+        response = httpx.post(
+            "https://api.anthropic.com/v1/messages",
+            headers={
+                "x-api-key": api_key,
+                "anthropic-version": "2023-06-01",
+                "content-type": "application/json"
+            },
+            json={
+                "model": llm_request["model"],
+                "max_tokens": llm_request["max_tokens"],
+                "temperature": llm_request["temperature"],
+                "system": llm_request["messages"][0]["content"],
+                "messages": [
+                    {"role": "user", "content": llm_request["messages"][1]["content"]}
+                ]
+            },
+            timeout=60.0
+        )
+
+        if response.status_code != 200:
+            print(f"[ERROR] Claude API вернул {response.status_code}: {response.text}", file=sys.stderr)
+            return _get_demo_result()
+
+        data = response.json()
+        content = data.get("content", [{}])[0].get("text", "{}")
+
+        # Извлекаем JSON из ответа
+        json_match = re.search(r'\{[\s\S]*\}', content)
+        if json_match:
+            result = json.loads(json_match.group())
+            print(f"[INFO] Получен результат: verdict={result.get('verdict')}, score={result.get('score')}", file=sys.stderr)
+            return result
+        else:
+            print(f"[WARN] Не удалось извлечь JSON из ответа", file=sys.stderr)
+            return _get_demo_result()
+
+    except ImportError:
+        print("[WARN] httpx не установлен, возвращаем демо-результат. Установите: pip install httpx", file=sys.stderr)
+        return _get_demo_result()
+    except json.JSONDecodeError as e:
+        print(f"[ERROR] Ошибка парсинга JSON: {e}", file=sys.stderr)
+        return _get_demo_result()
+    except Exception as e:
+        print(f"[ERROR] Ошибка вызова API: {e}", file=sys.stderr)
+        return _get_demo_result()
+
+
+def _get_demo_result() -> dict:
+    """Демо-результат для тестирования без API."""
     return {
         "verdict": "needs_revision",
         "score": 75,
