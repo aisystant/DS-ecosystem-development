@@ -1,85 +1,31 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://aisystant.system-school.ru/schemas/homework-checker/check_request.json",
-  "title": "CheckRequest",
-  "description": "Пакет запроса на проверку ДЗ от LMS к ДЗ-чекеру",
+  "title": "CheckRequest v0.1",
+  "description": "Пакет запроса на проверку ДЗ от LMS к ДЗ-чекеру (v0.1 — без идентификаторов)",
   "type": "object",
-  "required": ["packet_type", "version", "attempt_id", "student_id", "question", "answer"],
+  "required": ["answer_text", "question_text", "course_name", "section_name"],
   "properties": {
-    "packet_type": {
+    "answer_text": {
       "type": "string",
-      "const": "check_request",
-      "description": "Тип пакета"
+      "minLength": 1,
+      "description": "Текст ответа студента"
     },
-    "version": {
+    "question_text": {
       "type": "string",
-      "pattern": "^\\d+\\.\\d+$",
-      "description": "Версия формата пакета"
+      "minLength": 1,
+      "description": "Текст вопроса/пункта чеклиста"
     },
-    "attempt_id": {
+    "course_name": {
       "type": "string",
-      "description": "Уникальный идентификатор попытки ответа"
+      "minLength": 1,
+      "description": "Название курса (текстовое, без идентификаторов и номеров версий)"
     },
-    "student_id": {
+    "section_name": {
       "type": "string",
-      "description": "Идентификатор студента"
-    },
-    "question": {
-      "type": "object",
-      "required": ["id", "text"],
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Идентификатор вопроса (используется для поиска в карте вопросов)"
-        },
-        "text": {
-          "type": "string",
-          "description": "Текст вопроса"
-        },
-        "course_id": {
-          "type": "string",
-          "description": "Идентификатор курса"
-        },
-        "lesson_id": {
-          "type": "string",
-          "description": "Идентификатор урока"
-        }
-      }
-    },
-    "answer": {
-      "type": "object",
-      "required": ["text", "submitted_at"],
-      "properties": {
-        "text": {
-          "type": "string",
-          "description": "Текст ответа студента"
-        },
-        "submitted_at": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Время отправки ответа (ISO 8601)"
-        }
-      }
-    },
-    "metadata": {
-      "type": "object",
-      "description": "Дополнительные метаданные от LMS",
-      "properties": {
-        "guide_hint": {
-          "type": "string",
-          "description": "Подсказка о разделе руководства (если LMS знает)"
-        },
-        "expected_concepts": {
-          "type": "array",
-          "items": { "type": "string" },
-          "description": "Ожидаемые ключевые понятия"
-        },
-        "previous_attempts": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "Количество предыдущих попыток"
-        }
-      }
+      "minLength": 1,
+      "description": "Название раздела из дерева навигации (текстовое, без идентификаторов)"
     }
-  }
+  },
+  "additionalProperties": false
 }
