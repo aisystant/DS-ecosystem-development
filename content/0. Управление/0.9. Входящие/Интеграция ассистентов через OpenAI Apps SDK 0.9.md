@@ -1,11 +1,10 @@
 ---
 type: adr
-status: proposed
-version: 1.0
+status: draft
+version: 0.1
 created: 2025-12-27
 layer: architecture
 scope: ecosystem
-security: internal
 related:
   - "FSM-архитектура ИИ-ассистентов 3.2"
   - "Описание ИИ-ассистента Проводник (Ассистент Ученика) 3.2"
