@@ -17,11 +17,11 @@ jobs:
       - name: Validate registry.json
         run: |
           echo "Working dir: $PWD"
-          ls -la
-          if [ ! -f registry.json ]; then
-            echo "registry.json not found; aborting"
+          if [ ! -f ops/registry.json ]; then
+            echo "ops/registry.json not found; aborting"
             exit 1
           fi
-          jq . registry.json > /dev/null
+          jq . ops/registry.json > /dev/null
+          echo "ops/registry.json is valid JSON"
       - name: Show quality.yaml
         run: cat quality.yaml || true
