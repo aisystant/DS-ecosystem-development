@@ -69,5 +69,10 @@ __pycache__/
 node_modules/
 venv/
 .env
-.env
 .venv/
+
+# === Временные и отладочные файлы ===
+debug_*.py
+temp_*.md
+*-cleanup-report.md
+ops/*_report.md
