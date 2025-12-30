@@ -1,0 +1,67 @@
+name: Update FPF
+
+on:
+  schedule:
+    # Каждый понедельник в 6:00 UTC
+    - cron: '0 6 * * 1'
+  workflow_dispatch:  # Ручной запуск
+
+jobs:
+  update-fpf:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download latest FPF-Spec.md
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/ailev/FPF/main/FPF-Spec.md -o .fpf/FPF-Spec-new.md
+
+      - name: Check for changes
+        id: check
+        run: |
+          if ! diff -q .fpf/FPF-Spec.md .fpf/FPF-Spec-new.md > /dev/null 2>&1; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+            OLD_LINES=$(wc -l < .fpf/FPF-Spec.md)
+            NEW_LINES=$(wc -l < .fpf/FPF-Spec-new.md)
+            echo "old_lines=$OLD_LINES" >> $GITHUB_OUTPUT
+            echo "new_lines=$NEW_LINES" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Update FPF-Spec.md
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          mv .fpf/FPF-Spec-new.md .fpf/FPF-Spec.md
+
+      - name: Create Pull Request
+        if: steps.check.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: update FPF-Spec.md (${{ steps.check.outputs.old_lines }} → ${{ steps.check.outputs.new_lines }} lines)"
+          title: "chore: обновление FPF-Spec.md"
+          body: |
+            ## Автоматическое обновление FPF
+
+            Обнаружена новая версия [FPF-Spec.md](https://github.com/ailev/FPF/blob/main/FPF-Spec.md).
+
+            **Изменения:**
+            - Было: ${{ steps.check.outputs.old_lines }} строк
+            - Стало: ${{ steps.check.outputs.new_lines }} строк
+
+            ---
+            *Автоматически создано GitHub Actions*
+          branch: auto/update-fpf
+          delete-branch: true
+
+      - name: Cleanup
+        if: steps.check.outputs.changed == 'false'
+        run: |
+          rm -f .fpf/FPF-Spec-new.md
+          echo "FPF-Spec.md is up to date"
