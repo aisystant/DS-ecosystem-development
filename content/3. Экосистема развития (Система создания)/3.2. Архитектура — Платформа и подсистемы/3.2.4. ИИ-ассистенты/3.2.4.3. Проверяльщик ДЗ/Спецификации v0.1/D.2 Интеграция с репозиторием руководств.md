@@ -12,35 +12,25 @@
 
 ---
 
-## Текущее состояние (v0.1)
+## v0.1 — Программа «Личное развитие»
 
-### Заглушка httpbin
+### MCP-сервер
 
-В v0.1 используется заглушка `https://httpbin.org/post`, которая просто возвращает переданные данные обратно.
+Репозиторий руководств реализуется как **MCP-сервер** по аналогии с [fsm-mcp](https://github.com/aisystant/fsm-mcp).
+
+**MCP-эндпоинт:**
+```
+https://guides-mcp.aisystant.workers.dev/check-context
+```
 
 **HTTP Request нода в n8n:**
 ```
-URL: https://httpbin.org/post
+URL: https://guides-mcp.aisystant.workers.dev/check-context
 Method: POST
 Body: ={{ $json }}
 ```
 
-Это означает, что в v0.1:
-- `normative_text` не подставляется (используется placeholder)
-- `rubric` не подставляется (критерии не переданы)
-
----
-
-## Целевое состояние (v0.2)
-
-### MCP endpoint
-
-Репозиторий руководств будет реализован как **MCP-сервер** по аналогии с [fsm-mcp](https://github.com/aisystant/fsm-mcp).
-
-**MCP-эндпоинт:**
-```
-https://guides-mcp.aisystant.workers.dev/mcp
-```
+> **Примечание:** В процессе разработки временно используется заглушка `httpbin.org/post`.
 
 ### Запрос контекста
 
@@ -94,7 +84,7 @@ https://guides-mcp.aisystant.workers.dev/mcp
   "course_name": "Системное мышление",
   "section_name": "Физический мир и ментальное пространство",
   "section_path": "systems-thinking/chapter-01.md#section-1-1",
-  "normative_text": "Физический мир существует объективно, независимо от нашего восприятия. Однако мы можем описывать его разными способами, фокусируясь на разных свойствах...",
+  "normative_text": "Физический мир существует объективно, независимо от нашего восприятия...",
   "rubric": {
     "name": "Понимание концепции",
     "passing_score": 60,
@@ -114,6 +104,20 @@ https://guides-mcp.aisystant.workers.dev/mcp
   "version": "v2.3.1"
 }
 ```
+
+---
+
+## Roadmap интеграции
+
+### v0.1 — Программа «Личное развитие»
+
+- MCP-сервер для руководств программы «Личное развитие»
+- Курсы: Системное мышление, Моделирование, и др.
+
+### v0.3 — Программа «Рабочее развитие»
+
+- Расширение MCP-сервера для программы «Рабочее развитие»
+- Дополнительные рубрики для рабочих задач
 
 ---
 
@@ -148,29 +152,35 @@ const prompt = [
 
 ---
 
-## Миграция с заглушки на MCP
+## Реализация MCP-сервера
 
-### Шаг 1: Создать MCP-сервер
+### Архитектура
 
 По аналогии с [fsm-mcp](https://github.com/aisystant/fsm-mcp):
-- Git-репозиторий с руководствами
-- Cloudflare Workers для хостинга
-- MCP tool `get_check_context`
 
-### Шаг 2: Заменить HTTP Request ноду
+| Компонент | Технология |
+|-----------|------------|
+| Хранилище | Git-репозиторий с руководствами |
+| Хостинг | Cloudflare Workers |
+| Протокол | MCP (Model Context Protocol) |
 
-Изменить в n8n:
+### Структура репозитория
+
 ```
-URL: https://httpbin.org/post
-↓
-URL: https://guides-mcp.aisystant.workers.dev/check-context
+guides-mcp/
+├── src/                           # Код MCP-сервера
+│   └── index.ts
+├── guides/                        # Тексты руководств
+│   ├── systems-thinking/
+│   │   ├── chapter-01.md
+│   │   └── ...
+│   └── modeling/
+│       └── ...
+├── rubrics/                       # Рубрики проверки
+│   ├── concept-understanding.yaml
+│   └── deep-understanding.yaml
+└── wrangler.toml
 ```
-
-### Шаг 3: Проверить формат ответа
-
-Убедиться, что ответ MCP содержит:
-- `normative_text` — текст для подстановки в промпт
-- `rubric.criteria` — массив критериев
 
 ---
 
@@ -178,9 +188,9 @@ URL: https://guides-mcp.aisystant.workers.dev/check-context
 
 | Ситуация | Действие |
 |----------|----------|
-| Курс не найден | Вернуть ошибку, использовать placeholder |
+| Курс не найден | Вернуть ошибку с доступными курсами |
 | Раздел не найден | Использовать общий текст курса |
-| MCP недоступен | Fallback на заглушку, логировать |
+| MCP недоступен | Вернуть 503, логировать |
 
 ---
 
@@ -194,4 +204,4 @@ URL: https://guides-mcp.aisystant.workers.dev/check-context
 
 **Версия:** 0.1
 **Дата:** 2025-12-31
-**Статус:** Используется заглушка httpbin, MCP endpoint в разработке
+**Статус:** MCP endpoint для программы «Личное развитие»
