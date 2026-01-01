@@ -92,7 +92,7 @@ Body: ={{ $json }}
       {
         "id": "main_idea",
         "weight": 40,
-        "description": "Студент передал ключевую идею из материала"
+        "description": "Стажёр передал ключевую идею из материала"
       },
       {
         "id": "own_example",

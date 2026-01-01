@@ -22,7 +22,7 @@
 
 ### POST /webhook/check
 
-Синхронная проверка одного ответа студента.
+Синхронная проверка одного ответа стажёра.
 
 #### Запрос
 
@@ -43,7 +43,7 @@ Content-Type: application/json
 
 | Поле | Тип | Обязательное | Описание |
 |------|-----|--------------|----------|
-| `answer_text` | string | Да | Текст ответа студента |
+| `answer_text` | string | Да | Текст ответа стажёра |
 | `question_text` | string | Да | Текст вопроса/пункта чеклиста |
 | `course_name` | string | Да | Название курса (текстовое, без идентификаторов) |
 | `section_name` | string | Да | Название раздела из дерева навигации |
@@ -73,7 +73,7 @@ Content-Type: application/json
 
 | Поле | Тип | Описание |
 |------|-----|----------|
-| `comment` | string | Форматированный комментарий для студента (Markdown) |
+| `comment` | string | Форматированный комментарий для стажёра (Markdown) |
 | `checked_at` | string | Время проверки в формате ISO 8601 |
 | `raw_llm` | object | Сырой ответ LLM (для отладки и аналитики) |
 
@@ -172,7 +172,7 @@ return [{ json: body }];
 curl -X POST https://n8n.example.com/webhook/check \
   -H "Content-Type: application/json" \
   -d '{
-    "answer_text": "Ответ студента...",
+    "answer_text": "Ответ стажёра...",
     "question_text": "Текст вопроса...",
     "course_name": "Системное мышление",
     "section_name": "Физический мир и ментальное пространство"
