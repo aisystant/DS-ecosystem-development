@@ -1,6 +1,6 @@
 # Terms of Service — Learning Copilot
 
-**Last Updated:** December 30, 2024
+**Last Updated:** January 2, 2025
 
 ---
 
@@ -8,7 +8,7 @@
 
 The **Learning Copilot** is an AI-powered educational assistant developed by **Aisystant**. It helps adult learners navigate their personal development journey within the Aisystant educational ecosystem.
 
-The Service operates as a ChatGPT Action that connects to the Aisystant MCP server to provide personalized learning guidance.
+The Service is delivered as an app in ChatGPT that connects to an Aisystant-hosted MCP server to provide personalized learning guidance.
 
 ---
 
@@ -94,8 +94,7 @@ The Learning Copilot integrates with:
 | Service | Purpose |
 |---------|---------|
 | **OpenAI ChatGPT** | AI conversation platform |
-| **Aisystant Platform** | Learning management and user data |
-| **Aisystant Identity** | OAuth authentication |
+| **Cloudflare** | Hosting and infrastructure |
 
 Your use of these services is also governed by their respective terms.
 
@@ -127,9 +126,9 @@ These Terms are governed by the laws of the Russian Federation. Disputes shall b
 
 For questions about these Terms:
 
-- **Email:** info@system-school.ru
+- **Email:** tserenov1972@gmail.com
 - **Website:** https://aisystant.com
-- **Telegram:** @aisystant_platform
+- **Telegram:** @tserentserenov
 
 ---
 
@@ -137,7 +136,6 @@ For questions about these Terms:
 
 - [Privacy Policy](./privacy-policy.md)
 - [Aisystant Platform](https://aisystant.com)
-- [GitHub Repository](https://github.com/aisystant/fsm-mcp)
 
 ---
 

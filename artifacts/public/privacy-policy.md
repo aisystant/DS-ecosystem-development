@@ -1,131 +1,128 @@
 # Privacy Policy — Learning Copilot
 
-**Last Updated:** December 30, 2024
+**Last Updated:** January 2, 2025
 
 ---
 
 ## 1. Introduction
 
-This Privacy Policy describes how **Aisystant** ("we", "us", or "our") collects, uses, and protects information when you use the **Learning Copilot** AI application ("the Service").
+This Privacy Policy explains how **Aisystant** ("we", "us", "our") processes information when you use the Learning Copilot app in ChatGPT (the "Service").
 
-The Learning Copilot is an AI-powered learning companion that helps users navigate their personal development journey through the Aisystant educational ecosystem.
+Learning Copilot is an AI-powered learning companion. The Service is delivered via ChatGPT and uses an Aisystant-hosted MCP server to provide tools and responses.
 
 ---
 
 ## 2. Data We Process
 
-### 2.1 Data Processed Through ChatGPT
+### 2.1 Data Processed by OpenAI / ChatGPT
 
-When you use the Learning Copilot via ChatGPT:
+When you use the Service in ChatGPT, OpenAI processes your chats and any files you share in accordance with OpenAI's policies and retention rules. Chats are saved until you delete them; deleted chats are scheduled for permanent deletion within 30 days, subject to limited legal/security exceptions.
 
-| Data Type | Description |
-|-----------|-------------|
-| **Conversation Messages** | Your questions, responses, and interactions with the assistant |
-| **Learning Progress Data** | Information about your learning stage and goals (when connected to Aisystant platform) |
-| **Session Context** | Temporary data used during a conversation session |
+See [OpenAI's Chat and File Retention Policies](https://help.openai.com/en/articles/8983778-chat-and-file-retention-policies-in-chatgpt).
 
-### 2.2 Data from Aisystant Platform Integration
+### 2.2 Data We Receive When Our MCP Tools Are Called
 
-If you connect the assistant to your Aisystant account:
+When ChatGPT invokes our MCP tools, we receive only the information required to execute the tool call, which may include:
 
 | Data Type | Description |
 |-----------|-------------|
-| **Profile Information** | Name, email, learning preferences |
-| **Digital Twin Data** | Learning stage, study schedule, progress metrics |
-| **Course Enrollment** | Current courses and completion status |
+| **Tool Call Parameters** | Selected tool name and structured inputs |
+| **User-Provided Content** | Relevant content necessary to complete the request (e.g., a learning goal or task details) |
+| **Technical Metadata** | Request ID, timestamps, and other data required for operation |
+
+We do not require you to create an Aisystant account to use the current version of the Service.
+
+### 2.3 Operational Logs
+
+To keep the Service reliable and secure, we may collect minimal operational logs (e.g., error traces, response codes, timestamps).
+
+- **Retention:** Up to 30 days
+- These logs are not used to build marketing profiles
 
 ---
 
 ## 3. How We Use Your Data
 
-We use the collected information to:
+We use data we receive to:
 
-- Provide personalized learning guidance and recommendations
-- Track your progress through learning stages (from "Random" to "Proactive" learner)
-- Suggest relevant learning activities and next steps
-- Improve the quality of our AI assistant responses
+- Execute MCP tool calls and return results to ChatGPT
+- Provide learning guidance and recommendations in the conversation
+- Maintain security, prevent abuse, and troubleshoot reliability issues
 
 ---
 
 ## 4. Data Storage & Retention
 
-| Data Category | Storage Location | Retention Period |
-|--------------|------------------|------------------|
-| **ChatGPT Conversations** | OpenAI servers (per OpenAI's privacy policy) | Per OpenAI's retention policy |
-| **Aisystant Platform Data** | EU-based servers | Duration of account + 2 years |
-| **Session Data** | Temporary memory | Session duration only |
-
-We do **not** store conversation logs on our own servers. All chat interactions are handled by OpenAI's ChatGPT platform according to their privacy practices.
+- We do not store full conversation transcripts on Aisystant-controlled servers. Chat content is retained by OpenAI as described in their retention policy.
+- If operational logs are enabled, we retain them for the period stated in Section 2.3 and then delete or aggregate them.
 
 ---
 
 ## 5. Data Sharing
 
-We do **not** sell your personal data. Data may be shared only:
+We do not sell personal data. We may share data only:
 
-- **With OpenAI** — as required for ChatGPT functionality
-- **With Aisystant Platform** — only if you connect your account via OAuth
-- **As Required by Law** — to comply with legal obligations
+- **With OpenAI** — as necessary to provide the Service inside ChatGPT
+- **With infrastructure providers** — (e.g., Cloudflare for hosting) solely to operate the Service
+- **If required by law** — to comply with legal obligations
 
 ---
 
-## 6. Your Rights
+## 6. International Data Transfers
 
-You have the right to:
+Because the Service operates through ChatGPT, data may be processed by OpenAI and transferred internationally according to OpenAI's practices. Please review [OpenAI's Privacy Policy](https://openai.com/policies/privacy-policy) for details.
+
+---
+
+## 7. Your Rights
+
+Depending on your location, you may have rights to access, correct, delete, or restrict processing of your personal data.
 
 | Right | How to Exercise |
 |-------|-----------------|
-| **Access your data** | Contact us at info@system-school.ru |
-| **Correct your data** | Update via your Aisystant account or contact us |
-| **Delete your data** | Request deletion via email (see below) |
-| **Disconnect integration** | Remove app from ChatGPT settings |
+| **Data we control** | Contact us at tserenov1972@gmail.com |
+| **Data in ChatGPT** | Use ChatGPT controls and OpenAI's processes |
 
 ---
 
-## 7. How to Delete Your Data
+## 8. How to Delete Your Data
 
-To request deletion of your data:
-
-1. **ChatGPT Data:** Manage via ChatGPT settings → Connected Apps → Remove "Learning Copilot"
-2. **Aisystant Platform Data:** Send request to **info@system-school.ru** with subject: "Data Deletion Request — Learning Copilot"
-
-We will process deletion requests within 30 days.
+- **ChatGPT conversation data:** Delete the relevant chat in ChatGPT (or delete your OpenAI account). Deleted chats are scheduled for permanent deletion within 30 days, subject to limited exceptions.
+- **Data we control (if any):** Email tserenov1972@gmail.com with subject "Data Deletion Request — Learning Copilot". We will respond within 30 days.
 
 ---
 
-## 8. Security
+## 9. Security
 
-We implement appropriate technical and organizational measures to protect your data, including:
+We use appropriate technical and organizational measures, including:
 
-- OAuth 2.0 for secure authentication
-- HTTPS encryption for all data transfers
-- Access controls and audit logging
-
----
-
-## 9. Children's Privacy
-
-The Student Assistant is designed for adult learners. We do not knowingly collect data from users under 16 years of age.
+- HTTPS encryption for data in transit
+- Access controls for operational systems
+- Monitoring and rate limiting to reduce abuse
 
 ---
 
-## 10. Changes to This Policy
+## 10. Children's Privacy
 
-We may update this Privacy Policy from time to time. We will notify users of significant changes via the Aisystant platform or email.
+The Service is intended for adult learners. We do not knowingly collect personal data from children under 16.
 
 ---
 
-## 11. Contact Us
+## 11. Changes to This Policy
 
-For privacy-related questions or requests:
+We may update this policy from time to time. We will update the "Last Updated" date and, where appropriate, provide notice.
 
-- **Email:** info@system-school.ru
+---
+
+## 12. Contact
+
+- **Email:** tserenov1972@gmail.com
 - **Website:** https://aisystant.com
-- **Telegram:** @aisystant_platform
+- **Telegram:** @tserentserenov
 
 ---
 
-## 12. Links
+## 13. Links
 
 - [Terms of Service](./terms-of-service.md)
 - [Aisystant Platform](https://aisystant.com)
