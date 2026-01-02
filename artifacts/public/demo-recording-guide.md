@@ -28,54 +28,44 @@ Show:
 - ChatGPT interface with the connected app
 - The name "Learning Copilot" in the tools/actions list
 
-#### Scene 2: Main Scenario (1.5–2 min)
+#### Scene 2: Initial Greeting (30 sec)
 
-**Request 1:** "Let's summarize the week"
-```
-User: Let's summarize the week
-```
+**Request:** "Hello"
+
 Show:
-- Tool call to the MCP server
-- Response with widget and action buttons
-- Explain: "The assistant calls the fsm-mcp server and receives instructions for the current state"
+- Tool call: `get_instruction()` → returns `init` state
+- Response with menu: Review week, Plan learning, Assess stage, Debug blocker
+- Explain: "The assistant calls the MCP server and receives instructions for the current state"
 
-**Request 2:** Clicking the "Go to start" button
-```
-User: [clicks "Go to start" button / types "Go to start"]
-```
+#### Scene 3: Stage Assessment Flow (1–1.5 min)
+
+**Request:** "Assess my learning stage"
+
 Show:
-- Transition to the initial state
-- New widget with greeting
+- Tool call: `get_instruction(state: "test_start")`
+- Assistant asks diagnostic questions
 
-**Request 3:** "Analyze a blocker"
-```
-User: Analyze a blocker
-```
+**User response:** "I try to study every day but often lose the rhythm"
+
 Show:
-- The assistant offers to identify the blocker
-- Dialog scenario
+- Tool call: `get_instruction(state: "assess_stage")`
+- Result: "Your stage: Practicing" with recommendations
 
-#### Scene 3: Help Scenario (30 sec)
+#### Scene 4: Navigation & Architecture (30 sec)
 
-**Request:** "How do I work with you?"
-```
-User: How do I work with you?
-```
+**Request:** "Go back to start"
+
 Show:
-- Transition to help state
-- Explanation of the assistant's capabilities
+- Transition back to `init` state
 
-#### Scene 4: Architecture Explanation (30 sec)
-
-Explain by voice or text:
-- "State transitions only happen through ui.actions"
-- "Markdown content does not contain transition commands — this is safe"
-- "FSM architecture: state → instruction → response"
+Explain:
+- "State transitions happen through explicit user actions"
+- "FSM architecture: state → instruction → response → next state"
 
 ### 3. Conclusion
 
 - Show that the session ends correctly
-- You can show the Developer console with tool calls
+- Optionally show Developer console with tool calls
 
 ---
 
@@ -86,7 +76,6 @@ Explain by voice or text:
 | **Loom** | Free, fast, public link |
 | **YouTube (unlisted)** | "Unlisted" — access by link |
 | **Google Drive** | Access "Anyone with the link" |
-| **Cloudflare Stream** | If you have an account |
 
 ---
 
@@ -95,20 +84,19 @@ Explain by voice or text:
 - [ ] Video shows Developer Mode
 - [ ] Tool calls to MCP server are visible
 - [ ] At least 2–3 different states are shown
-- [ ] Transition logic through ui.actions is explained
+- [ ] State transition logic is explained
 - [ ] Video is accessible via public link
 - [ ] Duration is 2–4 minutes
 
 ---
 
-## Example Tool Call (for demonstration)
+## Example Tool Call
 
 ```json
 {
-  "name": "learning-copilot",
+  "name": "get_instruction",
   "arguments": {
-    "action": "get_instructions",
-    "state": "weekly_review"
+    "state": "test_start"
   }
 }
 ```
@@ -116,13 +104,9 @@ Explain by voice or text:
 Response:
 ```json
 {
-  "instructions": "...",
-  "ui": {
-    "actions": [
-      {"label": "Go to start", "action": "go_home"},
-      {"label": "Analyze blocker", "action": "analyze_block"}
-    ]
-  }
+  "state": "test_start",
+  "instructions": "Ask diagnostic questions about learning habits...",
+  "transitions": ["assess_stage", "init"]
 }
 ```
 
@@ -133,7 +117,6 @@ Response:
 1. Upload the video to your chosen platform
 2. Copy the public link
 3. Add the link to the OpenAI Apps form: **Demo Recording URL**
-4. Update this document with the final link
 
 ---
 
