@@ -1,107 +1,107 @@
 # Demo Recording Guide — Student Assistant
 
-Инструкция для записи демо-видео для OpenAI App Review.
+Instructions for recording a demo video for OpenAI App Review.
 
 ---
 
-## Требования OpenAI
+## OpenAI Requirements
 
-- **Формат:** Видео (Loom / YouTube unlisted / Google Drive)
-- **Длительность:** 2–4 минуты достаточно
-- **Режим:** Developer Mode в ChatGPT
-
----
-
-## Сценарий записи
-
-### 1. Подготовка (не записывать)
-
-- Откройте ChatGPT в режиме разработчика
-- Подключите Student Assistant app
-- Убедитесь, что MCP-сервер отвечает
-
-### 2. Начало записи
-
-#### Сцена 1: Подключение (30 сек)
-
-Покажите:
-- ChatGPT интерфейс с подключённым app
-- Название "Student Assistant" в списке tools/actions
-
-#### Сцена 2: Основной сценарий (1.5–2 мин)
-
-**Запрос 1:** "Подведём итоги недели"
-```
-Пользователь: Подведём итоги недели
-```
-Покажите:
-- Tool call к MCP-серверу
-- Ответ с виджетом и кнопками действий
-- Объясните: "Ассистент вызывает fsm-mcp сервер и получает инструкции для текущего состояния"
-
-**Запрос 2:** Нажатие кнопки "В начало"
-```
-Пользователь: [нажимает кнопку "В начало" / пишет "В начало"]
-```
-Покажите:
-- Переход в начальное состояние
-- Новый виджет с приветствием
-
-**Запрос 3:** "Разобрать затык"
-```
-Пользователь: Разобрать затык
-```
-Покажите:
-- Ассистент предлагает выяснить, в чём затык
-- Диалоговый сценарий
-
-#### Сцена 3: Help-сценарий (30 сек)
-
-**Запрос:** "Как с тобой работать?"
-```
-Пользователь: Как с тобой работать?
-```
-Покажите:
-- Переход в help-состояние
-- Объяснение возможностей ассистента
-
-#### Сцена 4: Пояснение архитектуры (30 сек)
-
-Голосом или текстом объясните:
-- "Переходы между состояниями происходят только через ui.actions"
-- "Markdown-контент не содержит команд перехода — это безопасно"
-- "FSM-архитектура: состояние → инструкция → ответ"
-
-### 3. Завершение
-
-- Покажите, что сессия корректно завершается
-- Можно показать Developer console с tool calls
+- **Format:** Video (Loom / YouTube unlisted / Google Drive)
+- **Duration:** 2–4 minutes is sufficient
+- **Mode:** Developer Mode in ChatGPT
 
 ---
 
-## Где разместить видео
+## Recording Scenario
 
-| Платформ | Как сделать |
-|----------|-------------|
-| **Loom** | Бесплатно, быстро, публичная ссылка |
-| **YouTube (unlisted)** | "Не в списке" — доступ по ссылке |
-| **Google Drive** | Доступ "Все, у кого есть ссылка" |
-| **Cloudflare Stream** | Если есть аккаунт |
+### 1. Preparation (do not record)
+
+- Open ChatGPT in developer mode
+- Connect the Student Assistant app
+- Make sure the MCP server is responding
+
+### 2. Start Recording
+
+#### Scene 1: Connection (30 sec)
+
+Show:
+- ChatGPT interface with the connected app
+- The name "Student Assistant" in the tools/actions list
+
+#### Scene 2: Main Scenario (1.5–2 min)
+
+**Request 1:** "Let's summarize the week"
+```
+User: Let's summarize the week
+```
+Show:
+- Tool call to the MCP server
+- Response with widget and action buttons
+- Explain: "The assistant calls the fsm-mcp server and receives instructions for the current state"
+
+**Request 2:** Clicking the "Go to start" button
+```
+User: [clicks "Go to start" button / types "Go to start"]
+```
+Show:
+- Transition to the initial state
+- New widget with greeting
+
+**Request 3:** "Analyze a blocker"
+```
+User: Analyze a blocker
+```
+Show:
+- The assistant offers to identify the blocker
+- Dialog scenario
+
+#### Scene 3: Help Scenario (30 sec)
+
+**Request:** "How do I work with you?"
+```
+User: How do I work with you?
+```
+Show:
+- Transition to help state
+- Explanation of the assistant's capabilities
+
+#### Scene 4: Architecture Explanation (30 sec)
+
+Explain by voice or text:
+- "State transitions only happen through ui.actions"
+- "Markdown content does not contain transition commands — this is safe"
+- "FSM architecture: state → instruction → response"
+
+### 3. Conclusion
+
+- Show that the session ends correctly
+- You can show the Developer console with tool calls
 
 ---
 
-## Чек-лист перед отправкой
+## Where to Host the Video
 
-- [ ] Видео показывает Developer Mode
-- [ ] Видны tool calls к MCP-серверу
-- [ ] Показаны минимум 2–3 разных состояния
-- [ ] Объяснена логика переходов через ui.actions
-- [ ] Видео доступно по публичной ссылке
-- [ ] Длительность 2–4 минуты
+| Platform | How to Do It |
+|----------|--------------|
+| **Loom** | Free, fast, public link |
+| **YouTube (unlisted)** | "Unlisted" — access by link |
+| **Google Drive** | Access "Anyone with the link" |
+| **Cloudflare Stream** | If you have an account |
 
 ---
 
-## Пример tool call (для демонстрации)
+## Checklist Before Submitting
+
+- [ ] Video shows Developer Mode
+- [ ] Tool calls to MCP server are visible
+- [ ] At least 2–3 different states are shown
+- [ ] Transition logic through ui.actions is explained
+- [ ] Video is accessible via public link
+- [ ] Duration is 2–4 minutes
+
+---
+
+## Example Tool Call (for demonstration)
 
 ```json
 {
@@ -113,14 +113,14 @@
 }
 ```
 
-Ответ:
+Response:
 ```json
 {
   "instructions": "...",
   "ui": {
     "actions": [
-      {"label": "В начало", "action": "go_home"},
-      {"label": "Разобрать затык", "action": "analyze_block"}
+      {"label": "Go to start", "action": "go_home"},
+      {"label": "Analyze blocker", "action": "analyze_block"}
     ]
   }
 }
@@ -128,19 +128,19 @@
 
 ---
 
-## После записи
+## After Recording
 
-1. Загрузите видео на выбранную платформу
-2. Скопируйте публичную ссылку
-3. Добавьте ссылку в форму OpenAI Apps: **Demo Recording URL**
-4. Обновите этот документ с финальной ссылкой
-
----
-
-## Ссылка на демо-видео
-
-**URL:** `[Добавить после записи]`
+1. Upload the video to your chosen platform
+2. Copy the public link
+3. Add the link to the OpenAI Apps form: **Demo Recording URL**
+4. Update this document with the final link
 
 ---
 
-**Последнее обновление:** 2024-12-30
+## Demo Video Link
+
+**URL:** `[Add after recording]`
+
+---
+
+**Last Updated:** 2024-12-30
