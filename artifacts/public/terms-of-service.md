@@ -142,5 +142,5 @@ For questions about these Terms:
 ---
 
 **Aisystant**
-Operator: Мастерская инженеров-менеджеров
+Operator: Workshop for Engineer-Managers
 https://aisystant.com

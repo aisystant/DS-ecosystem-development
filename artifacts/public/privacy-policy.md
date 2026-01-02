@@ -133,5 +133,5 @@ For privacy-related questions or requests:
 ---
 
 **Aisystant**
-Operator: Мастерская инженеров-менеджеров
+Operator: Workshop for Engineer-Managers
 https://aisystant.com
