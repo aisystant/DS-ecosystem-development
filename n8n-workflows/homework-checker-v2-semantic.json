@@ -1,0 +1,239 @@
+{
+  "name": "ДЗ-чекер v2 (semantic_search)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "check",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [-400, 0],
+      "id": "webhook-1",
+      "name": "Webhook",
+      "webhookId": "hw-checker-v2"
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = items[0]?.json ?? {};\nconst body = input.body ?? input;\n\n// v2: только question_text и answer_text обязательны\nconst required = [\"question_text\", \"answer_text\"];\nconst missing = required.filter((k) => !body?.[k]);\n\nconst request_id = `req_${Date.now()}_${Math.random().toString(16).slice(2)}`;\n\nif (missing.length) {\n  return [{\n    json: {\n      ok: false,\n      request_id,\n      status: 400,\n      body: {\n        ok: false,\n        request_id,\n        error: {\n          code: \"bad_request\",\n          message: `Missing required fields: ${missing.join(\", \")}`,\n          details: { missing }\n        }\n      }\n    }\n  }];\n}\n\n// Формируем chatInput для AI Agent\nconst chatInput = [\n  \"Проверь ответ стажера по нормативу из руководств.\",\n  \"\",\n  `Курс: ${body.course_name ?? \"(не указан)\"}`,\n  `Раздел: ${body.section_name ?? \"(не указан)\"}`,\n  \"\",\n  \"АЛГОРИТМ:\",\n  \"1. Вызови semantic_search с query = текст вопроса ниже\",\n  \"2. Получи релевантные фрагменты (поле content — это норматив)\",\n  \"3. Используй фрагменты с score > 0.5 как основу для проверки\",\n  \"4. Сравни ответ стажера с нормативом\",\n  \"\",\n  \"ВОПРОС:\",\n  body.question_text,\n  \"\",\n  \"ОТВЕТ СТАЖЕРА:\",\n  body.answer_text,\n  \"\",\n  \"Верни ТОЛЬКО валидный JSON без markdown:\",\n  \"{\",\n  '  \"verdict\": \"accepted\" | \"needs_revision\" | \"rejected\",',\n  '  \"score\": number (0-100),',\n  '  \"strengths\": string[],',\n  '  \"issues\": [{\"criterion\": string|null, \"issue\": string, \"suggestion\": string|null}],',\n  '  \"next_step\": string',\n  \"}\"\n].join(\"\\n\");\n\nreturn [{\n  json: {\n    ok: true,\n    request_id,\n    received_at: new Date().toISOString(),\n    debug: !!body.debug,\n    question_text: body.question_text,\n    answer_text: body.answer_text,\n    course_name: body.course_name ?? null,\n    section_name: body.section_name ?? null,\n    chatInput\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-200, 0],
+      "id": "validate-1",
+      "name": "Validate + Build chatInput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "cond-ok",
+              "leftValue": "={{$json.ok}}",
+              "rightValue": "true",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [0, 0],
+      "id": "if-ok-1",
+      "name": "IF ok?"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{$json.chatInput}}",
+        "options": {
+          "systemMessage": "Ты — проверяющий ответы стажёров по нормативам из руководств.\n\nФОРМАТ ВЫХОДА:\nВерни ТОЛЬКО валидный JSON без markdown и пояснений.\n\nАЛГОРИТМ:\n1. Вызови semantic_search с query = текст вопроса из пользовательского сообщения\n2. Получи релевантные фрагменты (поле \"content\" — это норматив)\n3. Используй фрагменты с score > 0.5 как основу для проверки\n4. Если semantic_search вернул пустой результат или все score < 0.5:\n   - Верни verdict=\"needs_revision\", score=0\n   - issues: [{\"criterion\": null, \"issue\": \"normative_not_found\", \"suggestion\": \"Не найден релевантный норматив для данного вопроса\"}]\n5. Сравни ответ стажера с нормативом по критериям:\n   - Полнота: все ли ключевые идеи из норматива отражены\n   - Корректность: нет ли противоречий с нормативом\n   - Терминология: используется ли терминология из норматива\n   - Структура: логичен ли ответ\n\nПРАВИЛА ОЦЕНКИ:\n- 90-100: accepted (ответ полный и корректный)\n- 60-89: needs_revision (есть что улучшить)\n- 0-59: rejected (ответ не соответствует нормативу)\n\nСХЕМА ОТВЕТА:\n{\n  \"verdict\": \"accepted\" | \"needs_revision\" | \"rejected\",\n  \"score\": number (0-100),\n  \"strengths\": string[] (до 5 пунктов),\n  \"issues\": [{\"criterion\": string|null, \"issue\": string, \"suggestion\": string|null}] (до 4 пунктов),\n  \"next_step\": string\n}",
+          "returnIntermediateSteps": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [220, -160],
+      "id": "agent-1",
+      "name": "AI Agent (semantic_search)",
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "claude-3-5-haiku-20241022",
+          "mode": "list",
+          "cachedResultName": "Claude Haiku 3.5"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [120, 100],
+      "id": "llm-1",
+      "name": "Anthropic Chat Model",
+      "credentials": {
+        "anthropicApi": {
+          "id": "HaAsfAfQlU8aeORX",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Семантический поиск по руководствам. Возвращает релевантные фрагменты.\nВход: query (текст для поиска), lang (ru/en), limit (количество результатов).\nВыход: массив объектов {content, heading, score, guide_id, section_id}.",
+        "method": "POST",
+        "url": "https://guides-mcp.aisystant.workers.dev/mcp",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ ({\n  jsonrpc: \"2.0\",\n  id: \"search-1\",\n  method: \"tools/call\",\n  params: {\n    name: \"semantic_search\",\n    arguments: {\n      query: $fromAI(\"query\"),\n      lang: \"ru\",\n      limit: 5\n    }\n  }\n}) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.3,
+      "position": [300, 100],
+      "id": "tool-search-1",
+      "name": "semantic_search"
+    },
+    {
+      "parameters": {
+        "jsCode": "const ctx = items?.[0]?.json ?? {};\n\n// ========================================\n// Helpers\n// ========================================\nconst safeString = (v) => {\n  if (v == null) return \"\";\n  if (typeof v === \"string\") return v;\n  try { return JSON.stringify(v); } catch { return String(v); }\n};\n\nconst clampInt = (n, lo, hi) => Math.max(lo, Math.min(hi, n));\n\nconst pickFirstNonNull = (...vals) => {\n  for (const v of vals) if (v !== undefined && v !== null) return v;\n  return null;\n};\n\n// ========================================\n// 0) Pass-through error from Validate\n// ========================================\nif (ctx?.ok === false && ctx?.status && ctx?.body) {\n  return [{ json: { status: ctx.status, body: ctx.body } }];\n}\n\n// ========================================\n// 1) Get LLM output\n// ========================================\nconst outputRaw = pickFirstNonNull(\n  ctx.output,\n  ctx.text,\n  ctx.response,\n  ctx.result,\n  ctx.data,\n  ctx.completion\n);\n\nconst hasOutput =\n  outputRaw !== null &&\n  (typeof outputRaw === \"object\" ||\n   (typeof outputRaw === \"string\" && outputRaw.trim().length > 0));\n\nif (!hasOutput) {\n  return [{\n    json: {\n      status: 200,\n      body: {\n        ok: true,\n        request_id: ctx.request_id,\n        received_at: ctx.received_at,\n        checked_at: new Date().toISOString(),\n        verdict: \"needs_revision\",\n        score: 0,\n        strengths: [],\n        issues: [{\n          criterion: null,\n          issue: \"model_output_missing\",\n          suggestion: \"Нет ответа от модели. Повторите запрос.\"\n        }],\n        next_step: \"Повторите запрос.\",\n        comment: \"**На доработку** (0/100)\\n\\n**Замечания:**\\n- Нет ответа от модели\"\n      }\n    }\n  }];\n}\n\n// ========================================\n// 2) Parse JSON from LLM output\n// ========================================\nconst stripWrappers = (s) => {\n  let x = safeString(s).trim();\n  x = x.replace(/^```json\\s*/i, \"\").replace(/```\\s*$/g, \"\");\n  x = x.replace(/^```\\s*/g, \"\").replace(/```\\s*$/g, \"\");\n  return x.trim();\n};\n\nconst extractJSON = (s) => {\n  const str = stripWrappers(s);\n  const start = str.indexOf(\"{\");\n  if (start === -1) return null;\n  \n  let depth = 0;\n  let inString = false;\n  let escaped = false;\n  let end = -1;\n  \n  for (let i = start; i < str.length; i++) {\n    const ch = str[i];\n    if (inString) {\n      if (escaped) escaped = false;\n      else if (ch === \"\\\\\") escaped = true;\n      else if (ch === '\"') inString = false;\n      continue;\n    }\n    if (ch === '\"') { inString = true; continue; }\n    if (ch === \"{\") depth++;\n    if (ch === \"}\") depth--;\n    if (depth === 0) { end = i; break; }\n  }\n  \n  if (end === -1) return null;\n  return str.slice(start, end + 1);\n};\n\nlet parsed = null;\nlet rawLLM = safeString(outputRaw);\n\nif (typeof outputRaw === \"object\" && outputRaw?.verdict) {\n  parsed = outputRaw;\n} else {\n  const candidate = extractJSON(rawLLM);\n  if (candidate) {\n    try {\n      parsed = JSON.parse(candidate.replace(/,\\s*}/g, \"}\").replace(/,\\s*]/g, \"]\"));\n    } catch {}\n  }\n}\n\nif (!parsed || typeof parsed !== \"object\") {\n  parsed = {\n    verdict: \"needs_revision\",\n    score: 0,\n    strengths: [],\n    issues: [{\n      criterion: null,\n      issue: \"parse_error\",\n      suggestion: rawLLM.slice(0, 500)\n    }],\n    next_step: \"Ошибка парсинга ответа LLM\"\n  };\n}\n\n// ========================================\n// 3) Check if semantic_search was called\n// ========================================\nconst steps = Array.isArray(ctx.intermediateSteps) ? ctx.intermediateSteps : [];\n\nlet searchCalled = false;\nlet searchResults = [];\n\nfor (const step of steps) {\n  const obs = step?.observation;\n  if (obs) {\n    const obsStr = typeof obs === \"string\" ? obs : JSON.stringify(obs);\n    if (obsStr.includes(\"search-1\") || obsStr.includes(\"semantic_search\")) {\n      searchCalled = true;\n      // Try to extract results\n      try {\n        const obsObj = typeof obs === \"string\" ? JSON.parse(obs) : obs;\n        if (obsObj?.result?.content?.[0]?.text) {\n          const txt = obsObj.result.content[0].text;\n          if (txt.startsWith(\"[\")) {\n            searchResults = JSON.parse(txt);\n          }\n        }\n      } catch {}\n    }\n  }\n}\n\n// Override if search not called\nif (!searchCalled) {\n  parsed = {\n    verdict: \"needs_revision\",\n    score: 0,\n    strengths: [],\n    issues: [{\n      criterion: null,\n      issue: \"search_not_called\",\n      suggestion: \"semantic_search не был вызван. Проверьте настройки агента.\"\n    }],\n    next_step: \"Исправьте workflow и повторите.\"\n  };\n}\n\n// ========================================\n// 4) Normalize fields\n// ========================================\nconst verdictAllowed = new Set([\"accepted\", \"needs_revision\", \"rejected\"]);\nif (!verdictAllowed.has(parsed.verdict)) parsed.verdict = \"needs_revision\";\n\nconst score = (typeof parsed.score === \"number\" && isFinite(parsed.score))\n  ? clampInt(Math.round(parsed.score), 0, 100)\n  : 0;\n\nconst strengths = Array.isArray(parsed.strengths)\n  ? parsed.strengths.map(x => safeString(x)).filter(Boolean).slice(0, 6)\n  : [];\n\nconst issues = Array.isArray(parsed.issues)\n  ? parsed.issues\n      .map(i => ({\n        criterion: typeof i?.criterion === \"string\" ? i.criterion : null,\n        issue: safeString(i?.issue),\n        suggestion: typeof i?.suggestion === \"string\" ? i.suggestion : null\n      }))\n      .filter(i => i.issue)\n      .slice(0, 6)\n  : [];\n\nconst next_step = safeString(parsed.next_step) || \"—\";\n\n// ========================================\n// 5) Build comment\n// ========================================\nconst verdictMap = {\n  accepted: \"✓ Принято\",\n  needs_revision: \"На доработку\",\n  rejected: \"Не принято\"\n};\n\nconst strengthsMd = strengths.length\n  ? strengths.map(s => `- ${s}`).join(\"\\n\")\n  : \"—\";\n\nconst issuesMd = issues.length\n  ? issues.map(i =>\n      `- ${i.criterion || \"критерий\"}: ${i.issue}` +\n      (i.suggestion ? `\\n  _${i.suggestion}_` : \"\")\n    ).join(\"\\n\")\n  : \"—\";\n\nconst comment = [\n  `**${verdictMap[parsed.verdict]}** (${score}/100)`,\n  \"\",\n  \"**Сильные стороны:**\",\n  strengthsMd,\n  \"\",\n  \"**Замечания:**\",\n  issuesMd,\n  \"\",\n  \"**Следующий шаг:**\",\n  next_step\n].join(\"\\n\");\n\n// ========================================\n// 6) Build response\n// ========================================\nconst body = {\n  ok: true,\n  request_id: ctx.request_id,\n  received_at: ctx.received_at,\n  checked_at: new Date().toISOString(),\n  course_name: ctx.course_name,\n  section_name: ctx.section_name,\n  verdict: parsed.verdict,\n  score,\n  strengths,\n  issues,\n  next_step,\n  comment,\n  ...(ctx.debug ? {\n    raw_llm: rawLLM,\n    search_called: searchCalled,\n    search_results_count: searchResults.length,\n    intermediateSteps: steps\n  } : {})\n};\n\nreturn [{ json: { status: 200, body } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [500, -160],
+      "id": "parse-1",
+      "name": "Parse + Format"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json.body ?? $json }}",
+        "options": {
+          "responseCode": "={{ Number($json.status ?? 200) }}"
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [700, 0],
+      "id": "respond-1",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Validate + Build chatInput",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate + Build chatInput": {
+      "main": [
+        [
+          {
+            "node": "IF ok?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF ok?": {
+      "main": [
+        [
+          {
+            "node": "AI Agent (semantic_search)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent (semantic_search)": {
+      "main": [
+        [
+          {
+            "node": "Parse + Format",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent (semantic_search)",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "semantic_search": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent (semantic_search)",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse + Format": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "dc4dc209c8be8aaf73edd2ae3910dee970fc11e13c686e407a12a7a4d2098e85"
+  }
+}
