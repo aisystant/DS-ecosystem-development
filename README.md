@@ -183,7 +183,7 @@ ecosystem-development/
 
 ## Быстрый старт
 
-Если вы хотите использовать метод работы с хранилищем знаний, который используется в этом репозитории, вам поможет шаблон: **[srd-template](https://github.com/TserenTserenov/srd-template)**
+Если вы хотите использовать метод работы с хранилищем знаний, который используется в этом репозитории, вам поможет шаблон: **[srt-template](https://github.com/TserenTserenov/srt-template)** (Systems-Roles-Table)
 
 ### Внесение изменений
 
