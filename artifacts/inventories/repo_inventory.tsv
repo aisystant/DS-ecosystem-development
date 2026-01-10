@@ -62,7 +62,7 @@ agents-core/homework-checker/manifest.json	blob	607	79342fedad54ba7bb7534b349444
 agents-core/homework-checker/schemas/check_request.json	blob	1255	a2370e143b805b322bc59625c3105a8e97414c34	100644	2025-12-23 45a111a085bd2699ee2ac48dd7f5b15be9ecf631
 agents-core/homework-checker/schemas/check_result.json	blob	786	5bf33e691289b265e21c38883958ddd59fbeb85a	100644	2025-12-23 45a111a085bd2699ee2ac48dd7f5b15be9ecf631
 agents-core/homework-checker/server.py	blob	4623	f3bd64e783d3d7e63fd292d20cdf93d94af4191e	100644	2025-12-23 45a111a085bd2699ee2ac48dd7f5b15be9ecf631
-artifacts/inventories/repo_inventory.tsv	blob	226488	012a709ab45f4dde9f44d37c6dcc66298f649fbd	100644	2026-01-10 20c3c949da4771f538f4ffb41918a0abb51b96cb
+artifacts/inventories/repo_inventory.tsv	blob	226488	ec8cb9f45b062a668ea928c3aecb081581b6b0b3	100644	2026-01-10 dae3426a3863035b59e0d0752af5c491121c5394
 artifacts/public/demo-recording-guide.md	blob	2738	e249f4970a1d2f09549bbe9764bde999b8870903	100644	2026-01-02 19b04dc66f6f66e9d9eeb172ca363de786145f93
 artifacts/public/privacy-policy.md	blob	4533	b669b93e3ed6c42532b8492ba7a3b85f5c574cf3	100644	2026-01-02 c6a81283f2c7025e9f9ab01093551346048c7cc7
 artifacts/public/terms-of-service.md	blob	4064	63464d7b6c03ab085a5f3b1a798e69a70bf2a832	100644	2026-01-02 c6a81283f2c7025e9f9ab01093551346048c7cc7
