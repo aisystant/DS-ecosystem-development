@@ -389,4 +389,6 @@ git add .fpf && git commit -m "chore: update FPF" && git push
 
 **Статус**: В активной разработке (2025-2026)
 
+<!-- AUTO-UPDATE-DATE -->
 Последнее обновление: 2026-01-13
+<!-- /AUTO-UPDATE-DATE -->
