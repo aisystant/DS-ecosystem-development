@@ -409,7 +409,6 @@ feat(B2.1): добавлен Vision document (A.1, A.7)
 | 0.2.Kernels-Bridge | A.1.1, A.3 |
 | 0.3.Roles-Matrix-3x3 | A.3, A.7 |
 | 0.4.FPF-Integration | Все паттерны |
-| 0.5.Templates | F.0.1, E.10.D2 |
 | 0.6.Repository-Processes | A.1, A.3, B.3 |
 
 ---

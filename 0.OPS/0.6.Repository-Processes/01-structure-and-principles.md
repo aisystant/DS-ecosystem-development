@@ -158,15 +158,12 @@ C.ИТ-платформа-Экосистемы/
 │
 ├── 0.3.Roles-Matrix-3x3/            # Матрица 3×3 (системы × роли)
 │
-├── 0.4.AI-Reports/                  # Автоматические отчёты ИИ
+├── 0.4.FPF-Integration/             # Связь с First Principles Framework
+│
+├── 0.5.AI-Reports/                  # Автоматические отчёты ИИ
 │   ├── consistency-reports/         # Противоречия
 │   ├── completeness-reports/        # Полнота
 │   └── quality-reports/             # Качество
-│
-├── 0.5.Templates/                   # Шаблоны документов
-│   ├── template-meaning.md
-│   ├── template-architecture.md
-│   └── template-operations.md
 │
 ├── 0.6.Repository-Processes/        # Процессы работы с репо
 │   ├── document-creation.md

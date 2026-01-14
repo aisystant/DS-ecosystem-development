@@ -222,7 +222,7 @@ scope: repository
 ### Внутри 0.OPS
 - [0.1.Knowledge-Logic](../0.1.Knowledge-Logic/) — эпистемология S2R
 - [0.2.Kernels-Bridge](../0.2.Kernels-Bridge/) — связи между ядрами
-- [0.5.Templates](../0.5.Templates/) — шаблоны документов
+- [0.4.FPF-Integration](../0.4.FPF-Integration/) — интеграция FPF
 - [0.6.Repository-Processes](../0.6.Repository-Processes/) — процессы работы с репозиторием
 
 ### Примеры ядер

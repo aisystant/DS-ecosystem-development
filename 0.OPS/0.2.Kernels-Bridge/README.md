@@ -73,8 +73,8 @@
 
 - [[../0.1.Knowledge-Logic/README.md]] — Логика знаний и эпистемология S2R
 - [[../0.3.Roles-Matrix-3x3/README.md]] — Матрица ролей 3×3
-- [[../0.4.AI-Reports/README.md]] — Автоматические отчёты ИИ
-- [[../0.5.Templates/README.md]] — Шаблоны документов
+- [[../0.4.FPF-Integration/README.md]] — Интеграция FPF
+- [[../0.5.AI-Reports/README.md]] — Автоматические отчёты ИИ
 - [[../0.6.Repository-Processes/README.md]] — Процессы работы с хранилищем
 
 ### Ключевые документы из 0.1
