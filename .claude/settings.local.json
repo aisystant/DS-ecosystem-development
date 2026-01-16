@@ -39,7 +39,13 @@
       "Bash(~/.ssh/known_hosts)",
       "Bash(git pull:*)",
       "WebFetch(domain:raw.githubusercontent.com)",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "Bash(tree:*)",
+      "Bash(ls:*)",
+      "Bash(comm -23:*)",
+      "Bash(for file in \"251227 Подведение итогов 2025 года в сообществе ЛР.md\" \"Claude Code и FPF 0.2.md\" \"Описание процесса создания продуктов из знаний 0.9.md\" \"Модель семейств документов 0.1.md\" \"Глоссарий хранилища 0.1.md\")",
+      "Bash(do)",
+      "Bash(done)"
     ],
     "deny": [],
     "ask": []

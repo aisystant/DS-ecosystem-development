@@ -76,3 +76,6 @@ debug_*.py
 temp_*.md
 *-cleanup-report.md
 ops/*_report.md
+
+# === Архив старой структуры ===
+.old/
