@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Ecosystem Development Registry",
+  "description": "Registry of kernels and systems in the S2R repository",
+  "version": "1.0.0",
+  "kernels": {
+    "A": {
+      "name": "Systems-Builder",
+      "soi": "Созидатель (человек как разработчик, предприниматель, учащийся)",
+      "systems": {
+        "A1": "Команды-и-сообщества",
+        "A2": "Созидатель",
+        "A3": "Экосистема-развития"
+      }
+    },
+    "B": {
+      "name": "Aisystant-Ecosystem",
+      "soi": "Экосистема развития (сообщество, ИТ-платформа, контент)",
+      "systems": {
+        "B1": "Мир",
+        "B2": "Экосистема-развития",
+        "B3": "Система-создания-Экосистемы"
+      }
+    },
+    "C": {
+      "name": "IT-Platform",
+      "soi": "ИТ-платформа (техническая инфраструктура)",
+      "systems": {
+        "C1": "Экосистема-развития",
+        "C2": "ИТ-платформа-Экосистемы",
+        "C3": "ИТ-служба"
+      }
+    },
+    "D": {
+      "name": "Aist-Track-Bot",
+      "soi": "Telegram-бот персонального маршрута обучения",
+      "repository": "https://github.com/aisystant/aist_track_bot",
+      "systems": {
+        "D1": "Supersystems",
+        "D2": "Aist-Track-Bot",
+        "D3": "IT-Service"
+      },
+      "supersystems": [
+        "IT-Platform",
+        "Cyberidentity"
+      ],
+      "modes": [
+        "Marathon",
+        "Feed",
+        "Exocortex"
+      ]
+    }
+  },
+  "meta": {
+    "F0": {
+      "name": "0.OPS",
+      "description": "Метауровень, управляющий знаниями всех ядер"
+    }
+  }
+}

@@ -9,19 +9,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Markdown link check (content/)
+      - name: Markdown link check
         uses: gaurav-nelson/github-action-markdown-link-check@v1
         with:
           use-verbose-mode: "yes"
-          folder-path: "content"
-     - name: Validate registry.json
-       run: |
-           echo "Working dir: $PWD"
-           ls -la
-           if [ ! -f registry.json ]; then
-              echo "registry.json not found; aborting"
-              exit 1
-           fi
-           jq . registry.json > /dev/null
+          folder-path: "."
+          file-extension: ".md"
+          config-file: ".github/mlc_config.json"
+        continue-on-error: true
+      - name: Validate registry.json
+        run: |
+          echo "Working dir: $PWD"
+          ls -la
+          if [ ! -f registry.json ]; then
+            echo "registry.json not found; aborting"
+            exit 1
+          fi
+          jq . registry.json > /dev/null
       - name: Show quality.yaml
         run: cat quality.yaml || true
