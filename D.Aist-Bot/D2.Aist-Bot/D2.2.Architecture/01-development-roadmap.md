@@ -9,9 +9,9 @@ target_audience:
   - "Методологи"
   - "Владельцы продукта"
 depends_on:
-  - "D.Aist-Track-Bot/D2.Aist-Track-Bot/D2.1.Meaning/01-bot-concept.md"
+  - "D.Aist-Bot/D2.Aist-Bot/D2.1.Meaning/01-bot-concept.md"
 affects:
-  - "D.Aist-Track-Bot/D3.IT-Service/D3.3.Operations/"
+  - "D.Aist-Bot/D3.IT-Service/D3.3.Operations/"
 tags:
   - roadmap
   - exocortex
@@ -19,7 +19,7 @@ tags:
   - telegram-bot
 ---
 
-# План развития Aist Track Bot
+# План развития Aist-Bot
 
 ## Текущее состояние (v1.x)
 

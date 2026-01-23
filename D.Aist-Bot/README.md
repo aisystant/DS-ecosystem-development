@@ -1,23 +1,23 @@
-# Ядро D: Aist Track Bot (Telegram-бот персонального маршрута)
+# Ядро D: Aist-Bot (Telegram-бот системного помощника)
 
 ## Обзор ядра
 
-**SoI (Система интереса)**: Telegram-бот персонального маршрута обучения — AI-ассистент для развития системного мышления.
+**SoI (Система интереса)**: Telegram-бот — персональный помощник для развития системного мышления через регулярную практику и сборку экзокортекса.
 
-**Репозиторий бота**: [github.com/aisystant/aist_track_bot](https://github.com/aisystant/aist_track_bot)
+**Репозиторий бота**: [github.com/aisystant/aist_bot](https://github.com/aisystant/aist_bot)
 
 ## Системная структура ядра D
 
 ```
-D.Aist-Track-Bot/
+D.Aist-Bot/
 ├── D1.Supersystems/              # Надсистемы (две!)
 │   ├── D1.1.Meaning/             # Контекст и ценность для надсистем
 │   ├── D1.2.Architecture/        # Интеграция в надсистемы
 │   │   ├── IT-Platform/          # ИТ-платформа Экосистемы
 │   │   └── Cyberidentity/        # Киберличность Созидателя
 │   └── D1.3.Operations/          # SLA, требования
-├── D2.Aist-Track-Bot/            # SoI (сам бот)
-│   ├── D2.1.Meaning/             # Миссия, ценностное предложение
+├── D2.Aist-Bot/                  # SoI (сам бот)
+│   ├── D2.1.Meaning/             # Миссия, ценностное предложение, замысел
 │   ├── D2.2.Architecture/        # Архитектура бота, режимы работы
 │   └── D2.3.Operations/          # Процессы работы бота
 └── D3.IT-Service/                # Система создания (ИТ-служба)
@@ -51,12 +51,12 @@ D.Aist-Track-Bot/
                               │
                               ▼
                     ┌─────────────────┐
-                    │ Aist-Track-Bot  │
+                    │    Aist-Bot     │
                     │      (D2)       │
                     └─────────────────┘
                               ▲
                               │
-ИТ-платформа Экосистемы (C2) ─┘
+ ИТ-платформа Экосистемы (C2) ─┘
 
                               ↑
                               │ создаёт
@@ -88,6 +88,7 @@ D.Aist-Track-Bot/
 ## Ключевые документы
 
 - [[D1.1.Meaning/01-supersystems-context.md]] — контекст двух надсистем
+- [[D2.1.Meaning/01-product-vision.md]] — замысел продукта и ценностное ядро
 - [[D2.1.Meaning/01-bot-concept.md]] — концепция и миссия бота
 - [[D2.2.Architecture/01-development-roadmap.md]] — план развития и третий режим
 

@@ -79,21 +79,21 @@ C.ИТ-платформа-Экосистемы/
 
 **Важно**: C — это детализация подсистемы из B2.2.Architecture/ИТ-платформа/
 
-### Ядро D: Aist Track Bot (Telegram-бот персонального маршрута)
-**SoI**: Telegram-бот — AI-ассистент для персонализированного обучения системному мышлению
+### Ядро D: Aist-Bot (Telegram-бот системного помощника)
+**SoI**: Telegram-бот — персональный помощник для развития системного мышления через регулярную практику и сборку экзокортекса
 
-**Репозиторий**: [github.com/aisystant/aist_track_bot](https://github.com/aisystant/aist_track_bot)
+**Репозиторий**: [github.com/aisystant/aist_bot](https://github.com/aisystant/aist_bot)
 
 ```
-D.Aist-Track-Bot/
+D.Aist-Bot/
 ├── D1.Supersystems/             # Надсистемы (две!)
 │   ├── D1.1.Meaning/           # Контекст и ценность для надсистем
 │   ├── D1.2.Architecture/      # Интеграция в надсистемы
 │   │   ├── IT-Platform/        # ИТ-платформа Экосистемы
 │   │   └── Cyberidentity/      # Киберличность Созидателя
 │   └── D1.3.Operations/        # SLA, требования
-├── D2.Aist-Track-Bot/          # SoI (Telegram-бот)
-│   ├── D2.1.Meaning/           # Миссия бота, ценностное предложение
+├── D2.Aist-Bot/                # SoI (Telegram-бот)
+│   ├── D2.1.Meaning/           # Миссия бота, ценностное предложение, замысел
 │   ├── D2.2.Architecture/      # Архитектура, режимы работы
 │   └── D2.3.Operations/        # Процессы работы бота
 └── D3.IT-Service/              # Система создания (ИТ-служба)
@@ -122,14 +122,14 @@ D.Aist-Track-Bot/
 ```
 Команды-и-сообщества (A1) ∋ Созидатель (A2)
                                 │
-                                └─ ⊃ Киберличность ∋ Aist-Track-Bot (D2)
+                                └─ ⊃ Киберличность ∋ Aist-Bot (D2)
                                     ↑
                                     │ создаёт
                                     │
                           Экосистема-развития (B2)
                                     │
                                     ├─ ⊃ Сообщество (B2.2) ∋ созидателей
-                                    └─ ⊃ ИТ-платформа (B2.2, детали в C2) ∋ Aist-Track-Bot (D2)
+                                    └─ ⊃ ИТ-платформа (B2.2, детали в C2) ∋ Aist-Bot (D2)
                                     ↑
                                     │ создаёт
                                     │
@@ -181,7 +181,7 @@ D.Aist-Track-Bot/
 → Ищи в **C.ИТ-платформа-Экосистемы/**
 
 ### Если нужно найти информацию о Telegram-боте персонального маршрута:
-→ Ищи в **D.Aist-Track-Bot/**
+→ Ищи в **D.Aist-Bot/**
 
 ### Если нужна мета-информация (правила, глоссарий, отчёты):
 → Ищи в **0.OPS/**
@@ -192,4 +192,4 @@ D.Aist-Track-Bot/
 - [[0.OPS/0.1.Knowledge-Logic/03-our-systems-map.md]] — граф наших систем
 - [[0.OPS/0.1.Knowledge-Logic/07-naming.md]] — правила именования
 - [[0.OPS/0.2.Kernels-Bridge/01-value-chain.md]] — цепочка ценности через ядра
-- [[D.Aist-Track-Bot/README.md]] — ядро D: Telegram-бот персонального маршрута
+- [[D.Aist-Bot/README.md]] — ядро D: Telegram-бот персонального маршрута

@@ -12,7 +12,7 @@ depends_on:
   - "A.Systems-Builder/A2.Systems-Builder/A2.1.Meaning/"
   - "C.IT-Platform/C2.IT-Platform/C2.1.Meaning/"
 affects:
-  - "D.Aist-Track-Bot/D2.Aist-Track-Bot/D2.2.Architecture/"
+  - "D.Aist-Bot/D2.Aist-Bot/D2.2.Architecture/"
 tags:
   - bot
   - telegram
@@ -20,7 +20,7 @@ tags:
   - learning
 ---
 
-# Концепция Aist Track Bot
+# Концепция Aist-Bot
 
 ## Миссия
 
@@ -28,7 +28,7 @@ tags:
 
 ## Ценностное предложение
 
-Aist Track Bot — AI-ассистент, который:
+Aist-Bot — AI-ассистент, который:
 
 1. **Адаптирует обучение** под индивидуальный темп и интересы
 2. **Формирует привычку** системного мышления через регулярные микро-практики
@@ -109,7 +109,7 @@ Aist Track Bot — AI-ассистент, который:
       │
       │ использует для обучения
       ▼
-Aist Track Bot (D2)
+Aist-Bot (D2)
       │
       │ входит в
       ▼
