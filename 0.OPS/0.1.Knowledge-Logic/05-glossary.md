@@ -281,6 +281,8 @@
 | **S.** | System (Система, подсистема) | `S.AIPlatform`, `S.LMS`, `S.Community` |
 | **AGT.** | AI Agent (ИИ-агент) | `AGT.Orchestrator`, `AGT.RouteGuide` |
 | **QLF.** | Qualification (Квалификация) | `QLF.L1.Student`, `QLF.L5.Expert` |
+| **DEG.** | Degree (Степень квалификации) | `DEG.Freshman`, `DEG.Student`, `DEG.Master` |
+| **STG.** | Stage (Ступень внутри степени) | `STG.Student.Random`, `STG.Student.Proactive` |
 | **C.** | Component (Компонент) | `C.Program.PersonalDevelopment` |
 | **E.** | Event (Событие) | `E.LMS.SectionCompleted` |
 | **IND.** | Indicator (Показатель) | `IND.2.2.7` |
@@ -293,3 +295,41 @@
 - `S.AIPlatform.MCP` — подсистема MCP в ИТ-платформе
 
 **Подробнее**: см. файл "Словарь сущностей экосистемы 0.1.md" (старая версия, требуется актуализация под S2R)
+
+### Степени квалификации (DEG.*)
+
+**Определение**: Формальный уровень мастерства созидателя, основанный на EQF (European Qualification Framework).
+
+**Иерархия степеней**:
+
+| Код | Уровень | Название | EQF |
+|-----|---------|----------|-----|
+| `DEG.Freshman` | 0 | Первокурсник | Pre-EQF |
+| `DEG.Student` | 1 | Ученик | Level 1 |
+| `DEG.Worker` | 2 | Работник | Level 2 |
+| `DEG.Strategist` | 3 | Стратег | Level 3 |
+| `DEG.Specialist` | 4 | Специалист | Level 4 |
+| `DEG.Practitioner` | 5 | Практик | Level 5 |
+| `DEG.Master` | 6 | Мастер | Level 6 |
+| `DEG.Reformer` | 7 | Реформатор | Level 7 |
+| `DEG.PublicFigure` | 8 | Общественный деятель | Level 8 |
+
+**Связь с документацией**: [[Квалификация]] (A2.2.Architecture/2.2.3. Эпистемический статус/)
+
+### Ступени внутри степени (STG.*)
+
+**Определение**: Внутреннее деление степени на этапы прогресса. Используется для отслеживания микро-прогресса внутри одной степени.
+
+**Пример для степени Ученик (DEG.Student)**:
+
+| Код | Название | Период учёта |
+|-----|----------|--------------|
+| `STG.Student.Random` | Случайный | 1 неделя |
+| `STG.Student.Practicing` | Практикующий | 4 недели |
+| `STG.Student.Systematic` | Систематический | 8 недель |
+| `STG.Student.Disciplined` | Дисциплинированный | 12 недель |
+| `STG.Student.Proactive` | Проактивный | 24 недели |
+
+**Принцип**: Ступени отражают устойчивость практик и глубину освоения методов на текущей степени.
+
+**Связь с цифровым двойником**: Ступени отслеживаются через индикатор `IND.2.4.2`
