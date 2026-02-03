@@ -128,11 +128,12 @@ Ecosystem-Builder (B3)
 
 | Документ | Описание |
 |----------|----------|
-| [0.OPS/0.1.Knowledge-Logic/01-kernels-model.md](0.OPS/0.1.Knowledge-Logic/01-kernels-model.md) | Модель 3 ядер (A, B, C) |
+| [0.OPS/0.1.Knowledge-Logic/01-kernels-model.md](0.OPS/0.1.Knowledge-Logic/01-kernels-model.md) | Модель 4 ядер (A, B, C, D) |
 | [0.OPS/0.1.Knowledge-Logic/02-document-families.md](0.OPS/0.1.Knowledge-Logic/02-document-families.md) | Семейства документов F1-F9 |
 | [0.OPS/0.1.Knowledge-Logic/03-our-systems-map.md](0.OPS/0.1.Knowledge-Logic/03-our-systems-map.md) | Граф наших систем |
 | [0.OPS/0.1.Knowledge-Logic/05-glossary.md](0.OPS/0.1.Knowledge-Logic/05-glossary.md) | Глоссарий терминов |
 | [0.OPS/0.1.Knowledge-Logic/07-naming.md](0.OPS/0.1.Knowledge-Logic/07-naming.md) | Правила именования |
+| [0.OPS/0.1.Knowledge-Logic/10-knowledge-architecture.md](0.OPS/0.1.Knowledge-Logic/10-knowledge-architecture.md) | Архитектура знаний (FPF → Pack'и → Downstream) |
 | [0.OPS/0.2.Kernels-Bridge/01-value-chain.md](0.OPS/0.2.Kernels-Bridge/01-value-chain.md) | Цепочка ценности |
 
 **Новые концепции (в разработке):**
@@ -159,6 +160,39 @@ Ecosystem-Builder (B3)
 3. **Operations** (.3.) — как работает, процессы, практики
 
 **Итого**: Каждое ядро = 3 системы × 3 роли = **9 папок**
+
+## 📖 Архитектура знаний
+
+Экосистема использует **трёхуровневую архитектуру знаний**:
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  Уровень 1: ПЕРВЫЕ ПРИНЦИПЫ (FPF)                       │
+│  Мета-эпистема: правила корректного описания знаний     │
+│  Источник: github.com/ailev/FPF                         │
+└─────────────────────────────────────────────────────────┘
+                          │
+                          ▼
+┌─────────────────────────────────────────────────────────┐
+│  Уровень 2: ВТОРЫЕ ПРИНЦИПЫ (Episteme Packs)            │
+│  Эпистемы предметных областей: Personal Development,    │
+│  Systems Thinking, Entrepreneurship...                  │
+│  Живут в ОТДЕЛЬНЫХ репозиториях                         │
+└─────────────────────────────────────────────────────────┘
+                          │
+                          ▼
+┌─────────────────────────────────────────────────────────┐
+│  Уровень 3: DOWNSTREAM (Сборки и проекции)              │
+│  Курсы, руководства, маршруты, ИИ-представления         │
+│  Генерируются из Pack'ов, не являются source-of-truth   │
+└─────────────────────────────────────────────────────────┘
+```
+
+### Роль этого репозитория
+
+**Этот репозиторий** описывает **архитектуру экосистемы** — как устроены системы (A, B, C, D), их связи и процессы. Он НЕ хранит сами знания предметных областей (Pack'и) и НЕ хранит downstream-артефакты (курсы, руководства).
+
+**Подробнее:** [0.OPS/0.1.Knowledge-Logic/10-knowledge-architecture.md](0.OPS/0.1.Knowledge-Logic/10-knowledge-architecture.md)
 
 ## 🔗 Архитектура ИТ-платформы
 
