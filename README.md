@@ -177,8 +177,8 @@ Ecosystem-Builder (B3)
                           ▼
 ┌─────────────────────────────────────────────────────────┐
 │  Уровень 2: SPF (Second Principles Framework)           │
-│  Фреймворк ПРОИЗВОДСТВА Pack'ов                         │
-│  Содержит: шаблоны, process lint, gates, specs          │
+│  Фреймворк вторых принципов                             │
+│  Задаёт форму и процесс для доменных знаний             │
 └─────────────────────────────────────────────────────────┘
                           │
                           ▼
@@ -213,7 +213,7 @@ Ecosystem-Builder (B3)
 | Репозиторий | Уровень / Измерение | Роль |
 |-------------|---------------------|------|
 | **[github.com/ailev/FPF](https://github.com/ailev/FPF)** | Уровень 1 | Мета-онтология, первые принципы |
-| **[github.com/aisystant/spf-personal](https://github.com/aisystant/spf-personal)** | Уровень 2 + 3 | SPF-фреймворк + Pack для личного развития |
+| **[github.com/aisystant/spf-personal](https://github.com/aisystant/spf-personal)** | Уровень 2 + 3 | Фреймворк вторых принципов + Pack (source-of-truth) |
 | **[github.com/TserenTserenov/s2r](https://github.com/TserenTserenov/s2r)** | Форма (структура) | Методология организации репозиториев |
 | **[github.com/aisystant/ecosystem-development](https://github.com/aisystant/ecosystem-development)** | Уровень 4 | Карта / конституция экосистемы (этот репозиторий) |
 | **[github.com/aisystant/digital-twin-mcp](https://github.com/aisystant/digital-twin-mcp)** | Уровень 4 | MCP-сервер цифрового двойника |
@@ -230,7 +230,13 @@ ecosystem-development
 └── НЕ содержит: сами знания предметных областей (Pack'и)
 ```
 
-**ВАЖНО:** SPF ≠ Pack. SPF — фреймворк производства. Pack — доменное знание.
+### Что это означает для нас
+
+- Мы **НЕ source-of-truth** — изменения в знаниях должны идти через Pack
+- Мы **основаны на Pack** — берём формализованное знание и создаём представления
+- Форма (S2R) и процесс **свободные** — выбраны под нашу задачу
+
+**ВАЖНО:** SPF ≠ Pack. SPF — фреймворк вторых принципов (форма + процесс). Pack — формализованное знание области (source-of-truth).
 
 **Подробнее:** [0.OPS/0.1.Knowledge-Logic/10-knowledge-architecture.md](0.OPS/0.1.Knowledge-Logic/10-knowledge-architecture.md)
 

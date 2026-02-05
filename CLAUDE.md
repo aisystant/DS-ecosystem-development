@@ -42,6 +42,26 @@
 - Аналитические отчёты
 - Извлечение знаний
 
+### 0.4. Роль Downstream в архитектуре FPF/SPF/Pack
+
+> **Канонические определения:** [spf-personal/docs/fpf-spf-pack.md](https://github.com/aisystant/spf-personal/blob/main/docs/fpf-spf-pack.md)
+
+Этот репозиторий — **Downstream** в четырёхуровневой архитектуре:
+
+| Уровень | Репозиторий | Роль |
+|---------|-------------|------|
+| FPF | [ailev/FPF](https://github.com/ailev/FPF) | Фреймворк первых принципов (мета-онтология) |
+| SPF + Pack | [aisystant/spf-personal](https://github.com/aisystant/spf-personal) | Фреймворк вторых принципов + source-of-truth |
+| **Downstream** | **Этот репозиторий** | Производные представления |
+
+**Что это означает для работы Claude:**
+
+1. **Мы НЕ source-of-truth** — знания берутся из Pack, изменения в знаниях идут через Pack
+2. **Терминология из FPF/SPF** — используем канонические термины:
+   - SPF = "фреймворк вторых принципов" (не "для производства")
+   - Pack = "формализованное знание" (не "информация")
+3. **Форма (S2R) ортогональна содержанию** — S2R определяет структуру, не уровень знаний
+
 ---
 
 ## Part 1: Interpretation & Context Search
