@@ -416,8 +416,7 @@ feat(B2.1): добавлен Vision document (A.1, A.7)
 ## См. также
 
 - [fpf-integration.md](fpf-integration.md) — детали интеграции
-- [fpf/FPF-Spec.md](fpf/FPF-Spec.md) — полная спецификация
-- [fpf/INDEX.md](fpf/INDEX.md) — локальные принципы
+- `~/Github/FPF/FPF-Spec.md` — полная спецификация FPF (общий путь)
 - [../0.1.Knowledge-Logic/04-ontology.md](../0.1.Knowledge-Logic/04-ontology.md) — онтология S2R
 - [../0.3.Roles-Matrix-3x3/](../0.3.Roles-Matrix-3x3/) — матрица ролей
 - [CLAUDE.md](../../CLAUDE.md) — инструкции для ИИ-агентов
