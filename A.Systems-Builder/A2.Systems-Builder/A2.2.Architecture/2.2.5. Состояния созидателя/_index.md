@@ -26,14 +26,14 @@ source_of_truth: spf-personal-pack
 
 | Категория | Примеры | Source-of-truth |
 |-----------|---------|-----------------|
-| **Продуктивное состояние** | 0-5 баллов | [PD.STATE.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/states/PD.STATE.001-states-model.md) |
-| **Эмоциональные** | Радость, тревога, вдохновение | [PD.STATE.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/states/PD.STATE.001-states-model.md) |
-| **Ролевые** | В роли Ученика, Профессионала | [PD.STATE.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/states/PD.STATE.001-states-model.md) |
-| **Неудовлетворённости** | Нехватка знаний, ресурсов | [PD.STATE.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/states/PD.STATE.001-states-model.md) |
-| **Намерения** | Размышление → Действие | [PD.STATE.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/states/PD.STATE.001-states-model.md) |
-| **Физические** | Бодрость, усталость | [PD.STATE.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/states/PD.STATE.001-states-model.md) |
-| **Социальные** | Включённость, изоляция | [PD.STATE.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/states/PD.STATE.001-states-model.md) |
-| **Когнитивные** | Фокус, рассеянность, поток | [PD.STATE.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/states/PD.STATE.001-states-model.md) |
+| **Продуктивное состояние** | 0-5 баллов | [PD.STATE.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/states/PD.STATE.001-states.md) |
+| **Эмоциональные** | Радость, тревога, вдохновение | [PD.STATE.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/states/PD.STATE.001-states.md) |
+| **Ролевые** | В роли Ученика, Профессионала | [PD.STATE.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/states/PD.STATE.001-states.md) |
+| **Неудовлетворённости** | Нехватка знаний, ресурсов | [PD.STATE.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/states/PD.STATE.001-states.md) |
+| **Намерения** | Размышление → Действие | [PD.STATE.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/states/PD.STATE.001-states.md) |
+| **Физические** | Бодрость, усталость | [PD.STATE.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/states/PD.STATE.001-states.md) |
+| **Социальные** | Включённость, изоляция | [PD.STATE.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/states/PD.STATE.001-states.md) |
+| **Когнитивные** | Фокус, рассеянность, поток | [PD.STATE.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/states/PD.STATE.001-states.md) |
 
 ---
 

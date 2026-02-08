@@ -25,13 +25,13 @@ source_of_truth: spf-personal-pack
 
 ---
 
-## Реестр моделей
+## Реестр формализаций
 
-| Модель | Описание | Source-of-truth |
+| Знание | Описание | Source-of-truth |
 |--------|----------|-----------------
-| **Программы развития** | Три уровня программ | [PD.MODEL.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/models/PD.MODEL.001-development-programs.md) |
-| **6 направлений развития** | Структура направлений саморазвития | [PD.MODEL.002](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/models/PD.MODEL.002-development-directions.md) |
-| **Ступени зрелости ученика** | 5 уровней квалификации | [PD.MODEL.003](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/models/PD.MODEL.003-learner-maturity.md) |
+| **Программы развития** | Три уровня программ | [PD.FORM.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/formalizations/PD.FORM.001-development-programs.md) |
+| **6 направлений развития** | Структура направлений саморазвития | [PD.FORM.002](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/formalizations/PD.FORM.002-development-directions.md) |
+| **Ступени зрелости ученика** | 5 уровней квалификации | [PD.FORM.003](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/formalizations/PD.FORM.003-learner-maturity.md) |
 
 ---
 

@@ -26,12 +26,12 @@ source_of_truth: spf-personal-pack
 
 | Группа | Кол-во | Source-of-truth |
 |--------|--------|-----------------|
-| **Киберхарактеристики** | 6 | [PD.CHR.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/characteristics/PD.CHR.001-characteristics-model.md) |
-| **Физические** | 5 | [PD.CHR.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/characteristics/PD.CHR.001-characteristics-model.md) |
-| **Когнитивные** | 5 | [PD.CHR.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/characteristics/PD.CHR.001-characteristics-model.md) |
-| **Социальные** | 5 | [PD.CHR.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/characteristics/PD.CHR.001-characteristics-model.md) |
-| **Волевые** | 5 | [PD.CHR.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/characteristics/PD.CHR.001-characteristics-model.md) |
-| **Интегральные** | 4 | [PD.CHR.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/characteristics/PD.CHR.001-characteristics-model.md) |
+| **Киберхарактеристики** | 6 | [PD.CHR.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/characteristics/PD.CHR.001-characteristics.md) |
+| **Физические** | 5 | [PD.CHR.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/characteristics/PD.CHR.001-characteristics.md) |
+| **Когнитивные** | 5 | [PD.CHR.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/characteristics/PD.CHR.001-characteristics.md) |
+| **Социальные** | 5 | [PD.CHR.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/characteristics/PD.CHR.001-characteristics.md) |
+| **Волевые** | 5 | [PD.CHR.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/characteristics/PD.CHR.001-characteristics.md) |
+| **Интегральные** | 4 | [PD.CHR.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/characteristics/PD.CHR.001-characteristics.md) |
 
 **Всего:** ~30 характеристик
 

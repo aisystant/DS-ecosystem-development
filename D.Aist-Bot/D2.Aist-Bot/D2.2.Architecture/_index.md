@@ -26,9 +26,9 @@ created: 2026-02-07
 
 ## Связь с Pack
 
-Aist Bot использует модели из Pack-репозиториев:
+Aist Bot использует знания из Pack-репозиториев:
 - [PD.ROLE.TRAJ.001](../../../spf-personal-pack/pack/personal-development/02-domain-entities/roles/PD.ROLE.TRAJ.001-creator-trajectory.md) — Ролевая траектория созидателя
-- [PD.MODEL.003](../../../spf-personal-pack/pack/personal-development/02-domain-entities/models/PD.MODEL.003-learner-maturity.md) — Ступени зрелости ученика
+- [PD.FORM.003](../../../spf-personal-pack/pack/personal-development/02-domain-entities/formalizations/PD.FORM.003-learner-maturity.md) — Ступени зрелости ученика
 
 ---
 

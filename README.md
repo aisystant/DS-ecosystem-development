@@ -21,7 +21,7 @@
 ecosystem-development/
 │
 ├── 0.OPS/                             # F0: Метауровень (управление знаниями)
-│   ├── 0.1.Knowledge-Logic/          # Модель ядер, глоссарий, правила
+│   ├── 0.1.Knowledge-Logic/          # Формализация ядер, глоссарий, правила
 │   ├── 0.2.Kernels-Bridge/           # Связи между ядрами, value chain
 │   ├── 0.5.AI-Reports/               # Автоматические отчёты ИИ
 │   └── ...
@@ -33,7 +33,7 @@ ecosystem-development/
 │   │   └── A1.3.Operations/             # Процессы команд
 │   ├── A2.Systems-Builder/               # SoI (человек-созидатель)
 │   │   ├── A2.1.Meaning/                # Ценность созидания
-│   │   ├── A2.2.Architecture/           # Модель, компетенции
+│   │   ├── A2.2.Architecture/           # Архитектура, компетенции
 │   │   └── A2.3.Operations/             # Путь развития
 │   └── A3.Aisystant-Ecosystem-Builder/   # Система создания
 │       ├── A3.1.Meaning/                # Бизнес-модели
@@ -130,7 +130,7 @@ Ecosystem-Builder (B3)
 
 | Документ | Описание |
 |----------|----------|
-| [0.OPS/0.1.Knowledge-Logic/01-kernels-model.md](0.OPS/0.1.Knowledge-Logic/01-kernels-model.md) | Модель 4 ядер (A, B, C, D) |
+| [0.OPS/0.1.Knowledge-Logic/01-kernels-model.md](0.OPS/0.1.Knowledge-Logic/01-kernels-model.md) | Формализация 4 ядер (A, B, C, D) |
 | [0.OPS/0.1.Knowledge-Logic/02-document-families.md](0.OPS/0.1.Knowledge-Logic/02-document-families.md) | Семейства документов F1-F9 |
 | [0.OPS/0.1.Knowledge-Logic/03-our-systems-map.md](0.OPS/0.1.Knowledge-Logic/03-our-systems-map.md) | Граф наших систем |
 | [0.OPS/0.1.Knowledge-Logic/05-glossary.md](0.OPS/0.1.Knowledge-Logic/05-glossary.md) | Глоссарий терминов |
@@ -158,7 +158,7 @@ Ecosystem-Builder (B3)
 
 ### Три роли (для каждой системы)
 1. **Meaning** (.1.) — зачем система, ценности, миссия
-2. **Architecture** (.2.) — как устроена, модель, компоненты
+2. **Architecture** (.2.) — как устроена, знания, компоненты
 3. **Operations** (.3.) — как работает, процессы, практики
 
 **Итого**: Каждое ядро = 3 системы × 3 роли = **9 папок**

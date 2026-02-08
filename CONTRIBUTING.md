@@ -36,7 +36,7 @@ cd ecosystem-development
 # 2. Изучить ключевые документы
 cat CLAUDE.md                                    # Инструкции для работы
 cat README.md                                    # Обзор репозитория
-cat 0.OPS/0.1.Knowledge-Logic/01-kernels-model.md  # Модель ядер
+cat 0.OPS/0.1.Knowledge-Logic/01-kernels-model.md  # Формализация ядер
 
 # 3. Открыть в Obsidian (опционально)
 # File → Open vault → выбрать папку репозитория
@@ -87,7 +87,7 @@ A.Systems-Builder/
 │   └── A1.3.Operations/        # Процессы команд
 ├── A2.Systems-Builder/          # SoI (Созидатель)
 │   ├── A2.1.Meaning/           # Ценность созидания
-│   ├── A2.2.Architecture/      # Модель, компетенции
+│   ├── A2.2.Architecture/      # Архитектура, компетенции
 │   └── A2.3.Operations/        # Путь развития
 └── A3.Aisystant-Ecosystem-Builder/  # Система создания
     ├── A3.1.Meaning/           # Бизнес-модели
@@ -112,7 +112,7 @@ git checkout -b fix/issue-description
 **ПЕРЕД созданием документа:**
 1. Прочитай [CLAUDE.md](CLAUDE.md) — инструкции по работе
 2. Изучи [0.OPS/0.1.Knowledge-Logic/](0.OPS/0.1.Knowledge-Logic/):
-   - `01-kernels-model.md` — модель ядер
+   - `01-kernels-model.md` — формализация ядер
    - `02-document-families.md` — семейства документов
    - `05-glossary.md` — глоссарий терминов
    - `07-naming.md` — правила именования
@@ -129,7 +129,7 @@ git checkout -b fix/issue-description
 git add .
 
 # Создать коммит с описательным сообщением
-git commit -m "feat(A2): добавлен документ о модели компетенций
+git commit -m "feat(A2): добавлен документ о формализации компетенций
 
 - Создан 02-competency-model.md в A2.2.Architecture
 - Добавлены связи с 01-creator-model.md
@@ -175,7 +175,7 @@ git push origin feature/your-feature-name
 | **Operations (.3.)** | F7 | F8 | F9 |
 
 **Пример:**
-- Документ о модели созидателя → A2.2.Architecture → **F5**
+- Документ о формализации созидателя → A2.2.Architecture → **F5**
 
 **Шаг 3: Создай файл**
 
@@ -281,8 +281,8 @@ tags:                   # Теги (опционально)
 
 ```bash
 # Через GitHub CLI
-gh pr create --title "feat(A2): добавлена модель компетенций" \
-             --body "## Описание\n\nДобавлен документ о модели компетенций созидателя\n\n## Изменения\n- Создан 02-competency-model.md\n- Обновлён глоссарий"
+gh pr create --title "feat(A2): добавлена формализация компетенций" \
+             --body "## Описание\n\nДобавлен документ о формализации компетенций созидателя\n\n## Изменения\n- Создан 02-competency-formalization.md\n- Обновлён глоссарий"
 
 # Или через веб-интерфейс GitHub
 # https://github.com/aisystant/ecosystem-development/compare
@@ -341,7 +341,7 @@ claude-code
 ### Примеры запросов Claude Code
 
 ```
-"Создай документ о модели компетенций созидателя"
+"Создай документ о формализации компетенций созидателя"
 → Claude определит: A2.2.Architecture, семейство F5, создаст с правильным Frontmatter
 
 "Где найти информацию о бизнес-модели экосистемы?"
