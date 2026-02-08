@@ -446,7 +446,7 @@ tags:
 ```
 0.OPS/0.7.Plans-and-Meetings/
 ├── current/
-│   ├── weekly-plan.md        # Текущий план недели
+│   ├── weeks/                # Недельные планы (YYYY-MM-DD--DD.md)
 │   ├── monthly-priorities.md # Приоритеты месяца
 │   └── daily/                # Планы по дням
 └── reviews/
