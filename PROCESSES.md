@@ -48,25 +48,30 @@ updated: 2026-02-10
 
 > Тип: пользовательский сценарий
 > Владелец: Пользователь + Стратег
-> Участники: Пользователь, Стратег, my-strategy, все ~/Github/*/WORKPLAN.md
+> Участники: Пользователь, Стратег, my-strategy, все ~/Github/*/WORKPLAN.md, ~/Github/*/MAPSTRATEGIC.md
 
-**Вход:** Итоги прошлой недели (week-review report)
+**Вход:** git log за прошлую неделю (все ~/Github/ репо), WeekPlan W{N-1}, WORKPLAN.md, MAPSTRATEGIC.md
 
 **Действие:**
 
-1. **Strategy-session** — Стратег формирует draft плана недели
-2. **Согласование** — пользователь утверждает/корректирует
-3. **Strategy-cascade** — обновление всех WORKPLAN.md, Strategy.md, MEMORY.md
+1. **Strategy Session (Фаза 1, авто)** — Стратег собирает коммиты за неделю, формирует итоги, создаёт draft WeekPlan
+2. **Strategy Session (Фаза 2, интерактив)** — пользователь утверждает/корректирует
+3. **Strategy-Cascade** — обновление всех WORKPLAN.md, Strategy.md, MEMORY.md
 
-**Выход:** Plan W{N+1}, обновлённые WORKPLAN.md во всех репо, обновлённый MEMORY.md
+> Отдельный WeekReport НЕ нужен для стратегирования. Итоги прошлой недели — часть нового WeekPlan.
+> WeekReport (`./scripts/strategist.sh week-review`) — опциональный, для публикации в клубе.
+
+**Выход:** WeekPlan W{N} (confirmed), обновлённые WORKPLAN.md во всех репо, обновлённый MEMORY.md
 
 **Данные:**
 
 | Данные | Направление | Формат |
 |--------|-------------|--------|
-| Report W{N} | Вход → Стратег | Markdown |
+| git log за неделю (все репо) | Вход → Стратег | Git output |
+| WeekPlan W{N-1} | Вход → Стратег | Markdown |
 | ~/Github/*/WORKPLAN.md | Вход → Стратег | Markdown |
-| Plan W{N+1} | Выход → my-strategy/current/ | Markdown |
+| ~/Github/*/MAPSTRATEGIC.md | Вход → Стратег | Markdown |
+| WeekPlan W{N} | Выход → my-strategy/current/ | Markdown |
 | MEMORY.md (новые РП) | Выход → memory/ | Markdown |
 
 ---
@@ -107,19 +112,18 @@ updated: 2026-02-10
 ### 2.2. Strategy-Cascade
 
 > Тип: платформенный сценарий
-> Владелец: Стратег (после week-review)
+> Владелец: Стратег (после strategy session, Фаза 2)
 > Участники: Стратег, my-strategy, все ~/Github/*/WORKPLAN.md, все ~/Github/*/MAPSTRATEGIC.md
 
-**Вход:** Week report
+**Вход:** Утверждённый WeekPlan W{N} (status: confirmed)
 
 **Действие:**
 
-1. Прочитать Report W{N}
+1. Прочитать утверждённый WeekPlan W{N}
 2. Обновить Strategy.md (приоритеты, бюджеты)
 3. Обновить все ~/Github/*/WORKPLAN.md
 4. Обновить MAPSTRATEGIC.md (если изменились фазы)
-5. Создать Plan W{N+1}
-6. Обновить MEMORY.md (новые РП)
+5. Обновить MEMORY.md (новые РП)
 7. Обновить Dissatisfactions.md
 8. Коммит всех изменений
 
