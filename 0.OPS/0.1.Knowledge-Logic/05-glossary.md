@@ -333,3 +333,31 @@
 **Принцип**: Ступени отражают устойчивость практик и глубину освоения методов на текущей степени.
 
 **Связь с цифровым двойником**: Ступени отслеживаются через индикатор `IND.2.4.2`
+
+---
+
+## План миграции кодов на SPF.SPEC.001
+
+> Добавлено: 2026-02-10. Статус: план (не мигрировано).
+> Правило: `SPF/spec/SPF.SPEC.001-entity-coding.md` — формат `КОНТЕКСТ.ВИД.НОМЕР`.
+
+### Проблема
+
+Коды выше (`R.`, `S.`, `AGT.`, `DEG.`, `STG.`, `IND.`) — доменные сущности, которые по SPF.SPEC.001 должны жить в соответствующем Pack, а не в Downstream (ecosystem-development).
+
+### План миграции
+
+| Текущий код | Тип | Целевой Pack | Новый код (примерный) |
+|-------------|-----|-------------|----------------------|
+| `R.Mentor`, `R.Student`, ... | Role | spf-ecosystem-pack (EC) | `EC.R.001`, `EC.R.002`, ... |
+| `S.AIPlatform`, `S.LMS`, ... | System | spf-ecosystem-pack (EC) | Расширенный вид `EC.SYS.NNN` |
+| `AGT.Orchestrator`, `AGT.RouteGuide`, ... | AI Agent | spf-digital-platform-pack (DP) | `DP.AISYS.NNN` (уже частично) |
+| `DEG.*`, `STG.*` | Degree/Stage | spf-personal-pack (PD) | Расширенные виды `PD.DEG.NNN`, `PD.STG.NNN` |
+| `QLF.*` | Qualification | spf-personal-pack (PD) | Расширенный вид `PD.QLF.NNN` |
+| `IND.*` | Indicator | spf-personal-pack (PD) | `PD.CHR.NNN` (характеристики) |
+
+### Принцип
+
+- **Pack — source-of-truth.** Downstream (этот репо) ссылается на коды Pack, не определяет их.
+- Миграция поэтапная: сначала Pack определяет сущности, затем глоссарий заменяет коды ссылками.
+- Этот глоссарий остаётся как навигационный документ, но перестаёт быть source-of-truth для сущностей.
