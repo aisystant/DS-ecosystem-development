@@ -30,23 +30,23 @@
 | Знания предметной области | → spf-*-pack |
 | Архитектуры как знание | → spf-*-pack |
 | Методы (способы действия) | → spf-*-pack |
-| Характеристики, состояния | → spf-personal-pack |
+| Характеристики, состояния | → PACK-personal |
 | Work products, failure modes | → spf-*-pack |
 
 ### 1.3. Pack-репозитории (source-of-truth)
 
 | Pack | Область | Что содержит |
 |------|---------|--------------|
-| [spf-personal-pack](../spf-personal-pack/) | Созидатель | Характеристики, состояния, роли, программы развития |
-| [spf-ecosystem-pack](../spf-ecosystem-pack/) | Экосистема | Знания об экосистеме, компоненты, бесшовность |
-| [spf-digital-platform-pack](../spf-digital-platform-pack/) | ИТ-платформа | Архитектура платформы, цифровой двойник, MCP, агенты |
+| [PACK-personal](../PACK-personal/) | Созидатель | Характеристики, состояния, роли, программы развития |
+| [PACK-ecosystem](../PACK-ecosystem/) | Экосистема | Знания об экосистеме, компоненты, бесшовность |
+| [PACK-digital-platform](../PACK-digital-platform/) | ИТ-платформа | Архитектура платформы, цифровой двойник, MCP, агенты |
 
 ---
 
 ## 2. Структура ядер (S2R)
 
 ```
-ecosystem-development/
+DS-ops/
 ├── 0.OPS/                    # F0: Метауровень
 │   ├── 0.1.Knowledge-Logic/  # Модель ядер, семейства, глоссарий
 │   ├── 0.2.Kernels-Bridge/   # Связи между ядрами
@@ -109,7 +109,7 @@ X3 = Система создания
 
 ```
 1. Pack'и (source-of-truth)
-   └── spf-personal-pack, spf-ecosystem-pack, spf-digital-platform-pack
+   └── PACK-personal, PACK-ecosystem, PACK-digital-platform
 2. SPF (форма и процесс)
    └── ~/Github/SPF/
 3. FPF (первые принципы) — только если нет в SPF
@@ -262,13 +262,13 @@ Format: `<номер>-<название>.md`
 ### 8.1. Принцип работы с Pack-контентом
 
 **Правило:** Pack-контент (знания, методы, характеристики) хранится в Pack-репозиториях (source-of-truth).
-В ecosystem-development остаётся governance-контент со ссылками на Pack.
+В DS-ops остаётся governance-контент со ссылками на Pack.
 
 | Ядро | Source-of-truth | Что в Pack |
 |------|-----------------|------------|
-| A (Созидатель) | spf-personal-pack | Знания, характеристики, состояния |
-| B (Экосистема) | spf-ecosystem-pack | Знания об экосистеме, компоненты |
-| C (ИТ-платформа) | spf-digital-platform-pack | Архитектура платформы, агенты |
+| A (Созидатель) | PACK-personal | Знания, характеристики, состояния |
+| B (Экосистема) | PACK-ecosystem | Знания об экосистеме, компоненты |
+| C (ИТ-платформа) | PACK-digital-platform | Архитектура платформы, агенты |
 
 **Структура сохраняется по s2r.** Каждое ядро содержит полную иерархию X1/X2/X3 × Meaning/Architecture/Operations.
 

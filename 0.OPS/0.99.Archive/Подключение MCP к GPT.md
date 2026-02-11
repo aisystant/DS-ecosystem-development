@@ -19,7 +19,7 @@
 
 ### 2.2. Шаги подключения (на стороне пользователя/админа ChatGPT)
 
-1. Убедитесь, что MCP endpoint доступен **по HTTPS** (у вас он уже HTTPS): `https://digital-twin-mcp.aisystant.workers.dev/mcp`. ([OpenAI Разработчикам](https://developers.openai.com/apps-sdk/deploy/connect-chatgpt "Connect from ChatGPT"))
+1. Убедитесь, что MCP endpoint доступен **по HTTPS** (у вас он уже HTTPS): `https://DS-twin.aisystant.workers.dev/mcp`. ([OpenAI Разработчикам](https://developers.openai.com/apps-sdk/deploy/connect-chatgpt "Connect from ChatGPT"))
     
 2. В ChatGPT откройте: **Settings → Apps & Connectors → Advanced settings** и включите **Developer mode**. ([OpenAI Разработчикам](https://developers.openai.com/apps-sdk/deploy/connect-chatgpt "Connect from ChatGPT"))
     

@@ -4,12 +4,12 @@ family: F8
 cell: "B2.2"
 status: active
 created: 2026-02-07
-source_of_truth: spf-digital-platform-pack
+source_of_truth: PACK-digital-platform
 ---
 
 # B2.2. Архитектура ИТ-платформы
 
-> **Source-of-truth**: [spf-digital-platform-pack](../../../../spf-digital-platform-pack/pack/digital-platform/02-domain-entities/)
+> **Source-of-truth**: [PACK-digital-platform](../../../../PACK-digital-platform/pack/digital-platform/02-domain-entities/)
 >
 > Формализованное знание об ИТ-платформе находится в Pack-репозитории.
 > Этот документ содержит **ссылки и реестр** объектов внимания.
@@ -26,11 +26,11 @@ source_of_truth: spf-digital-platform-pack
 
 | Модель | Описание | Source-of-truth |
 |--------|----------|-----------------
-| **Архитектура платформы** | 5-слойная структура | [DP.ARCH.001](../../../../spf-digital-platform-pack/pack/digital-platform/02-domain-entities/DP.ARCH.001-platform-architecture.md) |
-| **Концепция платформы** | Что даёт пользователю | [DP.CONCEPT.001](../../../../spf-digital-platform-pack/pack/digital-platform/02-domain-entities/DP.CONCEPT.001-platform-concept.md) |
-| **Детерминированные системы** | 14 систем инфраструктуры | [DP.SYS.001](../../../../spf-digital-platform-pack/pack/digital-platform/02-domain-entities/DP.SYS.001-deterministic-systems.md) |
-| **ИИ-агенты** | 17 системных агентов | [DP.AGENT.001](../../../../spf-digital-platform-pack/pack/digital-platform/02-domain-entities/DP.AGENT.001-ai-agents.md) |
-| **ИИ-ассистенты** | Диалоговые помощники | [DP.ASSIST.001](../../../../spf-digital-platform-pack/pack/digital-platform/02-domain-entities/DP.ASSIST.001-ai-assistants.md) |
+| **Архитектура платформы** | 5-слойная структура | [DP.ARCH.001](../../../../PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.ARCH.001-platform-architecture.md) |
+| **Концепция платформы** | Что даёт пользователю | [DP.CONCEPT.001](../../../../PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.CONCEPT.001-platform-concept.md) |
+| **Детерминированные системы** | 14 систем инфраструктуры | [DP.SYS.001](../../../../PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.SYS.001-deterministic-systems.md) |
+| **ИИ-агенты** | 17 системных агентов | [DP.AGENT.001](../../../../PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.AGENT.001-ai-agents.md) |
+| **ИИ-ассистенты** | Диалоговые помощники | [DP.ASSIST.001](../../../../PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.ASSIST.001-ai-assistants.md) |
 
 ---
 
@@ -51,7 +51,7 @@ source_of_truth: spf-digital-platform-pack
 
 | Система | Статус | Репозиторий |
 |---------|--------|-------------|
-| Цифровой двойник | Active | digital-twin-mcp |
+| Цифровой двойник | Active | DS-twin |
 | LMS (Aisystant) | Active | — |
 | Клуб | Active | — |
 | Aist Bot | Active | aist_bot |
@@ -64,12 +64,12 @@ source_of_truth: spf-digital-platform-pack
 
 | Элемент | Статус | Целевой Pack |
 |---------|--------|--------------|
-| Архитектура платформы | ✅ Мигрирован | spf-digital-platform-pack |
-| Концепция платформы | ✅ Мигрирован | spf-digital-platform-pack |
-| Детерминированные системы | ✅ Мигрирован | spf-digital-platform-pack |
-| ИИ-агенты | 🟡 Stub | spf-digital-platform-pack |
-| ИИ-ассистенты | 🟡 Stub | spf-digital-platform-pack |
-| Детали систем | 🔴 TODO | spf-digital-platform-pack |
+| Архитектура платформы | ✅ Мигрирован | PACK-digital-platform |
+| Концепция платформы | ✅ Мигрирован | PACK-digital-platform |
+| Детерминированные системы | ✅ Мигрирован | PACK-digital-platform |
+| ИИ-агенты | 🟡 Stub | PACK-digital-platform |
+| ИИ-ассистенты | 🟡 Stub | PACK-digital-platform |
+| Детали систем | 🔴 TODO | PACK-digital-platform |
 
 ---
 

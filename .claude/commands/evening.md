@@ -1,10 +1,10 @@
 Выполни сценарий Evening Review для Strategist.
 
-Источник сценария: ~/Github/spf-digital-platform-pack/pack/digital-platform/02-domain-entities/DP.AGENT.012-strategist/scenarios/on-demand/01-evening-review.md
+Источник сценария: ~/Github/PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.AGENT.012-strategist/scenarios/on-demand/01-evening-review.md
 
 ## Контекст
 
-- Планы: ~/Github/ecosystem-development/0.OPS/0.7.Plans-and-Meetings/current/
+- Планы: ~/Github/DS-ops/0.OPS/0.7.Plans-and-Meetings/current/
 
 ## Алгоритм
 

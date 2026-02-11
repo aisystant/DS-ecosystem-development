@@ -1,7 +1,7 @@
 # Онтология: Ecosystem Development
 
 > **Тип:** Downstream-governance
-> **Upstream:** spf-personal-pack, spf-ecosystem-pack, spf-digital-platform-pack
+> **Upstream:** PACK-personal, PACK-ecosystem, PACK-digital-platform
 > **Базовая онтология:** [SPF/ontology.md](../SPF/ontology.md) (SPF.SPEC.002)
 >
 > Downstream ссылается на понятия Pack'ов и SPF. Новых онтологических понятий не вводит (SPF.SPEC.002 § 4.3).
@@ -12,9 +12,9 @@
 
 | Уровень | Источник | Что используется |
 |---------|----------|------------------|
-| Pack | [spf-personal-pack](../spf-personal-pack/) | Знания о созидателе: характеристики, состояния, роли |
-| Pack | [spf-ecosystem-pack](../spf-ecosystem-pack/) | Знания об экосистеме: компоненты, бесшовность, переходы |
-| Pack | [spf-digital-platform-pack](../spf-digital-platform-pack/) | Архитектура платформы, агенты, MCP |
+| Pack | [PACK-personal](../PACK-personal/) | Знания о созидателе: характеристики, состояния, роли |
+| Pack | [PACK-ecosystem](../PACK-ecosystem/) | Знания об экосистеме: компоненты, бесшовность, переходы |
+| Pack | [PACK-digital-platform](../PACK-digital-platform/) | Архитектура платформы, агенты, MCP |
 | SPF | [SPF/ontology.md](../SPF/ontology.md) | Базовая онтология (U.*) |
 | FPF | Через SPF | Мета-онтология |
 
@@ -22,7 +22,7 @@
 
 ## 2. Используемые понятия из Pack
 
-### Ядро A (Созидатель) ← spf-personal-pack
+### Ядро A (Созидатель) ← PACK-personal
 
 | Понятие | FPF-понятие | Как используется |
 |---------|-------------|------------------|
@@ -32,7 +32,7 @@
 | Роль | U.RoleAssignment | Контекстная функция созидателя |
 | Программа развития | U.MethodDescription | Рецепт развития |
 
-### Ядро B (Экосистема) ← spf-ecosystem-pack
+### Ядро B (Экосистема) ← PACK-ecosystem
 
 | Понятие | FPF-понятие | Как используется |
 |---------|-------------|------------------|
@@ -42,7 +42,7 @@
 | Путь развития | U.Flow | Траектория от новичка до мастера |
 | Точка входа | U.Boundary + U.Interaction | Начало взаимодействия с экосистемой |
 
-### Ядро C (ИТ-платформа) ← spf-digital-platform-pack
+### Ядро C (ИТ-платформа) ← PACK-digital-platform
 
 | Понятие | FPF-понятие | Как используется |
 |---------|-------------|------------------|
@@ -66,7 +66,7 @@
 
 ## 4. Связанные документы
 
-- [spf-personal-pack/ontology.md](../spf-personal-pack/ontology.md) — онтология ядра A
-- [spf-ecosystem-pack/ontology.md](../spf-ecosystem-pack/ontology.md) — онтология ядра B
-- [spf-digital-platform-pack/ontology.md](../spf-digital-platform-pack/ontology.md) — онтология ядра C
+- [PACK-personal/ontology.md](../PACK-personal/ontology.md) — онтология ядра A
+- [PACK-ecosystem/ontology.md](../PACK-ecosystem/ontology.md) — онтология ядра B
+- [PACK-digital-platform/ontology.md](../PACK-digital-platform/ontology.md) — онтология ядра C
 - [SPF/ontology.md](../SPF/ontology.md) — базовая онтология (SPF.SPEC.002)

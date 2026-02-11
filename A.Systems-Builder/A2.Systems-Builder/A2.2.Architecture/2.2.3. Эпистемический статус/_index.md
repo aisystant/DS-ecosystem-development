@@ -4,12 +4,12 @@ family: F5
 cell: "2.2.3"
 status: active
 created: 2026-02-07
-source_of_truth: spf-personal-pack
+source_of_truth: PACK-personal
 ---
 
 # 2.2.3. Эпистемический статус
 
-> **Source-of-truth**: [spf-personal-pack](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/qualification/)
+> **Source-of-truth**: [PACK-personal](../../../../../PACK-personal/pack/personal-development/02-domain-entities/qualification/)
 >
 > Формализованное знание о квалификации и репутации находится в Pack-репозитории.
 > Этот документ содержит **ссылки и реестр** объектов внимания.
@@ -26,7 +26,7 @@ source_of_truth: spf-personal-pack
 
 | Модель | Описание | Source-of-truth |
 |--------|----------|-----------------
-| **Система квалификации** | 8 уровней EQF | [PD.QUAL.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/qualification/PD.QUAL.001-qualification-system.md) |
+| **Система квалификации** | 8 уровней EQF | [PD.QUAL.001](../../../../../PACK-personal/pack/personal-development/02-domain-entities/qualification/PD.QUAL.001-qualification-system.md) |
 | **Репутация** | Социальный капитал | TODO: PD.QUAL.002 |
 
 ---
@@ -56,8 +56,8 @@ source_of_truth: spf-personal-pack
 
 | Элемент | Статус | Целевой Pack |
 |---------|--------|--------------|
-| Система квалификации | ✅ Мигрирован | spf-personal-pack |
-| Модель репутации | 🟡 Stub | spf-personal-pack |
+| Система квалификации | ✅ Мигрирован | PACK-personal |
+| Модель репутации | 🟡 Stub | PACK-personal |
 
 ---
 

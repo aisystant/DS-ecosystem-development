@@ -1,12 +1,12 @@
 Выполни сценарий Add Work Product для Strategist.
 
-Источник сценария: ~/Github/spf-digital-platform-pack/pack/digital-platform/02-domain-entities/DP.AGENT.012-strategist/scenarios/on-demand/04-add-workproduct.md
+Источник сценария: ~/Github/PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.AGENT.012-strategist/scenarios/on-demand/04-add-workproduct.md
 
 ## Рабочий продукт: $ARGUMENTS
 
 ## Контекст
 
-- Планы: ~/Github/ecosystem-development/0.OPS/0.7.Plans-and-Meetings/current/
+- Планы: ~/Github/DS-ops/0.OPS/0.7.Plans-and-Meetings/current/
 
 ## Алгоритм
 
@@ -26,7 +26,7 @@
    - Предупреди если превышение
 
 3. **Добавление:**
-   - Найди последний файл недели в my-strategy/current/weeks/
+   - Найди последний файл недели в DS-strategy/current/weeks/
    - Добавь в него (секция "Рабочие продукты")
    - Обнови MEMORY.md → секция «РП текущей недели»
    - Обнови итоговый бюджет

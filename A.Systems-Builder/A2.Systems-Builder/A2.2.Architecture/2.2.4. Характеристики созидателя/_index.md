@@ -4,12 +4,12 @@ family: F5
 cell: "2.2.4"
 status: active
 created: 2026-02-07
-source_of_truth: spf-personal-pack
+source_of_truth: PACK-personal
 ---
 
 # 2.2.4. Характеристики созидателя
 
-> **Source-of-truth**: [spf-personal-pack](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/characteristics/)
+> **Source-of-truth**: [PACK-personal](../../../../../PACK-personal/pack/personal-development/02-domain-entities/characteristics/)
 >
 > Формализованное знание о характеристиках созидателя находится в Pack-репозитории.
 > Этот документ содержит **ссылки и реестр** объектов внимания.
@@ -26,12 +26,12 @@ source_of_truth: spf-personal-pack
 
 | Группа | Кол-во | Source-of-truth |
 |--------|--------|-----------------|
-| **Киберхарактеристики** | 6 | [PD.CHR.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/characteristics/PD.CHR.001-characteristics.md) |
-| **Физические** | 5 | [PD.CHR.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/characteristics/PD.CHR.001-characteristics.md) |
-| **Когнитивные** | 5 | [PD.CHR.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/characteristics/PD.CHR.001-characteristics.md) |
-| **Социальные** | 5 | [PD.CHR.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/characteristics/PD.CHR.001-characteristics.md) |
-| **Волевые** | 5 | [PD.CHR.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/characteristics/PD.CHR.001-characteristics.md) |
-| **Интегральные** | 4 | [PD.CHR.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/characteristics/PD.CHR.001-characteristics.md) |
+| **Киберхарактеристики** | 6 | [PD.CHR.001](../../../../../PACK-personal/pack/personal-development/02-domain-entities/characteristics/PD.CHR.001-characteristics.md) |
+| **Физические** | 5 | [PD.CHR.001](../../../../../PACK-personal/pack/personal-development/02-domain-entities/characteristics/PD.CHR.001-characteristics.md) |
+| **Когнитивные** | 5 | [PD.CHR.001](../../../../../PACK-personal/pack/personal-development/02-domain-entities/characteristics/PD.CHR.001-characteristics.md) |
+| **Социальные** | 5 | [PD.CHR.001](../../../../../PACK-personal/pack/personal-development/02-domain-entities/characteristics/PD.CHR.001-characteristics.md) |
+| **Волевые** | 5 | [PD.CHR.001](../../../../../PACK-personal/pack/personal-development/02-domain-entities/characteristics/PD.CHR.001-characteristics.md) |
+| **Интегральные** | 4 | [PD.CHR.001](../../../../../PACK-personal/pack/personal-development/02-domain-entities/characteristics/PD.CHR.001-characteristics.md) |
 
 **Всего:** ~30 характеристик
 
@@ -73,9 +73,9 @@ source_of_truth: spf-personal-pack
 
 | Элемент | Статус | Целевой Pack |
 |---------|--------|--------------|
-| Модель характеристик | ✅ Мигрирован | spf-personal-pack |
-| CSLC-стандарт | ✅ Мигрирован | spf-personal-pack |
-| Детализация групп | 🟡 Stub | spf-personal-pack |
+| Модель характеристик | ✅ Мигрирован | PACK-personal |
+| CSLC-стандарт | ✅ Мигрирован | PACK-personal |
+| Детализация групп | 🟡 Stub | PACK-personal |
 
 ---
 

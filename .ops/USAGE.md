@@ -12,7 +12,7 @@
 
 ```bash
 # ✅ ПРАВИЛЬНО
-cd /mnt/c/ecosystem-development
+cd /mnt/c/DS-ops
 python3 .ops/classify_documents.py
 python3 .ops/save_manual_edits.py
 python3 .ops/validate_classifications.py
@@ -20,7 +20,7 @@ python3 .ops/validate_classifications.py
 
 ```bash
 # ❌ НЕПРАВИЛЬНО
-cd /mnt/c/ecosystem-development/ops
+cd /mnt/c/DS-ops/ops
 python3 classify_documents.py  # Не сработает!
 ```
 
@@ -31,7 +31,7 @@ python3 classify_documents.py  # Не сработает!
 ### 1️⃣ Первый запуск (AI классификация)
 
 ```bash
-cd /mnt/c/ecosystem-development
+cd /mnt/c/DS-ops
 python3 .ops/classify_documents.py
 ```
 
@@ -64,7 +64,7 @@ python3 .ops/classify_documents.py
 ### 3️⃣ Сохранение ручных правок (желтое → зеленое)
 
 ```bash
-cd /mnt/c/ecosystem-development
+cd /mnt/c/DS-ops
 python3 .ops/save_manual_edits.py
 ```
 
@@ -77,7 +77,7 @@ python3 .ops/save_manual_edits.py
 ### 4️⃣ Повторная классификация (проверка защиты)
 
 ```bash
-cd /mnt/c/ecosystem-development
+cd /mnt/c/DS-ops
 python3 .ops/classify_documents.py
 ```
 
@@ -91,7 +91,7 @@ python3 .ops/classify_documents.py
 ### 5️⃣ Проверка валидности
 
 ```bash
-cd /mnt/c/ecosystem-development
+cd /mnt/c/DS-ops
 python3 .ops/validate_classifications.py
 ```
 
@@ -111,7 +111,7 @@ python3 .ops/validate_classifications.py
 
 **Решение:**
 ```bash
-cd /mnt/c/ecosystem-development
+cd /mnt/c/DS-ops
 python3 .ops/save_manual_edits.py
 ```
 

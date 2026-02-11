@@ -40,7 +40,7 @@ agent: Strategist
 - [ ] Первая strategy-session (2h)
 
 **Область:** digital-platform
-**Связанные репо:** spf-digital-platform-pack, ecosystem-development
+**Связанные репо:** PACK-digital-platform, DS-ops
 
 ---
 

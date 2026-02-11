@@ -347,7 +347,7 @@ SPF отвечает на вопрос:
 
 ### 9.5. Digital twin как измерительный контур
 
-**digital-twin-mcp** выступает как внешний «измерительный контур»:
+**DS-twin** выступает как внешний «измерительный контур»:
 - индикаторы и их типы
 - расчёт производных оценок (stage/mastery/agency/risk)
 - генеративные тексты/интерпретации **не являются source-of-truth**
@@ -389,7 +389,7 @@ SPF отвечает на вопрос:
 - S2R НЕ определяет *какого уровня знания в них хранятся*
 - S2R может применяться и к Pack, и к Downstream
 
-**Подробнее:** [github.com/TserenTserenov/s2r](https://github.com/TserenTserenov/s2r)
+**Подробнее:** [github.com/TserenTserenov/FMT-S2R](https://github.com/TserenTserenov/FMT-S2R)
 
 ---
 
@@ -489,7 +489,7 @@ Downstream-артефакты:
 ### 14.3. Граница ответственности
 
 ```
-ecosystem-development (этот репозиторий)
+DS-ops (этот репозиторий)
 ├── Уровень: Downstream (4)
 ├── Формат: S2R (мульти-ядерная структура)
 ├── Роль: карта / конституция экосистемы
@@ -504,7 +504,7 @@ spf-personal (github.com/aisystant/spf-personal)
 ├── Строится на: FPF как мета-уровне
 └── НЕ содержит: обучение, маршруты, ИИ-артефакты
 
-digital-twin-mcp (github.com/aisystant/digital-twin-mcp)
+DS-twin (github.com/aisystant/DS-twin)
 ├── Уровень: Downstream (4)
 ├── Роль: измерительный контур для характеристик
 ├── Содержит: индикаторы, расчёты, интерпретации
@@ -531,14 +531,14 @@ digital-twin-mcp (github.com/aisystant/digital-twin-mcp)
 
 | Репозиторий | Роль | Статус |
 |-------------|------|--------|
-| **[github.com/TserenTserenov/s2r](https://github.com/TserenTserenov/s2r)** | Методология организации репозиториев | Активный |
+| **[github.com/TserenTserenov/FMT-S2R](https://github.com/TserenTserenov/FMT-S2R)** | Методология организации репозиториев | Активный |
 
 ### Уровень 4: Downstream
 
 | Репозиторий | Роль | Статус |
 |-------------|------|--------|
-| **[ecosystem-development](https://github.com/aisystant/ecosystem-development)** | Карта / конституция экосистемы | Активный |
-| **[digital-twin-mcp](https://github.com/aisystant/digital-twin-mcp)** | MCP-сервер, измерительный контур | В разработке |
+| **[DS-ops](https://github.com/aisystant/DS-ops)** | Карта / конституция экосистемы | Активный |
+| **[DS-twin](https://github.com/aisystant/DS-twin)** | MCP-сервер, измерительный контур | В разработке |
 | **[aist_bot](https://github.com/aisystant/aist_bot)** | Telegram-бот персонального маршрута | Активный |
 
 ---
@@ -582,8 +582,8 @@ digital-twin-mcp (github.com/aisystant/digital-twin-mcp)
 **Внешние репозитории:**
 - [spf-personal](https://github.com/aisystant/spf-personal) — Pack для личного развития + SPF-фреймворк
 - [ailev/FPF](https://github.com/ailev/FPF) — First Principles Framework
-- [s2r](https://github.com/TserenTserenov/s2r) — Методология S2R
-- [digital-twin-mcp](https://github.com/aisystant/digital-twin-mcp) — Измерительный контур
+- [s2r](https://github.com/TserenTserenov/FMT-S2R) — Методология S2R
+- [DS-twin](https://github.com/aisystant/DS-twin) — Измерительный контур
 
 **Нормативные документы:**
 - [spf-personal/docs/fpf-spf-pack.md](https://github.com/aisystant/spf-personal/blob/main/docs/fpf-spf-pack.md) — **Канонические определения FPF/SPF/Pack**

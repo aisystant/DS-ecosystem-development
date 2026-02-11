@@ -11,7 +11,7 @@
 
 ```powershell
 # ✅ ПРАВИЛЬНО
-cd C:\ecosystem-development
+cd C:\DS-ops
 python ops\classify_documents.py
 python ops\save_manual_edits.py
 python ops\validate_classifications.py
@@ -19,7 +19,7 @@ python ops\validate_classifications.py
 
 ```powershell
 # ❌ НЕПРАВИЛЬНО
-cd C:\ecosystem-development\ops
+cd C:\DS-ops\ops
 python classify_documents.py  # Не сработает!
 ```
 
@@ -32,7 +32,7 @@ python classify_documents.py  # Не сработает!
 ### 1️⃣ Первый запуск (AI классификация)
 
 ```powershell
-cd C:\ecosystem-development
+cd C:\DS-ops
 python ops\classify_documents.py
 ```
 
@@ -42,7 +42,7 @@ python ops\classify_documents.py
 
 ### 2️⃣ Ручная правка
 
-1. Откройте `C:\ecosystem-development\content\0. Управление\0.6. Структура этого хранилища.md` в Obsidian
+1. Откройте `C:\DS-ops\content\0. Управление\0.6. Структура этого хранилища.md` в Obsidian
 2. Найдите документ, который хотите отредактировать
 3. **ВАЖНО:** Уберите **ВСЕ** теги `<mark>...</mark>` в строке
 
@@ -65,7 +65,7 @@ python ops\classify_documents.py
 ### 3️⃣ Сохранение ручных правок (желтое → зеленое)
 
 ```powershell
-cd C:\ecosystem-development
+cd C:\DS-ops
 python ops\save_manual_edits.py
 ```
 
@@ -78,7 +78,7 @@ python ops\save_manual_edits.py
 ### 4️⃣ Повторная классификация (проверка защиты)
 
 ```powershell
-cd C:\ecosystem-development
+cd C:\DS-ops
 python ops\classify_documents.py
 ```
 
@@ -92,7 +92,7 @@ python ops\classify_documents.py
 ### 5️⃣ Проверка валидности
 
 ```powershell
-cd C:\ecosystem-development
+cd C:\DS-ops
 python ops\validate_classifications.py
 ```
 
@@ -105,7 +105,7 @@ python ops\validate_classifications.py
 ### Ошибка 1: Используется `python3` вместо `python`
 
 ```powershell
-PS C:\ecosystem-development> python3 ops\classify_documents.py
+PS C:\DS-ops> python3 ops\classify_documents.py
 Python  # ← Открывается интерпретатор, а не запускается скрипт!
 ```
 
@@ -126,15 +126,15 @@ py ops\classify_documents.py
 ### Ошибка 2: Используются Linux пути
 
 ```powershell
-PS C:\ecosystem-development> cd /mnt/c/ecosystem-development
-Cannot find path 'C:\mnt\c\ecosystem-development' because it does not exist.
+PS C:\DS-ops> cd /mnt/c/DS-ops
+Cannot find path 'C:\mnt\c\DS-ops' because it does not exist.
 ```
 
 **Причина:** `/mnt/c/` - это путь для WSL (Linux), не для PowerShell
 
 **Решение:** Используйте Windows пути:
 ```powershell
-cd C:\ecosystem-development
+cd C:\DS-ops
 ```
 
 ---
@@ -142,7 +142,7 @@ cd C:\ecosystem-development
 ### Ошибка 3: "Документ не найден"
 
 ```powershell
-❌ Документ не найден: C:\ecosystem-development\content\0. Управление\0.6...
+❌ Документ не найден: C:\DS-ops\content\0. Управление\0.6...
 ```
 
 **Причина:** Скрипт запущен не из корневой директории
@@ -152,10 +152,10 @@ cd C:\ecosystem-development
 # Проверьте где вы находитесь:
 pwd
 
-# Должно быть: C:\ecosystem-development
+# Должно быть: C:\DS-ops
 
 # Если нет - перейдите в корень:
-cd C:\ecosystem-development
+cd C:\DS-ops
 python ops\save_manual_edits.py
 ```
 
@@ -184,7 +184,7 @@ python ops\save_manual_edits.py
 ### Ошибка 5: Python не установлен
 
 ```powershell
-PS C:\ecosystem-development> python ops\classify_documents.py
+PS C:\DS-ops> python ops\classify_documents.py
 python : The term 'python' is not recognized...
 ```
 
@@ -235,7 +235,7 @@ pwd
 ### Перейти в корень проекта:
 
 ```powershell
-cd C:\ecosystem-development
+cd C:\DS-ops
 ```
 
 ### Открыть папку в проводнике:
@@ -283,7 +283,7 @@ Copy-Item ops\manual_classifications.backup.json ops\manual_classifications.json
 wsl
 
 # В WSL используйте Linux пути:
-cd /mnt/c/ecosystem-development
+cd /mnt/c/DS-ops
 python3 .ops/classify_documents.py
 ```
 
@@ -291,7 +291,7 @@ python3 .ops/classify_documents.py
 
 ```powershell
 # В PowerShell используйте Windows пути:
-cd C:\ecosystem-development
+cd C:\DS-ops
 python ops\classify_documents.py
 ```
 
@@ -315,7 +315,7 @@ python ops\classify_documents.py
 # 1. Откройте PowerShell
 # 2. Скопируйте и выполните эти команды:
 
-cd C:\ecosystem-development
+cd C:\DS-ops
 python ops\classify_documents.py
 
 # 3. Откройте результат в Obsidian:

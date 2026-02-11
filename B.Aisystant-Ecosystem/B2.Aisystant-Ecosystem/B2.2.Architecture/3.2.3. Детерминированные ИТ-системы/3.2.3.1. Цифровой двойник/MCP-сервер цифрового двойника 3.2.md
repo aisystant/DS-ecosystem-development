@@ -25,7 +25,7 @@ aliases:
 
 # MCP-сервер цифрового двойника 3.2
 
-> **Репозиторий:** [github.com/aisystant/digital-twin-mcp](https://github.com/aisystant/digital-twin-mcp)
+> **Репозиторий:** [github.com/aisystant/DS-twin](https://github.com/aisystant/DS-twin)
 
 ## Цель и назначение
 
@@ -46,7 +46,7 @@ MCP-сервер цифрового двойника — интерфейсны�
 | Компонент | URL / Идентификатор |
 |-----------|---------------------|
 | **GPT "Ассистент Ученика"** | https://chatgpt.com/g/g-6931986f5d6081918c133a667bb2d1d5-assistent-uchenika |
-| **MCP-сервер** | https://digital-twin-mcp.aisystant.workers.dev/mcp |
+| **MCP-сервер** | https://DS-twin.aisystant.workers.dev/mcp |
 | **Платформа хостинга** | Cloudflare Workers |
 | **Протокол** | MCP (Model Context Protocol) |
 | **Версия** | v1.0 |
@@ -82,7 +82,7 @@ MCP-сервер цифрового двойника — интерфейсны�
                               ▼
 ┌─────────────────────────────────────────────────────────────────┐
 │       MCP-сервер (Cloudflare Workers)                           │
-│       https://digital-twin-mcp.aisystant.workers.dev/mcp        │
+│       https://DS-twin.aisystant.workers.dev/mcp        │
 │                                                                  │
 │  3 универсальных инструмента:                                   │
 │  • describe_by_path  — структура метамодели                     │
@@ -349,7 +349,7 @@ npm run dev
   "mcpServers": {
     "digital-twin": {
       "command": "node",
-      "args": ["/path/to/digital-twin-mcp/src/index.js"]
+      "args": ["/path/to/DS-twin/src/index.js"]
     }
   }
 }
@@ -363,7 +363,7 @@ npm run dev
 npm run deploy
 ```
 
-URL: `https://digital-twin-mcp.aisystant.workers.dev/mcp`
+URL: `https://DS-twin.aisystant.workers.dev/mcp`
 
 ---
 

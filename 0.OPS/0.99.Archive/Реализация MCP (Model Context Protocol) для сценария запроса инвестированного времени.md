@@ -151,7 +151,7 @@ sequenceDiagram
 ## ⚙️ 2. Пример реализации MCP-сервера Digital Twin (на Python / FastAPI)
 
 Этот пример можно разместить на сервере  
-`https://digital-twin-mcp.aisystant.workers.dev/mcp`.
+`https://DS-twin.aisystant.workers.dev/mcp`.
 
 ```python
 from fastapi import FastAPI, Request

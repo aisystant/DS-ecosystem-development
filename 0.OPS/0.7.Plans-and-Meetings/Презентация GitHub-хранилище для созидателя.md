@@ -110,7 +110,7 @@ target_audience:
 **Файл:** `CONTRIBUTING.md` (896 строк)
 
 ```
-ecosystem-development/
+DS-ops/
 ├── .github/workflows/          # 11 автоматических проверок
 │   ├── generate-reports.yml    # Генерация отчётов ИИ
 │   ├── validate-*.yml          # Валидация документов
@@ -718,7 +718,7 @@ Claude: Создаю документ в content/2.3. Операции/
 
 ```
 1. КЛОНИРОВАТЬ
-   git clone https://github.com/aisystant/ecosystem-development
+   git clone https://github.com/aisystant/DS-ops
 
 2. ОТКРЫТЬ В OBSIDIAN
    Папку content/ как vault
@@ -733,7 +733,7 @@ Claude: Создаю документ в content/2.3. Операции/
 ### Слайд 18. Вопросы?
 
 **Контакты:**
-- Репозиторий: github.com/aisystant/ecosystem-development
+- Репозиторий: github.com/aisystant/DS-ops
 - Клуб: aisystant.club
 
 **Документация:**

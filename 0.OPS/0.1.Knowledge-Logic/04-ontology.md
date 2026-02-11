@@ -299,7 +299,7 @@ S2R — это **формат структуры** (измерение "Форм
 **Связанные репозитории:**
 - [github.com/ailev/FPF](https://github.com/ailev/FPF) — First Principles Framework
 - [github.com/aisystant/spf-personal](https://github.com/aisystant/spf-personal) — SPF + Pack для личного развития
-- [github.com/TserenTserenov/s2r](https://github.com/TserenTserenov/s2r) — Методология S2R
+- [github.com/TserenTserenov/FMT-S2R](https://github.com/TserenTserenov/FMT-S2R) — Методология S2R
 
 ---
 

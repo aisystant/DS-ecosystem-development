@@ -1,11 +1,11 @@
 Выполни сценарий Week Review для Strategist.
 
-Источник сценария: ~/Github/spf-digital-platform-pack/pack/digital-platform/02-domain-entities/DP.AGENT.012-strategist/scenarios/scheduled/03-week-review.md
+Источник сценария: ~/Github/PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.AGENT.012-strategist/scenarios/scheduled/03-week-review.md
 
 ## Контекст
 
-- Планы: ~/Github/ecosystem-development/0.OPS/0.7.Plans-and-Meetings/
-- Шаблон: ~/Github/spf-digital-platform-pack/pack/digital-platform/02-domain-entities/DP.AGENT.012-strategist/templates/reviews/weekly-review.md
+- Планы: ~/Github/DS-ops/0.OPS/0.7.Plans-and-Meetings/
+- Шаблон: ~/Github/PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.AGENT.012-strategist/templates/reviews/weekly-review.md
 
 ## Алгоритм
 

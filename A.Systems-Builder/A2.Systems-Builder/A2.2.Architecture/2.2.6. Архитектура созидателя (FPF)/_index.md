@@ -4,12 +4,12 @@ family: F5
 cell: "2.2.6"
 status: active
 created: 2026-02-07
-source_of_truth: spf-personal-pack
+source_of_truth: PACK-personal
 ---
 
 # 2.2.6. Архитектура созидателя (FPF)
 
-> **Source-of-truth**: [spf-personal-pack](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/architecture/)
+> **Source-of-truth**: [PACK-personal](../../../../../PACK-personal/pack/personal-development/02-domain-entities/architecture/)
 >
 > Формализованное знание об архитектуре созидателя находится в Pack-репозитории.
 > Этот документ содержит **ссылки и реестр** объектов внимания.
@@ -26,7 +26,7 @@ source_of_truth: spf-personal-pack
 
 | Модель | Описание | Source-of-truth |
 |--------|----------|-----------------
-| **Прозрачный ящик** | Функциональное и модульное разбиение | [PD.ARCH.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/architecture/PD.ARCH.001-transparent-box.md) |
+| **Прозрачный ящик** | Функциональное и модульное разбиение | [PD.ARCH.001](../../../../../PACK-personal/pack/personal-development/02-domain-entities/architecture/PD.ARCH.001-transparent-box.md) |
 
 ---
 
@@ -72,8 +72,8 @@ source_of_truth: spf-personal-pack
 
 | Элемент | Статус | Целевой Pack |
 |---------|--------|--------------|
-| Прозрачный ящик | ✅ Мигрирован | spf-personal-pack |
-| Детализация разбиений | 🟡 Stub | spf-personal-pack |
+| Прозрачный ящик | ✅ Мигрирован | PACK-personal |
+| Детализация разбиений | 🟡 Stub | PACK-personal |
 
 ---
 

@@ -257,7 +257,7 @@ def function():
 
 **Пример**:
 ```markdown
-[Документация S2R](https://github.com/TserenTserenov/s2r)
+[Документация S2R](https://github.com/TserenTserenov/FMT-S2R)
 ```
 
 ### Ссылки в Frontmatter

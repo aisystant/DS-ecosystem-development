@@ -1,13 +1,13 @@
 Выполни сценарий Strategy Session для агента Стратег.
 
-Источник сценария: ~/Github/spf-digital-platform-pack/pack/digital-platform/02-domain-entities/DP.AGENT.012-strategist/scenarios/scheduled/01-strategy-session.md
+Источник сценария: ~/Github/PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.AGENT.012-strategist/scenarios/scheduled/01-strategy-session.md
 
 ## Контекст
 
-- **HUB (личные планы):** ~/Github/my-strategy/current/
+- **HUB (личные планы):** ~/Github/DS-strategy/current/
 - **SPOKE (планы репо):** ~/Github/*/WORKPLAN.md
-- **Неудовлетворённости:** ~/Github/my-strategy/dissatisfactions/current.md
-- Шаблоны: ~/Github/spf-digital-platform-pack/pack/digital-platform/02-domain-entities/DP.AGENT.012-strategist/templates/
+- **Неудовлетворённости:** ~/Github/DS-strategy/dissatisfactions/current.md
+- Шаблоны: ~/Github/PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.AGENT.012-strategist/templates/
 
 ## Структура current/
 
@@ -18,7 +18,7 @@
 ## Алгоритм
 
 1. **Анализ прошлой недели:**
-   - Найди последний файл недели в my-strategy/current/weeks/
+   - Найди последний файл недели в DS-strategy/current/weeks/
    - Загрузи его
    - Получи коммиты за прошлую неделю из ВСЕХ репо в ~/Github/
    - Рассчитай completion rate
@@ -45,8 +45,8 @@
 6. **После подтверждения:**
    - Создай current/weeks/YYYY-MM-DD--DD.md
    - Обнови WORKPLAN.md в целевых репо (обратная синхронизация)
-   - Закоммить изменения в my-strategy
+   - Закоммить изменения в DS-strategy
    - Закоммить изменения в затронутых репо
-   - Зафиксируй сессию в my-strategy/sessions/YYYY-MM-DD.md
+   - Зафиксируй сессию в DS-strategy/sessions/YYYY-MM-DD.md
 
 Результат: новый файл недели в current/weeks/, синхронизированные WORKPLAN.md.

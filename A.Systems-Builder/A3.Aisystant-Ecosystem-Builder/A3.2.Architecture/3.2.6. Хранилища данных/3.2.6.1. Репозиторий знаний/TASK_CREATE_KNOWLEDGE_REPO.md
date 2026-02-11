@@ -28,7 +28,7 @@ knowledge-repository/
 │   ├── reflections/                   # Рефлексии
 │   └── projects/                      # Проектные материалы
 ├── external/                          # Импорт из других репо
-│   └── ecosystem-development/         # Контент из ecosystem-development
+│   └── DS-ops/         # Контент из DS-ops
 ├── metadata/                          # Метаданные
 └── scripts/                           # Утилиты
 ```
@@ -82,8 +82,8 @@ sources:
       - homework_reviews
   
   external_repos:
-    - name: "ecosystem-development"
-      url: "https://github.com/aisystant/ecosystem-development"
+    - name: "DS-ops"
+      url: "https://github.com/aisystant/DS-ops"
       branch: "main"
       paths:
         - "content/**/*.md"
@@ -171,7 +171,7 @@ metadata_schema:
 """
 Импортирует контент из других GitHub репозиториев.
 Использование:
-  python scripts/import_from_repo.py --repo ecosystem-development
+  python scripts/import_from_repo.py --repo DS-ops
 """
 # TODO: Реализовать
 # 1. Клонирование/обновление репозитория
@@ -299,7 +299,7 @@ python scripts/import_from_club.py --from-date 2025-01-01
 python scripts/import_from_lms.py --student-id all
 
 # Из других репо
-python scripts/import_from_repo.py --repo ecosystem-development
+python scripts/import_from_repo.py --repo DS-ops
 ```
 
 ### Ручное добавление

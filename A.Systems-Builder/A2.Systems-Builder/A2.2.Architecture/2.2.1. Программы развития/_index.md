@@ -4,12 +4,12 @@ family: F5
 cell: "2.2.1"
 status: active
 created: 2026-02-07
-source_of_truth: spf-personal-pack
+source_of_truth: PACK-personal
 ---
 
 # 2.2.1. Программы развития
 
-> **Source-of-truth**: [spf-personal-pack](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/models/)
+> **Source-of-truth**: [PACK-personal](../../../../../PACK-personal/pack/personal-development/02-domain-entities/models/)
 >
 > Формализованное знание о программах развития находится в Pack-репозитории.
 > Этот документ содержит **ссылки и реестр** объектов внимания.
@@ -29,9 +29,9 @@ source_of_truth: spf-personal-pack
 
 | Знание | Описание | Source-of-truth |
 |--------|----------|-----------------
-| **Программы развития** | Три уровня программ | [PD.FORM.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/formalizations/PD.FORM.001-development-programs.md) |
-| **6 направлений развития** | Структура направлений саморазвития | [PD.FORM.002](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/formalizations/PD.FORM.002-development-directions.md) |
-| **Ступени зрелости ученика** | 5 уровней квалификации | [PD.FORM.003](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/formalizations/PD.FORM.003-learner-maturity.md) |
+| **Программы развития** | Три уровня программ | [PD.FORM.001](../../../../../PACK-personal/pack/personal-development/02-domain-entities/formalizations/PD.FORM.001-development-programs.md) |
+| **6 направлений развития** | Структура направлений саморазвития | [PD.FORM.002](../../../../../PACK-personal/pack/personal-development/02-domain-entities/formalizations/PD.FORM.002-development-directions.md) |
+| **Ступени зрелости ученика** | 5 уровней квалификации | [PD.FORM.003](../../../../../PACK-personal/pack/personal-development/02-domain-entities/formalizations/PD.FORM.003-learner-maturity.md) |
 
 ---
 
@@ -74,9 +74,9 @@ source_of_truth: spf-personal-pack
 
 | Элемент | Статус | Целевой Pack |
 |---------|--------|--------------|
-| Модель программ развития | ✅ Мигрирован | spf-personal-pack |
-| 6 направлений развития | ✅ Мигрирован | spf-personal-pack |
-| Ступени зрелости ученика | ✅ Мигрирован | spf-personal-pack |
+| Модель программ развития | ✅ Мигрирован | PACK-personal |
+| 6 направлений развития | ✅ Мигрирован | PACK-personal |
+| Ступени зрелости ученика | ✅ Мигрирован | PACK-personal |
 | Памятки программ | ⚪ Governance | — |
 | Метрики и реестры | ⚪ Governance | — |
 

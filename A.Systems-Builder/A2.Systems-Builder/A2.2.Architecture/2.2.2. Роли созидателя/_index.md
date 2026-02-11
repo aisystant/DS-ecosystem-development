@@ -4,12 +4,12 @@ family: F5
 cell: "2.2.2"
 status: active
 created: 2026-02-07
-source_of_truth: spf-personal-pack
+source_of_truth: PACK-personal
 ---
 
 # 2.2.2. Роли созидателя
 
-> **Source-of-truth**: [spf-personal-pack](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/roles/)
+> **Source-of-truth**: [PACK-personal](../../../../../PACK-personal/pack/personal-development/02-domain-entities/roles/)
 >
 > Формализованное знание о ролях созидателя находится в Pack-репозитории.
 > Этот документ содержит **ссылки и реестр** объектов внимания.
@@ -26,11 +26,11 @@ source_of_truth: spf-personal-pack
 
 | Роль | Описание | Source-of-truth |
 |------|----------|-----------------|
-| **Ученик** | Освоение нового, изменение себя | [PD.ROLE.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/roles/PD.ROLE.001-learner.md) |
-| **Интеллектуал** | Мышление, работа с понятиями | [PD.ROLE.002](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/roles/PD.ROLE.002-intellectual.md) |
-| **Профессионал** | Создание рабочих продуктов | [PD.ROLE.003](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/roles/PD.ROLE.003-professional.md) |
-| **Исследователь** | Создание нового знания | [PD.ROLE.004](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/roles/PD.ROLE.004-researcher.md) |
-| **Просветитель** | Передача знаний, вклад в культуру | [PD.ROLE.005](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/roles/PD.ROLE.005-educator.md) |
+| **Ученик** | Освоение нового, изменение себя | [PD.ROLE.001](../../../../../PACK-personal/pack/personal-development/02-domain-entities/roles/PD.ROLE.001-learner.md) |
+| **Интеллектуал** | Мышление, работа с понятиями | [PD.ROLE.002](../../../../../PACK-personal/pack/personal-development/02-domain-entities/roles/PD.ROLE.002-intellectual.md) |
+| **Профессионал** | Создание рабочих продуктов | [PD.ROLE.003](../../../../../PACK-personal/pack/personal-development/02-domain-entities/roles/PD.ROLE.003-professional.md) |
+| **Исследователь** | Создание нового знания | [PD.ROLE.004](../../../../../PACK-personal/pack/personal-development/02-domain-entities/roles/PD.ROLE.004-researcher.md) |
+| **Просветитель** | Передача знаний, вклад в культуру | [PD.ROLE.005](../../../../../PACK-personal/pack/personal-development/02-domain-entities/roles/PD.ROLE.005-educator.md) |
 
 ---
 
@@ -40,7 +40,7 @@ source_of_truth: spf-personal-pack
 Ученик → Интеллектуал → Профессионал → Исследователь → Просветитель
 ```
 
-Полное описание траектории: [PD.ROLE.TRAJ.001](../../../../../spf-personal-pack/pack/personal-development/02-domain-entities/roles/PD.ROLE.TRAJ.001-creator-trajectory.md)
+Полное описание траектории: [PD.ROLE.TRAJ.001](../../../../../PACK-personal/pack/personal-development/02-domain-entities/roles/PD.ROLE.TRAJ.001-creator-trajectory.md)
 
 ---
 
@@ -48,7 +48,7 @@ source_of_truth: spf-personal-pack
 
 | Роль | Метод | Работы |
 |------|-------|--------|
-| Ученик | [PD.METHOD.002](../../../../../spf-personal-pack/pack/personal-development/03-methods/PD.METHOD.002-learner-method.md) | [PD.WP.002](../../../../../spf-personal-pack/pack/personal-development/04-work-products/PD.WP.002-learner-works.md) |
+| Ученик | [PD.METHOD.002](../../../../../PACK-personal/pack/personal-development/03-methods/PD.METHOD.002-learner-method.md) | [PD.WP.002](../../../../../PACK-personal/pack/personal-development/04-work-products/PD.WP.002-learner-works.md) |
 | Интеллектуал | TODO | TODO |
 | Профессионал | TODO | TODO |
 | Исследователь | TODO | TODO |
@@ -77,12 +77,12 @@ source_of_truth: spf-personal-pack
 
 | Файл | Статус | Целевой Pack |
 |------|--------|--------------|
-| Ролевая траектория созидателя 2.2.md | ✅ Мигрирован | spf-personal-pack |
-| 2.2.2.1. Ученик/* | ✅ Мигрирован | spf-personal-pack |
-| 2.2.2.2. Интеллектуал/* | 🟡 Stub создан | spf-personal-pack |
-| 2.2.2.3. Профессионал/* | 🟡 Stub создан | spf-personal-pack |
-| 2.2.2.4. Исследователь/* | 🟡 Stub создан | spf-personal-pack |
-| 2.2.2.5. Просветитель/* | 🟡 Stub создан | spf-personal-pack |
+| Ролевая траектория созидателя 2.2.md | ✅ Мигрирован | PACK-personal |
+| 2.2.2.1. Ученик/* | ✅ Мигрирован | PACK-personal |
+| 2.2.2.2. Интеллектуал/* | 🟡 Stub создан | PACK-personal |
+| 2.2.2.3. Профессионал/* | 🟡 Stub создан | PACK-personal |
+| 2.2.2.4. Исследователь/* | 🟡 Stub создан | PACK-personal |
+| 2.2.2.5. Просветитель/* | 🟡 Stub создан | PACK-personal |
 
 **Оригинальные файлы:** Сохранены для архива до полной миграции.
 

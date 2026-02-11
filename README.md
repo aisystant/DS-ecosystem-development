@@ -18,7 +18,7 @@
 ## 🗺️ Структура репозитория (Multi-Kernel S2R)
 
 ```
-ecosystem-development/
+DS-ops/
 │
 ├── 0.OPS/                             # F0: Метауровень (управление знаниями)
 │   ├── 0.1.Knowledge-Logic/          # Формализация ядер, глоссарий, правила
@@ -149,7 +149,7 @@ Ecosystem-Builder (B3)
 
 Репозиторий организован по методологии **Systems-Roles Repository (S2R)**.
 
-**Подробнее о методологии:** [Документация S2R](https://github.com/TserenTserenov/s2r)
+**Подробнее о методологии:** [Документация S2R](https://github.com/TserenTserenov/FMT-S2R)
 
 ### Три уровня систем (в каждом ядре)
 1. **Надсистема** (позиция 1) — содержит SoI, задаёт контекст
@@ -187,7 +187,7 @@ Ecosystem-Builder (B3)
 ┌─────────────────────────────────────────────────────────┐
 │  Уровень 3: PACK (Доменный source-of-truth)             │
 │  Знание конкретной предметной области                   │
-│  Пример: github.com/aisystant/spf-personal-pack              │
+│  Пример: github.com/aisystant/PACK-personal              │
 └─────────────────────────────────────────────────────────┘
                           │
                           ▼
@@ -216,16 +216,16 @@ Ecosystem-Builder (B3)
 |-------------|---------------------|------|
 | **[github.com/ailev/FPF](https://github.com/ailev/FPF)** | Уровень 1 | Мета-онтология, первые принципы |
 | **[github.com/TserenTserenov/SPF](https://github.com/TserenTserenov/SPF)** | Уровень 2 | Фреймворк вторых принципов (форма + процесс) |
-| **[github.com/aisystant/spf-personal-pack](https://github.com/aisystant/spf-personal-pack)** | Уровень 3 | Pack (source-of-truth области «Созидатель») |
-| **[github.com/TserenTserenov/s2r](https://github.com/TserenTserenov/s2r)** | Форма (структура) | Методология организации репозиториев |
-| **[github.com/aisystant/ecosystem-development](https://github.com/aisystant/ecosystem-development)** | Уровень 4 | Карта / конституция экосистемы (этот репозиторий) |
-| **[github.com/aisystant/digital-twin-mcp](https://github.com/aisystant/digital-twin-mcp)** | Уровень 4 | MCP-сервер цифрового двойника |
-| **[github.com/aisystant/aist_bot](https://github.com/aisystant/aist_bot)** | Уровень 4 | Telegram-бот персонального маршрута |
+| **[github.com/aisystant/PACK-personal](https://github.com/aisystant/PACK-personal)** | Уровень 3 | Pack (source-of-truth области «Созидатель») |
+| **[github.com/TserenTserenov/FMT-S2R](https://github.com/TserenTserenov/FMT-S2R)** | Форма (структура) | Методология организации репозиториев |
+| **[github.com/aisystant/DS-ops](https://github.com/aisystant/DS-ops)** | Уровень 4 | Карта / конституция экосистемы (этот репозиторий) |
+| **[github.com/aisystant/DS-twin](https://github.com/aisystant/DS-twin)** | Уровень 4 | MCP-сервер цифрового двойника |
+| **[github.com/aisystant/DS-aist-bot](https://github.com/aisystant/DS-aist-bot)** | Уровень 4 | Telegram-бот персонального маршрута |
 
 ### Роль этого репозитория
 
 ```
-ecosystem-development
+DS-ops
 ├── Уровень: Downstream (4)
 ├── Формат: S2R (мульти-ядерная структура)
 ├── Роль: карта / конституция экосистемы
@@ -273,7 +273,7 @@ ecosystem-development
 
 **MCP-серверы**:
 - **fsm-mcp**: Управление конечными автоматами (FSM), логика переходов между состояниями
-- **digital-twin-mcp**: Цифровой двойник созидателя (компетенции, прогресс, траектория)
+- **DS-twin**: Цифровой двойник созидателя (компетенции, прогресс, траектория)
 - **guides-mcp**: Репозиторий знаний (этот репозиторий!)
 
 ## 🤖 ИИ-агенты платформы
@@ -314,8 +314,8 @@ ecosystem-development
 **Изучение материалов:**
 ```bash
 # Клонируй репозиторий
-git clone https://github.com/aisystant/ecosystem-development.git
-cd ecosystem-development
+git clone https://github.com/aisystant/DS-ops.git
+cd DS-ops
 
 # Начни с ключевых документов
 cat 0.OPS/0.1.Knowledge-Logic/01-kernels-model.md
@@ -412,7 +412,7 @@ tags:
 
 ## 📞 Контакты
 
-- **GitHub**: [aisystant/ecosystem-development](https://github.com/aisystant/ecosystem-development)
+- **GitHub**: [aisystant/DS-ops](https://github.com/aisystant/DS-ops)
 - **Telegram**: [указать канал/группу]
 - **Email**: [указать email]
 
@@ -456,7 +456,7 @@ tags:
 
 ### Архитектура агента
 
-Паспорт и сценарии: [spf-digital-platform-pack/DP.AGENT.012-strategist](https://github.com/TserenTserenov/spf-digital-platform-pack/tree/main/pack/digital-platform/02-domain-entities/DP.AGENT.012-strategist)
+Паспорт и сценарии: [PACK-digital-platform/DP.AGENT.012-strategist](https://github.com/TserenTserenov/PACK-digital-platform/tree/main/pack/digital-platform/02-domain-entities/DP.AGENT.012-strategist)
 
 ---
 

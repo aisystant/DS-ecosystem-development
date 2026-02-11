@@ -10,10 +10,10 @@
 
 ## Upstream dependencies
 
-- [TserenTserenov/spf-ecosystem-pack](https://github.com/TserenTserenov/spf-ecosystem-pack) — source-of-truth области экосистемы
-- [aisystant/spf-personal-pack](https://github.com/aisystant/spf-personal-pack) — source-of-truth области созидателя
-- [TserenTserenov/spf-digital-platform-pack](https://github.com/TserenTserenov/spf-digital-platform-pack) — source-of-truth области ИТ-платформы
-- [TserenTserenov/s2r](https://github.com/TserenTserenov/s2r) — формат оформления
+- [TserenTserenov/PACK-ecosystem](https://github.com/TserenTserenov/PACK-ecosystem) — source-of-truth области экосистемы
+- [aisystant/PACK-personal](https://github.com/aisystant/PACK-personal) — source-of-truth области созидателя
+- [TserenTserenov/PACK-digital-platform](https://github.com/TserenTserenov/PACK-digital-platform) — source-of-truth области ИТ-платформы
+- [TserenTserenov/FMT-S2R](https://github.com/TserenTserenov/FMT-S2R) — формат оформления
 - [TserenTserenov/SPF](https://github.com/TserenTserenov/SPF) — фреймворк вторых принципов
 
 ## Downstream outputs

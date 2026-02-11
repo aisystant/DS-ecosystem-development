@@ -122,7 +122,7 @@ WHERE contains(item, "ADR-")
 **Хранилище:** Комбинированный подход с двумя вариантами развития
 
 **Вариант A: Полный текст руководств**
-- **Репозиторий:** [aisystant/docs](https://github.com/aisystant/docs)
+- **Репозиторий:** [aisystant/DS-docs](https://github.com/aisystant/DS-docs)
 - **Формат:** Markdown
 - **Процесс:** Разработчик пишет/редактирует полный текст руководств (руками или с помощью LLM)
 
@@ -148,7 +148,7 @@ WHERE contains(item, "ADR-")
 
 #### 3. Архитектурная документация
 **Хранилище:** Git + Markdown
-**Высокий уровень:** [ecosystem-development](https://github.com/aisystant/ecosystem-development) — общая архитектура, ADR, C4-диаграммы
+**Высокий уровень:** [DS-ops](https://github.com/aisystant/DS-ops) — общая архитектура, ADR, C4-диаграммы
 **Детали реализации:** Отдельные репозитории подсистем (например, [platform](https://github.com/aisystant/platform))
 **Обоснование:** Версионный контроль, code review, история изменений, близость к коду
 

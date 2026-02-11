@@ -156,7 +156,7 @@
 **Определение**: Техническая инфраструктура экосистемы, включающая MCP-серверы, ИИ-агентов, репозитории знаний.
 
 **Компоненты**:
-- MCP servers (fsm-mcp, digital-twin-mcp, guides-mcp)
+- MCP servers (fsm-mcp, DS-twin, guides-mcp)
 - ИИ-агенты (Orchestrator, RouteGuide, SystemArchitect и др.)
 - Репозитории данных (Knowledge Repository, Digital Twin, FSM Models)
 
@@ -204,7 +204,7 @@
 
 **MCP-серверы в платформе**:
 - **fsm-mcp**: Управление состояниями (Finite State Machines)
-- **digital-twin-mcp**: Цифровой двойник созидателя
+- **DS-twin**: Цифровой двойник созидателя
 - **guides-mcp**: Репозиторий знаний и руководств
 
 ### ИИ-агент
@@ -343,18 +343,18 @@
 
 ### Проблема
 
-Коды выше (`R.`, `S.`, `AGT.`, `DEG.`, `STG.`, `IND.`) — доменные сущности, которые по SPF.SPEC.001 должны жить в соответствующем Pack, а не в Downstream (ecosystem-development).
+Коды выше (`R.`, `S.`, `AGT.`, `DEG.`, `STG.`, `IND.`) — доменные сущности, которые по SPF.SPEC.001 должны жить в соответствующем Pack, а не в Downstream (DS-ops).
 
 ### План миграции
 
 | Текущий код | Тип | Целевой Pack | Новый код (примерный) |
 |-------------|-----|-------------|----------------------|
-| `R.Mentor`, `R.Student`, ... | Role | spf-ecosystem-pack (EC) | `EC.R.001`, `EC.R.002`, ... |
-| `S.AIPlatform`, `S.LMS`, ... | System | spf-ecosystem-pack (EC) | Расширенный вид `EC.SYS.NNN` |
-| `AGT.Orchestrator`, `AGT.RouteGuide`, ... | AI Agent | spf-digital-platform-pack (DP) | `DP.AISYS.NNN` (уже частично) |
-| `DEG.*`, `STG.*` | Degree/Stage | spf-personal-pack (PD) | Расширенные виды `PD.DEG.NNN`, `PD.STG.NNN` |
-| `QLF.*` | Qualification | spf-personal-pack (PD) | Расширенный вид `PD.QLF.NNN` |
-| `IND.*` | Indicator | spf-personal-pack (PD) | `PD.CHR.NNN` (характеристики) |
+| `R.Mentor`, `R.Student`, ... | Role | PACK-ecosystem (EC) | `EC.R.001`, `EC.R.002`, ... |
+| `S.AIPlatform`, `S.LMS`, ... | System | PACK-ecosystem (EC) | Расширенный вид `EC.SYS.NNN` |
+| `AGT.Orchestrator`, `AGT.RouteGuide`, ... | AI Agent | PACK-digital-platform (DP) | `DP.AISYS.NNN` (уже частично) |
+| `DEG.*`, `STG.*` | Degree/Stage | PACK-personal (PD) | Расширенные виды `PD.DEG.NNN`, `PD.STG.NNN` |
+| `QLF.*` | Qualification | PACK-personal (PD) | Расширенный вид `PD.QLF.NNN` |
+| `IND.*` | Indicator | PACK-personal (PD) | `PD.CHR.NNN` (характеристики) |
 
 ### Принцип
 

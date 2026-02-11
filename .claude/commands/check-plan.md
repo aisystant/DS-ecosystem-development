@@ -1,12 +1,12 @@
 Выполни сценарий Check Plan для Strategist.
 
-Источник сценария: ~/Github/spf-digital-platform-pack/pack/digital-platform/02-domain-entities/DP.AGENT.012-strategist/scenarios/on-demand/02-check-plan.md
+Источник сценария: ~/Github/PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.AGENT.012-strategist/scenarios/on-demand/02-check-plan.md
 
 ## Задача для проверки: $ARGUMENTS
 
 ## Контекст
 
-- Планы: ~/Github/ecosystem-development/0.OPS/0.7.Plans-and-Meetings/current/
+- Планы: ~/Github/DS-ops/0.OPS/0.7.Plans-and-Meetings/current/
 
 ## Алгоритм
 
