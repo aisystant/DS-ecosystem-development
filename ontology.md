@@ -1,7 +1,7 @@
 # Онтология: Ecosystem Development
 
 > **Тип:** Downstream-governance
-> **Upstream:** PACK-personal, PACK-ecosystem, PACK-digital-platform
+> **Upstream:** PACK-personal, PACK-ecosystem, PACK-digital-platform, PACK-MIM
 > **Базовая онтология:** [SPF/ontology.md](../SPF/ontology.md) (SPF.SPEC.002)
 >
 > Downstream ссылается на понятия Pack'ов и SPF. Новых онтологических понятий не вводит (SPF.SPEC.002 § 4.3).
@@ -15,6 +15,7 @@
 | Pack | [PACK-personal](../PACK-personal/) | Знания о созидателе: характеристики, состояния, роли |
 | Pack | [PACK-ecosystem](../PACK-ecosystem/) | Знания об экосистеме: компоненты, бесшовность, переходы |
 | Pack | [PACK-digital-platform](../PACK-digital-platform/) | Архитектура платформы, агенты, MCP |
+| Pack | [PACK-MIM](../PACK-MIM/) | Мастерская: форматы, программы, организация развития |
 | SPF | [SPF/ontology.md](../SPF/ontology.md) | Базовая онтология (U.*) |
 | FPF | Через SPF | Мета-онтология |
 
@@ -41,6 +42,14 @@
 | Бесшовность | U.Characteristic | Критерий качества переходов |
 | Путь развития | U.Flow | Траектория от новичка до мастера |
 | Точка входа | U.Boundary + U.Interaction | Начало взаимодействия с экосистемой |
+
+### Ядро D (Мастерская) ← PACK-MIM
+
+| Понятие | FPF-понятие | Как используется |
+|---------|-------------|------------------|
+| Формат мероприятия | U.Method | Типы мероприятий развития (семинар, практикум, резидентура, разбор) |
+| Программа развития | U.System | Направленности развития (личное, рабочее, исследовательское) |
+| Наставник | U.RoleAssignment | Роль в форматах (ведёт разборы) |
 
 ### Ядро C (ИТ-платформа) ← PACK-digital-platform
 
@@ -69,4 +78,5 @@
 - [PACK-personal/ontology.md](../PACK-personal/ontology.md) — онтология ядра A
 - [PACK-ecosystem/ontology.md](../PACK-ecosystem/ontology.md) — онтология ядра B
 - [PACK-digital-platform/ontology.md](../PACK-digital-platform/ontology.md) — онтология ядра C
+- [PACK-MIM/ontology.md](../PACK-MIM/ontology.md) — онтология ядра D (мастерская)
 - [SPF/ontology.md](../SPF/ontology.md) — базовая онтология (SPF.SPEC.002)
