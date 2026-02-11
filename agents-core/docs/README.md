@@ -187,7 +187,7 @@ chmod +x agents-core/docs/*.py
 
 - Паспорт агента: [content/agents/docs.md](../../content/agents/docs.md)
 - Индекс всех агентов: [content/agents/00-Index.md](../../content/agents/00-Index.md)
-- Issues: [GitHub Issues](https://github.com/YOUR_ORG/DS-ops/issues)
+- Issues: [GitHub Issues](https://github.com/YOUR_ORG/DS-ecosystem-development/issues)
 
 ---
 

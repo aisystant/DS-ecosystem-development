@@ -35,15 +35,18 @@
 | 5 | [PACK-ecosystem](https://github.com/TserenTserenov/PACK-ecosystem) | Pack | Экосистема | text-description | team | yes | Active |
 | 6 | [PACK-digital-platform](https://github.com/TserenTserenov/PACK-digital-platform) | Pack | ИТ-платформа | text-description | team | yes | Active |
 | 7 | [DS-aist-bot](https://github.com/aisystant/DS-aist-bot) | Downstream/instrument | Бот Aist | code | team | no | Active |
-| 8 | [DS-aist-bot](https://github.com/aisystant/DS-aist-bot) | Downstream/instrument | Бот Aist | code | team | no | Active |
-| 9 | [DS-twin](https://github.com/aisystant/DS-twin) | Downstream/instrument | ИТ-платформа | code | team | no | Active |
-| 10 | [DS-Knowledge-Index-Tseren](https://github.com/TserenTserenov/DS-Knowledge-Index-Tseren) | Downstream/instrument | Созидатель | code | personal | no | Active |
-| 11 | [DS-ecosystem-development](https://github.com/aisystant/DS-ecosystem-development) | Downstream/governance | Экосистема | text-governance | team | no | Active |
-| 12 | [DS-my-strategy](https://github.com/TserenTserenov/DS-my-strategy) | Downstream/governance | Созидатель | text-governance | personal | no | Active |
-| 13 | [docs](https://github.com/aisystant/docs) | Downstream/surface | Экосистема | text-publication | public | no | Active |
-| 14 | [DS-marathon-v2-tseren](https://github.com/TserenTserenov/DS-marathon-v2-tseren) | Downstream/surface | Экосистема | text-publication | team | no | Active |
-| 15 | [FMT-exocortex-template](https://github.com/TserenTserenov/FMT-exocortex-template) | Format | cross-cutting | text-description | public | yes | Active |
-| 16 | [DS-exocortex-setup-agent](https://github.com/TserenTserenov/DS-exocortex-setup-agent) | Downstream/instrument | cross-cutting | code | public | no | Active |
+| 8 | [DS-twin](https://github.com/aisystant/DS-twin) | Downstream/instrument | ИТ-платформа | code | team | no | Active |
+| 9 | [DS-Knowledge-Index-Tseren](https://github.com/TserenTserenov/DS-Knowledge-Index-Tseren) | Downstream/instrument | Созидатель | code | personal | no | Active |
+| 10 | [DS-ecosystem-development](https://github.com/aisystant/DS-ecosystem-development) | Downstream/governance | Экосистема | text-governance | team | no | Active |
+| 11 | [DS-my-strategy](https://github.com/TserenTserenov/DS-my-strategy) | Downstream/governance | Созидатель | text-governance | personal | no | Active |
+| 12 | [docs](https://github.com/aisystant/docs) | Downstream/surface | Экосистема | text-publication | public | no | Active |
+| 13 | [DS-marathon-v2-tseren](https://github.com/TserenTserenov/DS-marathon-v2-tseren) | Downstream/surface | Экосистема | text-publication | team | no | Active |
+| 14 | [FMT-exocortex-template](https://github.com/TserenTserenov/FMT-exocortex-template) | Format | cross-cutting | text-description | public | yes | Active |
+| 15 | [DS-exocortex-setup-agent](https://github.com/TserenTserenov/DS-exocortex-setup-agent) | Downstream/instrument | cross-cutting | code | public | no | Active |
+| 16 | [DS-strategist-agent](https://github.com/TserenTserenov/DS-strategist-agent) | Downstream/instrument | Созидатель | code | personal | no | Active |
+| 17 | [DS-extractor-agent](https://github.com/TserenTserenov/DS-extractor-agent) | Downstream/instrument | ИТ-платформа | code | personal | no | Active |
+| 18 | [digital-twin-mcp](https://github.com/aisystant/digital-twin-mcp) | Downstream/instrument | ИТ-платформа | code | team | no | Active |
+| 19 | [aist_bot_newarchitecture](https://github.com/aisystant/aist_bot_newarchitecture) | Downstream/instrument | Бот Aist | code | team | no | Active |
 
 ---
 
@@ -76,6 +79,8 @@
 | [DS-exocortex-setup-agent](https://github.com/TserenTserenov/DS-exocortex-setup-agent) | Агент развёртывания экзокортекса | FMT-exocortex-template | TserenTserenov |
 | [DS-strategist-agent](https://github.com/TserenTserenov/DS-strategist-agent) | Агент стратегирования | PACK-personal, PACK-digital-platform | TserenTserenov |
 | [DS-extractor-agent](https://github.com/TserenTserenov/DS-extractor-agent) | Агент извлечения знаний | PACK-digital-platform | TserenTserenov |
+| [digital-twin-mcp](https://github.com/aisystant/digital-twin-mcp) | MCP-сервер цифрового двойника | PACK-digital-platform, PACK-personal | aisystant |
+| [aist_bot_newarchitecture](https://github.com/aisystant/aist_bot_newarchitecture) | Telegram-бот (new architecture, State Machine) | PACK-personal | aisystant |
 
 ### Downstream/governance
 
@@ -103,6 +108,7 @@ FPF (ailev)
         ├──▶ PACK-personal (Pack: Созидатель)
         │     │
         │     ├──▶ DS-aist-bot (Downstream/instrument)
+        │     ├──▶ aist_bot_newarchitecture (Downstream/instrument)
         │     ├──▶ DS-twin (Downstream/instrument)
         │     ├──▶ DS-Knowledge-Index-Tseren (Downstream/instrument)
         │     ├──▶ docs (Downstream/surface)
@@ -117,6 +123,7 @@ FPF (ailev)
         ├──▶ PACK-digital-platform (Pack: ИТ-платформа)
         │     │
         │     ├──▶ DS-twin (Downstream/instrument)
+        │     ├──▶ digital-twin-mcp (Downstream/instrument)
         │     ├──▶ DS-my-strategy (Downstream/governance — агент Стратег)
         │     ├──▶ DS-strategist-agent (Downstream/instrument — агент)
         │     └──▶ DS-extractor-agent (Downstream/instrument — агент)
@@ -184,6 +191,8 @@ FMT-exocortex-template (Format)
 | DS-exocortex-setup-agent | **yes** | **yes** |
 | DS-strategist-agent | **yes** | **yes** |
 | DS-extractor-agent | **yes** | **yes** |
+| digital-twin-mcp | no | no |
+| aist_bot_newarchitecture | no | no |
 
 > **partial** = файл есть, но без полей Система/Содержание/Для кого. Обновить при следующем ревью.
 
@@ -200,4 +209,4 @@ FMT-exocortex-template (Format)
 
 ---
 
-*Последнее обновление: 2026-02-10*
+*Последнее обновление: 2026-02-11*

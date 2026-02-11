@@ -27,7 +27,7 @@ OPENAI_API_KEY используется для:
 
 **Для владельцев репозитория:**
 
-1. Откройте настройки репозитория: `https://github.com/YOUR_ORG/DS-ops/settings`
+1. Откройте настройки репозитория: `https://github.com/YOUR_ORG/DS-ecosystem-development/settings`
 2. В левом меню выберите **Secrets and variables** → **Actions**
 3. Нажмите **New repository secret**
 4. Заполните:
@@ -142,7 +142,7 @@ python3 .ops/build_check_document.py --ai-analysis
 ## Контакты
 
 Вопросы по настройке:
-- GitHub Issues: [создать issue](https://github.com/YOUR_ORG/DS-ops/issues)
+- GitHub Issues: [создать issue](https://github.com/YOUR_ORG/DS-ecosystem-development/issues)
 - Документация: [README.md](../README.md)
 
 ---

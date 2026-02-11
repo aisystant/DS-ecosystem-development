@@ -4,7 +4,7 @@
 
 ## Контекст
 
-- Планы: ~/Github/DS-ops/0.OPS/0.7.Plans-and-Meetings/
+- Планы: ~/Github/DS-ecosystem-development/0.OPS/0.7.Plans-and-Meetings/
 - Шаблон: ~/Github/PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.AGENT.012-strategist/templates/reviews/weekly-review.md
 
 ## Алгоритм

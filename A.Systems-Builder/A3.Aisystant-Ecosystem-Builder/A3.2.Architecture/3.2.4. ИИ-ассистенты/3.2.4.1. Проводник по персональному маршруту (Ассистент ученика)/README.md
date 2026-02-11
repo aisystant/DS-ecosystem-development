@@ -40,8 +40,8 @@
 После публикации через GitHub Pages или другой хостинг, URL будут выглядеть примерно так:
 
 ```
-Privacy Policy: https://aisystant.github.io/DS-ops/.../privacy-policy.html
-Terms of Service: https://aisystant.github.io/DS-ops/.../terms-of-service.html
+Privacy Policy: https://aisystant.github.io/DS-ecosystem-development/.../privacy-policy.html
+Terms of Service: https://aisystant.github.io/DS-ecosystem-development/.../terms-of-service.html
 ```
 
 **Альтернативы для публикации:**

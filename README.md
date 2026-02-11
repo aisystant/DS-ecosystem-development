@@ -18,7 +18,7 @@
 ## 🗺️ Структура репозитория (Multi-Kernel S2R)
 
 ```
-DS-ops/
+DS-ecosystem-development/
 │
 ├── 0.OPS/                             # F0: Метауровень (управление знаниями)
 │   ├── 0.1.Knowledge-Logic/          # Формализация ядер, глоссарий, правила
@@ -218,14 +218,14 @@ Ecosystem-Builder (B3)
 | **[github.com/TserenTserenov/SPF](https://github.com/TserenTserenov/SPF)** | Уровень 2 | Фреймворк вторых принципов (форма + процесс) |
 | **[github.com/aisystant/PACK-personal](https://github.com/aisystant/PACK-personal)** | Уровень 3 | Pack (source-of-truth области «Созидатель») |
 | **[github.com/TserenTserenov/FMT-S2R](https://github.com/TserenTserenov/FMT-S2R)** | Форма (структура) | Методология организации репозиториев |
-| **[github.com/aisystant/DS-ops](https://github.com/aisystant/DS-ops)** | Уровень 4 | Карта / конституция экосистемы (этот репозиторий) |
+| **[github.com/aisystant/DS-ecosystem-development](https://github.com/aisystant/DS-ecosystem-development)** | Уровень 4 | Карта / конституция экосистемы (этот репозиторий) |
 | **[github.com/aisystant/DS-twin](https://github.com/aisystant/DS-twin)** | Уровень 4 | MCP-сервер цифрового двойника |
 | **[github.com/aisystant/DS-aist-bot](https://github.com/aisystant/DS-aist-bot)** | Уровень 4 | Telegram-бот персонального маршрута |
 
 ### Роль этого репозитория
 
 ```
-DS-ops
+DS-ecosystem-development
 ├── Уровень: Downstream (4)
 ├── Формат: S2R (мульти-ядерная структура)
 ├── Роль: карта / конституция экосистемы
@@ -314,8 +314,8 @@ DS-ops
 **Изучение материалов:**
 ```bash
 # Клонируй репозиторий
-git clone https://github.com/aisystant/DS-ops.git
-cd DS-ops
+git clone https://github.com/aisystant/DS-ecosystem-development.git
+cd DS-ecosystem-development
 
 # Начни с ключевых документов
 cat 0.OPS/0.1.Knowledge-Logic/01-kernels-model.md
@@ -412,7 +412,7 @@ tags:
 
 ## 📞 Контакты
 
-- **GitHub**: [aisystant/DS-ops](https://github.com/aisystant/DS-ops)
+- **GitHub**: [aisystant/DS-ecosystem-development](https://github.com/aisystant/DS-ecosystem-development)
 - **Telegram**: [указать канал/группу]
 - **Email**: [указать email]
 

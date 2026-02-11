@@ -489,7 +489,7 @@ Downstream-артефакты:
 ### 14.3. Граница ответственности
 
 ```
-DS-ops (этот репозиторий)
+DS-ecosystem-development (этот репозиторий)
 ├── Уровень: Downstream (4)
 ├── Формат: S2R (мульти-ядерная структура)
 ├── Роль: карта / конституция экосистемы
@@ -537,7 +537,7 @@ DS-twin (github.com/aisystant/DS-twin)
 
 | Репозиторий | Роль | Статус |
 |-------------|------|--------|
-| **[DS-ops](https://github.com/aisystant/DS-ops)** | Карта / конституция экосистемы | Активный |
+| **[DS-ecosystem-development](https://github.com/aisystant/DS-ecosystem-development)** | Карта / конституция экосистемы | Активный |
 | **[DS-twin](https://github.com/aisystant/DS-twin)** | MCP-сервер, измерительный контур | В разработке |
 | **[aist_bot](https://github.com/aisystant/aist_bot)** | Telegram-бот персонального маршрута | Активный |
 

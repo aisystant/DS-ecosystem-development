@@ -5,7 +5,7 @@ updated: 2026-02-08
 
 # WORKPLAN
 
-> Операционный план рабочих продуктов для DS-ops (governance).
+> Операционный план рабочих продуктов для DS-ecosystem-development (governance).
 
 ## Месячные приоритеты (февраль 2026)
 

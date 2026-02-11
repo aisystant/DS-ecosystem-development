@@ -30,8 +30,8 @@
 
 ```bash
 # 1. Клонировать репозиторий
-git clone https://github.com/aisystant/DS-ops.git
-cd DS-ops
+git clone https://github.com/aisystant/DS-ecosystem-development.git
+cd DS-ecosystem-development
 
 # 2. Изучить ключевые документы
 cat CLAUDE.md                                    # Инструкции для работы
@@ -49,7 +49,7 @@ cat 0.OPS/0.1.Knowledge-Logic/01-kernels-model.md  # Формализация я
 **Подробнее о методологии:** [Документация S2R](https://github.com/TserenTserenov/FMT-S2R)
 
 ```
-DS-ops/
+DS-ecosystem-development/
 ├── 0.OPS/                    # F0: Метауровень (правила, глоссарий, процессы)
 ├── A.Systems-Builder/        # Ядро A: Созидатель (человек)
 ├── B.Aisystant-Ecosystem/    # Ядро B: Экосистема Aisystant
@@ -285,7 +285,7 @@ gh pr create --title "feat(A2): добавлена формализация ко
              --body "## Описание\n\nДобавлен документ о формализации компетенций созидателя\n\n## Изменения\n- Создан 02-competency-formalization.md\n- Обновлён глоссарий"
 
 # Или через веб-интерфейс GitHub
-# https://github.com/aisystant/DS-ops/compare
+# https://github.com/aisystant/DS-ecosystem-development/compare
 ```
 
 ### Чек-лист для PR
@@ -399,7 +399,7 @@ claude-code
 
 ## Контакты
 
-- **GitHub Issues**: [DS-ops/issues](https://github.com/aisystant/DS-ops/issues)
+- **GitHub Issues**: [DS-ecosystem-development/issues](https://github.com/aisystant/DS-ecosystem-development/issues)
 - **Telegram**: [указать канал]
 - **Email**: [указать email]
 

@@ -6,7 +6,7 @@
 
 ## Контекст
 
-- Планы: ~/Github/DS-ops/0.OPS/0.7.Plans-and-Meetings/current/
+- Планы: ~/Github/DS-ecosystem-development/0.OPS/0.7.Plans-and-Meetings/current/
 
 ## Алгоритм
 

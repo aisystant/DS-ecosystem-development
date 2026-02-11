@@ -86,7 +86,7 @@ scope: repository
 ### A.1 — Holonic Foundation
 
 **Применяется к:**
-- Репозиторий DS-ops
+- Репозиторий DS-ecosystem-development
 - Ядра A, B, C
 - Семейства F0-F9
 - Документы внутри семейств
