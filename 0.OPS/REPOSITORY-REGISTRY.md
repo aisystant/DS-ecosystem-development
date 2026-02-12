@@ -48,6 +48,7 @@
 | 17 | [DS-extractor-agent](https://github.com/TserenTserenov/DS-extractor-agent) | Downstream/instrument | ИТ-платформа | code | personal | no | Active |
 | 18 | [digital-twin-mcp](https://github.com/aisystant/digital-twin-mcp) | Downstream/instrument | ИТ-платформа | code | team | no | Active |
 | 19 | [aist_bot_newarchitecture](https://github.com/aisystant/aist_bot_newarchitecture) | Downstream/instrument | Бот Aist | code | team | no | Active |
+| 21 | [DS-synchronizer](https://github.com/TserenTserenov/DS-synchronizer) | Downstream/instrument | ИТ-платформа | code | personal | no | Active |
 
 ---
 
@@ -81,6 +82,7 @@
 | [DS-exocortex-setup-agent](https://github.com/TserenTserenov/DS-exocortex-setup-agent) | Агент развёртывания экзокортекса | FMT-exocortex-template | TserenTserenov |
 | [DS-strategist-agent](https://github.com/TserenTserenov/DS-strategist-agent) | Агент стратегирования | PACK-personal, PACK-digital-platform | TserenTserenov |
 | [DS-extractor-agent](https://github.com/TserenTserenov/DS-extractor-agent) | Агент извлечения знаний | PACK-digital-platform | TserenTserenov |
+| [DS-synchronizer](https://github.com/TserenTserenov/DS-synchronizer) | Синхронизатор экзокортекса (watch → detect → route) | PACK-digital-platform | TserenTserenov |
 | [digital-twin-mcp](https://github.com/aisystant/digital-twin-mcp) | MCP-сервер цифрового двойника | PACK-digital-platform, PACK-personal | aisystant |
 | [aist_bot_newarchitecture](https://github.com/aisystant/aist_bot_newarchitecture) | Telegram-бот (new architecture, State Machine) | PACK-personal | aisystant |
 
@@ -132,7 +134,8 @@ FPF (ailev)
         │     ├──▶ digital-twin-mcp (Downstream/instrument)
         │     ├──▶ DS-my-strategy (Downstream/governance — агент Стратег)
         │     ├──▶ DS-strategist-agent (Downstream/instrument — агент)
-        │     └──▶ DS-extractor-agent (Downstream/instrument — агент)
+        │     ├──▶ DS-extractor-agent (Downstream/instrument — агент)
+        │     └──▶ DS-synchronizer (Downstream/instrument — watcher)
         │
         └──▶ FMT-S2R (Format)
               │
@@ -199,6 +202,7 @@ FMT-exocortex-template (Format)
 | DS-extractor-agent | **yes** | **yes** |
 | digital-twin-mcp | yes | **yes** |
 | aist_bot_newarchitecture | **yes** | **yes** |
+| DS-synchronizer | **yes** | **yes** |
 
 > **partial** = файл есть, но без полей Система/Содержание/Для кого. Обновить при следующем ревью.
 
