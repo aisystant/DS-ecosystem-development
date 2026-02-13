@@ -293,7 +293,7 @@ updated: 2026-02-11
 4. Валидирует: обязательные поля, формат, консистентность
 5. Генерирует Projected Read Model (YAML-файл в Downstream-репо)
 6. Коммитит в Downstream-репо (git add + commit + push)
-7. Уведомляет через notify.sh
+7. При ошибках — уведомляет через notify.sh (успех = тишина)
 
 **Выход:** Обновлённая проекция (read-only YAML) в Downstream-репо
 
