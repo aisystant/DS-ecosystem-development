@@ -1,6 +1,6 @@
 # Тип репозитория
 
-**Тип**: `Downstream/governance`
+**Тип**: `DS/governance`
 
 **Source-of-truth**: no
 
