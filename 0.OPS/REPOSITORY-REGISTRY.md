@@ -33,6 +33,8 @@
 |---|-------------|-----|---------|------------|----------|-----|--------|
 | 0 | [ZP](https://github.com/TserenTserenov/ZP) | Foundation | cross-cutting | text-description | public | yes | Active |
 | 1 | [FPF](https://github.com/ailev/FPF) | Framework | cross-cutting | text-description | public | yes | External |
+| 21 | [aisystant](https://github.com/aisystant/aisystant) | Downstream/instrument | Экосистема | code | team | no | External |
+| 22 | [SystemsSchool_bot](https://github.com/aisystant/SystemsSchool_bot) | Downstream/instrument | Экосистема | code | team | no | External |
 | 2 | [SPF](https://github.com/TserenTserenov/SPF) | Framework | cross-cutting | text-description | public | yes | Active |
 | 3 | [s2r](https://github.com/TserenTserenov/FMT-S2R) | Format | cross-cutting | text-description | public | yes | Active |
 | 4 | [PACK-personal](https://github.com/aisystant/PACK-personal) | Pack | Созидатель | text-description | team | yes | Active |
@@ -94,6 +96,8 @@
 | [DS-ai-systems](https://github.com/TserenTserenov/DS-ai-systems) | Монорепо ИИ-систем (7 систем: стратег, экстрактор, синхронизатор, наладчик, статистик, оценщик, шаблонизатор) | PACK-digital-platform, PACK-personal | TserenTserenov |
 | [digital-twin-mcp](https://github.com/aisystant/digital-twin-mcp) | MCP-сервер цифрового двойника | PACK-digital-platform, PACK-personal | aisystant |
 | [aist_bot_newarchitecture](https://github.com/aisystant/aist_bot_newarchitecture) | Telegram-бот (new architecture, State Machine) | PACK-personal | aisystant |
+| [aisystant](https://github.com/aisystant/aisystant) | LMS Aisystant (SYS.004) | PACK-ecosystem | aisystant (external) |
+| [SystemsSchool_bot](https://github.com/aisystant/SystemsSchool_bot) | Telegram-бот стажировок и расписания | PACK-ecosystem | aisystant (external) |
 
 ### Downstream/governance
 
@@ -230,4 +234,4 @@ FMT-exocortex-template (Format)
 
 ---
 
-*Последнее обновление: 2026-02-20*
+*Последнее обновление: 2026-02-25*
