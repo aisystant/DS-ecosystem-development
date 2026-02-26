@@ -28,18 +28,11 @@ related:
 └── database: aisystant
     │
     ├── schema: public                      [Идентичность пользователя]
-    │   ├── users                           ← Канонический профиль пользователя
-    │   │   id, telegram_id, email,            Один пользователь — много входов.
-    │   │   lms_id, ory_id, name,              Связка тиров: бот → web → LMS.
-    │   │   language, current_tier,             FK для всех остальных таблиц.
-    │   │   created_at, updated_at
-    │   │
-    │   ├── marathon_content                ← Контент доставки (сгенерированные уроки)
-    │   ├── feed_weeks / feed_sessions      ← Расписание доставки контента
-    │   ├── published_posts                 ← Публикации (Discourse)
-    │   ├── scheduled_publications          ← Планы публикаций
-    │   ├── user_sessions                   ← Аналитика сессий
-    │   └── service_usage                   ← Использование сервисов
+    │   └── users                           ← Канонический профиль пользователя
+    │       id, telegram_id, email,            Один пользователь — много входов.
+    │       lms_id, ory_id, name,              Связка тиров: бот → web → LMS.
+    │       language, current_tier,             FK для всех остальных таблиц.
+    │       created_at, updated_at
     │
     ├── schema: development                 [Развитие: события + проекции]
     │   │
@@ -49,10 +42,7 @@ related:
     │   │   Источники: бот, LMS, клуб, web app.
     │   │   Содержимое (ответы, тексты) — в payload (JSONB).
     │   │   Декларации пользователя — тоже Events (confidence=0.3-0.5).
-    │   │
-    │   ├── projection_snapshots            ← Снимки State-проекций для быстрого rebuild
-    │   │   Вариант А: снимок ПРОЕКЦИЙ (не событий).
-    │   │   Rebuild = snapshot + replay событий после last_event_id.
+    │   │   4 направления: себя, других, сообщества, экосистемы.
     │   │
     │   │  State projections (вычисляемые из Events)
     │   │  Ровно 5 проекций, согласованных в DP.ARCH.003:
@@ -80,9 +70,12 @@ related:
     │   ├── api_keys                        ← WakaTime
     │   └── external_accounts               ← Discourse, LMS accounts
     │
-    └── schema: operations                  [Служебное: FSM, кэш, мониторинг]
+    └── schema: operations                  [Служебное: FSM, кэш, контент, мониторинг]
         ├── fsm_states                      ← Telegram FSM (состояние диалога)
         ├── content_cache                   ← Временный кэш (TTL)
+        ├── marathon_content                ← Контент доставки (шаблоны уроков)
+        ├── feed_weeks / feed_sessions      ← Расписание доставки контента
+        ├── scheduled_publications          ← Планы публикаций
         ├── error_logs                      ← Ошибки
         ├── pending_fixes                   ← AutoFix
         ├── request_traces                  ← Observability
@@ -107,11 +100,11 @@ related:
 
 | Schema | Домен | Вопрос, на который отвечает | Почему отдельная |
 |--------|-------|----------------------------|-----------------|
-| `public` | Идентичность | «Кто этот пользователь и что ему доставляется?» | PostgreSQL default. Каноническая точка FK для всех остальных schemas. Если убрать бота — пользователь остаётся |
+| `public` | Идентичность | «Кто этот пользователь?» | PostgreSQL default. ТОЛЬКО каноническая идентичность (users). FK для всех остальных schemas. Контент и расписание — в operations (служебная механика). Действия пользователя — events в development |
 | `development` | Развитие | «Что делал, что знает и куда движется этот созидатель?» | Ядро ЦД. Все 4 направления развития (себя, других, сообщества, экосистемы) — единый поток событий. Свой жизненный цикл: append-only events + пересчитываемые проекции. Отдельный доступ: BKT-модуль, MCP, аналитик |
 | `finance` | Финансы | «Сколько заплатил, сколько заработал, сколько на балансе?» | Другой bounded context. Финансы требуют аудит-трейла, reconciliation, роялти-распределение. Свой жизненный цикл (месячные периоды, выплаты). Доступ: финансист видит finance, но НЕ видит development |
 | `connections` | Подключения | «Как подключены GitHub, LMS, WakaTime?» | Секреты (pgcrypto). Минимальный доступ — только сервис аутентификации. Если убрать WakaTime — development не пострадает |
-| `operations` | Служебное | «Какое состояние FSM, кэш, ошибки?» | Эфемерные данные с коротким TTL. Можно полностью дропнуть без потерь. Без этой schema `public` превращается в свалку |
+| `operations` | Служебное | «Какое состояние FSM, кэш, контент доставки, ошибки?» | Эфемерные и служебные данные: FSM, кэш, расписание контента, шаблоны уроков, мониторинг. Можно полностью дропнуть без потерь для ЦД |
 
 ### Почему НЕ выделены отдельно
 
@@ -132,7 +125,7 @@ related:
 
 | Schema | Bounded Context | Можно дропнуть без потерь? |
 |--------|----------------|---------------------------|
-| `public` | Идентичность + платформенные операции | Нет |
+| `public` | Идентичность (только users) | Нет |
 | `development` | Развитие созидателя (все 4 направления) | Нет |
 | `finance` | Финансы, токены, роялти | Нет |
 | `connections` | Внешние подключения (секреты) | Нет (секреты) |
@@ -237,19 +230,26 @@ CREATE INDEX idx_events_skills
 | `tokens_spent` | web | amount, item | 1.0 |
 | `payment_completed` | finance | paymentId, amount, currency | 1.0 |
 | `subscription_started` | finance | plan, expiresAt | 1.0 |
+| `seminar_attended` | bot, web | seminarId, title, duration | 0.9 |
+| `practicum_step` | bot, lms | practicumId, stepId, completed | 0.9 |
+| `residency_progress` | lms | residencyId, milestone, status | 0.9 |
 | `guide_published` | web | guideId, title, domain | 0.9 |
 | `guide_reviewed` | club | guideId, reviewerId, score | 0.8 |
+| `question_answered` | club | topicId, helpedUserId | 0.8 |
+| `peer_review` | club | reviewedUserId, feedback | 0.7 |
 
 **Содержимое (ответы, тексты) хранится в payload.** Отдельные таблицы `answers`, `qa_history` не нужны — всё в Events.
 
 **4 направления развития созидателя — в одном потоке событий:**
 
-| Направление | Примеры событий |
-|-------------|----------------|
-| Развитие себя | test_answered, marathon_step, self_assessed, goal_set |
-| Развитие других | comment_created (помощь в чатах), ответы на вопросы |
-| Развитие сообщества | post_published, referral_completed |
-| Развитие экосистемы | guide_published, guide_reviewed |
+| # | Направление | Что делает | Примеры событий |
+|---|-------------|-----------|----------------|
+| 1 | **Развитие себя** | Учится, практикуется, рефлексирует, проходит программы | `test_answered`, `marathon_step`, `self_assessed`, `goal_set`, `seminar_attended`, `practicum_step`, `residency_progress`, `feed_answered` |
+| 2 | **Развитие других** | Помогает другим в чатах, отвечает на вопросы, комментирует | `comment_created` (помощь), `question_answered`, `peer_review` |
+| 3 | **Развитие сообщества** | Участвует в жизни сообщества, привлекает участников | `post_published`, `referral_completed`, `event_organized` |
+| 4 | **Развитие экосистемы** | Создаёт руководства, методологии, внешние публикации | `guide_published`, `guide_reviewed`, `methodology_contributed` |
+
+Все 4 направления различаются по `event_type`, а не по schema. Один поток → одна таблица → разные проекции.
 
 ### 4.3 State projections (development)
 
@@ -318,16 +318,6 @@ CREATE TABLE development.qualifications (
     updated_at      TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Projection Snapshots (снимки проекций для быстрого rebuild)
--- Вариант А: snapshot = снимок STATE, не событий
-CREATE TABLE development.projection_snapshots (
-    user_id         BIGINT NOT NULL REFERENCES public.users(id),
-    projection_type TEXT NOT NULL,         -- 'skill_mastery', 'engagement', ...
-    snapshot_data   JSONB NOT NULL,
-    last_event_id   BIGINT NOT NULL,
-    created_at      TIMESTAMPTZ DEFAULT NOW(),
-    PRIMARY KEY (user_id, projection_type)
-);
 ```
 
 ### 4.4 finance.* — Финансы, токены, роялти авторам
@@ -553,6 +543,9 @@ Neon: aisystant
 | `activity_log` | `development` | Events (session_start) |
 | `assessments` | `development` | Events (self_assessed) |
 | `training_settings` | `public.users` | Preferences (поля в users) |
+| `user_sessions` | `development` | Events (session_start) |
+| `service_usage` | `development` | Events (service_used) |
+| `published_posts` | `development` | Events (post_published) |
 | `subscriptions` | `finance` | Подписки |
 | `user_access` | `finance` | Тиры доступа |
 | `conversion_events` | `finance` | Воронки → монетизация |
@@ -567,13 +560,10 @@ Neon: aisystant
 | `request_traces` | `operations` | Observability |
 | `feedback_reports` | `operations` | Тикеты |
 | `feedback_triage` | `operations` | Автотриаж |
-| `marathon_content` | `public` | Контент доставки |
-| `feed_weeks` | `public` | Расписание контента |
-| `feed_sessions` | `public` | Сессии доставки |
-| `published_posts` | `public` | Публикации |
-| `scheduled_publications` | `public` | Планы публикаций |
-| `user_sessions` | `public` | Аналитика сессий |
-| `service_usage` | `public` | Использование сервисов |
+| `marathon_content` | `operations` | Контент доставки (шаблоны) |
+| `feed_weeks` | `operations` | Расписание контента |
+| `feed_sessions` | `operations` | Сессии доставки |
+| `scheduled_publications` | `operations` | Планы публикаций |
 
 ### План миграции (пошаговый)
 
@@ -662,13 +652,8 @@ GRANT SELECT ON ALL TABLES IN SCHEMA finance TO financier;
 
 **Retention policy:**
 - Events < 2 лет → горячее хранилище (активные партиции)
-- Events > 2 лет → snapshot + архив (старые партиции detach → cold storage)
+- Events > 2 лет → архив (старые партиции detach → cold storage)
 - Проекции → всегда актуальные (пересчёт из Events)
-
-**Snapshotting:**
-- Каждые 1000 событий пользователя или еженедельно
-- `development.projection_snapshots` хранит состояние проекции + `last_event_id`
-- Rebuild = загрузить snapshot + replay событий после `last_event_id`
 
 ---
 
@@ -689,7 +674,28 @@ GRANT SELECT ON ALL TABLES IN SCHEMA finance TO financier;
 
 ---
 
-## 10. На будущее: indicator_registry (Фаза 3)
+## 10. На будущее (Фаза 3+)
+
+### 10.1 projection_snapshots — оптимизация rebuild
+
+При текущем масштабе (<1K пользователей, <1000 событий на человека) rebuild проекций из всех Events — мгновенный. Snapshot-оптимизация понадобится, когда событий станет >10K на пользователя.
+
+```sql
+-- Planned for Phase 3+: когда rebuild из Events станет медленным
+CREATE TABLE development.projection_snapshots (
+    user_id         BIGINT NOT NULL REFERENCES public.users(id),
+    projection_type TEXT NOT NULL,         -- 'skill_mastery', 'engagement', ...
+    snapshot_data   JSONB NOT NULL,
+    last_event_id   BIGINT NOT NULL,
+    created_at      TIMESTAMPTZ DEFAULT NOW(),
+    PRIMARY KEY (user_id, projection_type)
+);
+-- Rebuild = загрузить snapshot + replay событий после last_event_id
+```
+
+**Триггер:** rebuild одного пользователя > 1 сек.
+
+### 10.2 indicator_registry — параметры методов в БД
 
 Сейчас метамодель (какие индикаторы, формулы, зависимости, тип A/B/C) живёт в Pack-документе DP.ARCH.003. Это правильное разделение: Модель — в Pack, Данные — в Neon.
 
@@ -707,7 +713,7 @@ CREATE TABLE development.indicator_registry (
 );
 ```
 
-**Сейчас:** не нужно. **Фаза 3:** мигрировать из Pack.
+**Триггер:** >30 карточек методов или потребность в per-skill BKT параметрах.
 
 ---
 
@@ -716,7 +722,7 @@ CREATE TABLE development.indicator_registry (
 | Характеристика | Оценка | Обоснование |
 |---|---|---|
 | **Э** Эволюционируемость | 9 | Новый источник = новый event_type. Новая проекция = новая таблица + replay. Finance изолирован — растёт независимо от development |
-| **М** Масштабируемость | 8 | Партиционирование events по месяцам. Snapshots для rebuild. Neon serverless auto-scale. Plan: при >10K — Kafka/CDC |
+| **М** Масштабируемость | 8 | Партиционирование events по месяцам. Neon serverless auto-scale. Plan: при >10K — Kafka/CDC, projection snapshots |
 | **О** Обучаемость | 9 | 5 schemas, чёткие bounded contexts. «Событие → проекция» за 2 минуты. Единообразные имена-домены |
 | **Г** Генеративность | 9 | Ретроспективные запросы. Replay для новых проекций. Open Learner Model. Finance с роялти авторам |
 | **С** Скорость | 8 | Append <10ms. Snapshot read <50ms. BKT update <1ms. View 2-4 сек |
