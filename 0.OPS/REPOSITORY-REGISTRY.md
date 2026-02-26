@@ -167,50 +167,10 @@ FMT-exocortex-template (Base/Форматы)
 > **Тип репозитория:** `Base/Принципы` | `Base/Форматы` | `Pack` | `DS/instrument` | `DS/governance` | `DS/surface`
 ```
 
-### 2. Файл `REPO-TYPE.md` с 4D-полями:
+### 2. Файл `REPO-TYPE.md` (только свои репо)
 
-```markdown
-# Тип репозитория
-
-**Тип**: `Base/Принципы` | `Base/Форматы` | `Pack` | `DS/instrument` | `DS/governance` | `DS/surface`
-**Система (SoI)**: Созидатель | Экосистема | ИТ-платформа | Бот Aist | cross-cutting
-**Содержание**: code | text-description | text-governance | text-publication
-**Для кого**: personal | team | public
-**Source-of-truth**: yes | no
-
-## Upstream dependencies
-- Список зависимостей
-
-## Downstream outputs
-- Что потребляет этот репозиторий
-
-## Non-goals
-- Что НЕ входит в scope
-```
-
-### 3. Покрытие REPO-TYPE.md
-
-| Репозиторий | REPO-TYPE.md | 4D-поля |
-|-------------|-------------|---------|
-| ZP | — (minimal, no REPO-TYPE needed) | — |
-| FPF | — (external) | — |
-| SPF | yes | partial |
-| FMT-S2R | yes | partial |
-| PACK-personal | yes | partial |
-| PACK-ecosystem | yes | partial |
-| PACK-digital-platform | yes | partial |
-| DS-twin | yes | partial |
-| DS-Knowledge-Index-Tseren | **yes** | **yes** |
-| DS-ecosystem-development | yes | partial |
-| DS-my-strategy | yes | yes |
-| docs | **yes** | **yes** |
-| DS-marathon-v2-tseren | **yes** | **yes** |
-| FMT-exocortex-template | **yes** | **yes** |
-| DS-ai-systems | **yes** | **yes** |
-| digital-twin-mcp | yes | **yes** |
-| aist_bot_newarchitecture | **yes** | **yes** |
-
-> **partial** = файл есть, но без полей Система/Содержание/Для кого. Обновить при следующем ревью.
+`REPO-TYPE.md` размещается только в репозиториях, которые создал пользователь (в т.ч. на аккаунте организации aisystant).
+Для чужих репо (ailev/FPF, aisystant/aisystant, aisystant/SystemsSchool_bot и др.) описание хранится только в этом реестре — не в самом репо.
 
 ---
 
@@ -221,7 +181,7 @@ FMT-exocortex-template (Base/Форматы)
 3. **При изменении Pack** — обновить DS
 4. **При добавлении репозитория** — обновить этот реестр
 5. **При удалении репозитория** — обновить этот реестр
-6. **REPO-TYPE.md обязателен** для всех репозиториев (кроме external)
+6. **REPO-TYPE.md** — только в своих репозиториях (созданных пользователем, в т.ч. на org-аккаунте). Для чужих — описание только в этом реестре
 
 ---
 
