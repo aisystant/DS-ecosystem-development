@@ -7,7 +7,7 @@ status: draft
 type: paid-seminar
 date: 2026-02-28
 duration: "2.5 часа (~150 мин)"
-time: "12:00 MSK"
+time: "15:00 MSK"
 speaker: Церен Церенов
 target_audience:
   - "Участники бесплатного семинара 22 февраля"
