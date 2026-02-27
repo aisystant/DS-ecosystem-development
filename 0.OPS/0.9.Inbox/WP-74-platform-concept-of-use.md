@@ -1,6 +1,6 @@
 ---
 type: work-package
-number: "73a"
+number: "74"
 title: "Концепция использования ИТ-платформы Aisystant"
 status: in_progress
 created: 2026-02-27
