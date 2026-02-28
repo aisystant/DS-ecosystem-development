@@ -68,16 +68,20 @@ paginate: true
 |---|----------|--------|
 | 1 | **Шаблон IWE** (GitHub) | https://github.com/aisystant/FMT-exocortex-template |
 | 2 | **Этот документ** (PDF) | Справочник: протоколы, шаблоны, ссылки |
-| 3 | **LEARNING-PATH** (11 разделов) | `docs/LEARNING-PATH.md` в шаблоне |
+| 3 | **LEARNING-PATH** (11 разделов) | https://github.com/aisystant/FMT-exocortex-template/blob/main/docs/LEARNING-PATH.md |
 | 4 | **Бот @aist_me_bot** | https://t.me/aist_me_bot |
 | 5 | **MCP-сервер знаний** (5 400+ док.) | https://knowledge-mcp.aisystant.workers.dev/mcp |
 | 6 | **MCP исходный код** (open source) | https://github.com/aisystant/knowledge-mcp |
 | 7 | **Запись семинара** | Будет отправлена участникам |
 
 ### Документация в шаблоне:
-- `docs/SETUP-GUIDE.md` — пошаговая установка
-- `docs/IWE-HELP.md` — быстрая справка
-- `docs/LEARNING-PATH.md` — руководство (11 разделов)
+- https://github.com/aisystant/FMT-exocortex-template/blob/main/docs/SETUP-GUIDE.md — пошаговая установка
+- https://github.com/aisystant/FMT-exocortex-template/blob/main/docs/IWE-HELP.md — быстрая справка
+- https://github.com/aisystant/FMT-exocortex-template/blob/main/docs/LEARNING-PATH.md — руководство (11 разделов)
+
+### Ключевые файлы шаблона:
+- https://github.com/aisystant/FMT-exocortex-template/blob/main/CLAUDE.md — корневой файл инструкций
+- https://github.com/aisystant/FMT-exocortex-template/blob/main/memory/MEMORY.md — шаблон памяти
 
 ---
 
@@ -361,7 +365,7 @@ FMT-exocortex-template/
 
 # LEARNING-PATH: оглавление
 
-Файл `docs/LEARNING-PATH.md` в шаблоне — самостоятельное руководство:
+https://github.com/aisystant/FMT-exocortex-template/blob/main/docs/LEARNING-PATH.md — самостоятельное руководство:
 
 | # | Раздел | Что узнаете |
 |---|--------|------------|
@@ -425,12 +429,53 @@ FMT-exocortex-template/
 | **MCP исходный код** | [github.com/aisystant/knowledge-mcp](https://github.com/aisystant/knowledge-mcp) |
 | **Claude Code** | [claude.ai](https://claude.ai) |
 | **VS Code** | [code.visualstudio.com](https://code.visualstudio.com) |
-| **LEARNING-PATH** | `docs/LEARNING-PATH.md` в шаблоне |
-| **SETUP-GUIDE** | `docs/SETUP-GUIDE.md` в шаблоне |
-| **IWE-HELP** | `docs/IWE-HELP.md` в шаблоне |
+| **LEARNING-PATH** | https://github.com/aisystant/FMT-exocortex-template/blob/main/docs/LEARNING-PATH.md |
+| **SETUP-GUIDE** | https://github.com/aisystant/FMT-exocortex-template/blob/main/docs/SETUP-GUIDE.md |
+| **IWE-HELP** | https://github.com/aisystant/FMT-exocortex-template/blob/main/docs/IWE-HELP.md |
+| **CLAUDE.md** (шаблон) | https://github.com/aisystant/FMT-exocortex-template/blob/main/CLAUDE.md |
+| **MEMORY.md** (шаблон) | https://github.com/aisystant/FMT-exocortex-template/blob/main/memory/MEMORY.md |
 | **Клуб** | [systemsworld.club](https://systemsworld.club) |
 | **Telegram-канал** | [@systemsthinkinglife](https://t.me/systemsthinkinglife) |
 | **Курс «Личное развитие»** | [aisystant.com](https://aisystant.com) |
+
+---
+
+# Глоссарий аббревиатур (1/2)
+
+| Аббревиатура | Расшифровка | Пояснение |
+|-------------|------------|-----------|
+| **IWE** | Intellectual Working Environment | Интеллектуальная рабочая среда |
+| **IDE** | Integrated Development Environment | Среда разработки (VS Code, Cursor и т.п.) |
+| **ОРЗ** | Открытие → Работа → Закрытие | Протокол трёх стадий рабочей сессии |
+| **РП** | Рабочий продукт | Измеримый артефакт (документ, схема, код) |
+| **WP** | Work Product | = РП, англоязычный синоним |
+| **MCP** | Model Context Protocol | Открытый стандарт подключения данных к ИИ |
+| **ЦД** | Цифровой двойник | События → Состояние → Прогнозы |
+| **Pack** | Паспорт предметной области | Репозиторий доменных знаний |
+| **DS** | Downstream | Репо с кодом, контентом, планами |
+| **FPF** | First Principles Framework | Фреймворк первых принципов (Aisystant) |
+| **ZP** | Zero Principles | Нулевые принципы (базовый уровень) |
+| **SPF** | Second Principles Framework | Фреймворк вторых принципов |
+
+---
+
+# Глоссарий аббревиатур (2/2)
+
+| Аббревиатура | Расшифровка | Пояснение |
+|-------------|------------|-----------|
+| **ЭМОГССБ** | Э-М-О-Г-С-С-Б | 7 характеристик АрхГейта: Эволюционируемость, Масштабируемость, Обучаемость, Генеративность, Скорость, Современность, Безопасность |
+| **SOTA** | State of the Art | Лучшие современные практики |
+| **СОП (SOP)** | Стандартная операционная процедура | Регламент «как делать» |
+| **KPI** | Key Performance Indicators | Ключевые показатели эффективности |
+| **HR** | Human Resources | Управление персоналом |
+| **Marp** | Markdown Presentation Ecosystem | Инструмент: Markdown → слайды (PDF/HTML) |
+| **PDF** | Portable Document Format | Формат документов |
+| **GPU** | Graphics Processing Unit | Вычислительное устройство для ИИ |
+| **WP Gate** | Work Product Gate | Блокирующая проверка: задача есть в плане? |
+| **АрхГейт (ArchGate)** | Architectural Gate | Оценка архитектурных решений (ЭМОГССБ ≥8) |
+| **Capture-to-Pack** | — | Извлечение знаний из работы в Pack-репозиторий |
+| **UL** | Ubiquitous Language | Единый язык команды (термин из DDD) |
+| **DDD** | Domain-Driven Design | Проектирование на основе предметной области |
 
 ---
 
