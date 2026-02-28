@@ -66,22 +66,22 @@ paginate: true
 
 | # | Артефакт | Ссылка |
 |---|----------|--------|
-| 1 | **Шаблон IWE** (GitHub) | https://github.com/aisystant/FMT-exocortex-template |
+| 1 | **Шаблон IWE** (GitHub) | https://github.com/TserenTserenov/FMT-exocortex-template |
 | 2 | **Этот документ** (PDF) | Справочник: протоколы, шаблоны, ссылки |
-| 3 | **LEARNING-PATH** (11 разделов) | https://github.com/aisystant/FMT-exocortex-template/blob/main/docs/LEARNING-PATH.md |
+| 3 | **LEARNING-PATH** (11 разделов) | https://github.com/TserenTserenov/FMT-exocortex-template/blob/main/docs/LEARNING-PATH.md |
 | 4 | **Бот @aist_me_bot** | https://t.me/aist_me_bot |
 | 5 | **MCP-сервер знаний** (5 400+ док.) | https://knowledge-mcp.aisystant.workers.dev/mcp |
 | 6 | **MCP исходный код** (open source) | https://github.com/aisystant/knowledge-mcp |
 | 7 | **Запись семинара** | Будет отправлена участникам |
 
 ### Документация в шаблоне:
-- https://github.com/aisystant/FMT-exocortex-template/blob/main/docs/SETUP-GUIDE.md — пошаговая установка
-- https://github.com/aisystant/FMT-exocortex-template/blob/main/docs/IWE-HELP.md — быстрая справка
-- https://github.com/aisystant/FMT-exocortex-template/blob/main/docs/LEARNING-PATH.md — руководство (11 разделов)
+- https://github.com/TserenTserenov/FMT-exocortex-template/blob/main/docs/SETUP-GUIDE.md — пошаговая установка
+- https://github.com/TserenTserenov/FMT-exocortex-template/blob/main/docs/IWE-HELP.md — быстрая справка
+- https://github.com/TserenTserenov/FMT-exocortex-template/blob/main/docs/LEARNING-PATH.md — руководство (11 разделов)
 
 ### Ключевые файлы шаблона:
-- https://github.com/aisystant/FMT-exocortex-template/blob/main/CLAUDE.md — корневой файл инструкций
-- https://github.com/aisystant/FMT-exocortex-template/blob/main/memory/MEMORY.md — шаблон памяти
+- https://github.com/TserenTserenov/FMT-exocortex-template/blob/main/CLAUDE.md — корневой файл инструкций
+- https://github.com/TserenTserenov/FMT-exocortex-template/blob/main/memory/MEMORY.md — шаблон памяти
 
 ---
 
@@ -98,7 +98,7 @@ paginate: true
 
 <div class="ref">
 
-**В шаблоне:** [FMT-exocortex-template/CLAUDE.md](https://github.com/aisystant/FMT-exocortex-template/blob/main/CLAUDE.md)
+**В шаблоне:** [FMT-exocortex-template/CLAUDE.md](https://github.com/TserenTserenov/FMT-exocortex-template/blob/main/CLAUDE.md)
 
 </div>
 
@@ -365,7 +365,7 @@ FMT-exocortex-template/
 
 # LEARNING-PATH: оглавление
 
-https://github.com/aisystant/FMT-exocortex-template/blob/main/docs/LEARNING-PATH.md — самостоятельное руководство:
+https://github.com/TserenTserenov/FMT-exocortex-template/blob/main/docs/LEARNING-PATH.md — самостоятельное руководство:
 
 | # | Раздел | Что узнаете |
 |---|--------|------------|
@@ -423,17 +423,17 @@ https://github.com/aisystant/FMT-exocortex-template/blob/main/docs/LEARNING-PATH
 
 | Что | Ссылка |
 |-----|--------|
-| **Шаблон IWE** | [github.com/aisystant/FMT-exocortex-template](https://github.com/aisystant/FMT-exocortex-template) |
+| **Шаблон IWE** | [github.com/TserenTserenov/FMT-exocortex-template](https://github.com/TserenTserenov/FMT-exocortex-template) |
 | **Бот** | [@aist_me_bot](https://t.me/aist_me_bot) |
 | **MCP-сервер** | `https://knowledge-mcp.aisystant.workers.dev/mcp` |
 | **MCP исходный код** | [github.com/aisystant/knowledge-mcp](https://github.com/aisystant/knowledge-mcp) |
 | **Claude Code** | [claude.ai](https://claude.ai) |
 | **VS Code** | [code.visualstudio.com](https://code.visualstudio.com) |
-| **LEARNING-PATH** | https://github.com/aisystant/FMT-exocortex-template/blob/main/docs/LEARNING-PATH.md |
-| **SETUP-GUIDE** | https://github.com/aisystant/FMT-exocortex-template/blob/main/docs/SETUP-GUIDE.md |
-| **IWE-HELP** | https://github.com/aisystant/FMT-exocortex-template/blob/main/docs/IWE-HELP.md |
-| **CLAUDE.md** (шаблон) | https://github.com/aisystant/FMT-exocortex-template/blob/main/CLAUDE.md |
-| **MEMORY.md** (шаблон) | https://github.com/aisystant/FMT-exocortex-template/blob/main/memory/MEMORY.md |
+| **LEARNING-PATH** | https://github.com/TserenTserenov/FMT-exocortex-template/blob/main/docs/LEARNING-PATH.md |
+| **SETUP-GUIDE** | https://github.com/TserenTserenov/FMT-exocortex-template/blob/main/docs/SETUP-GUIDE.md |
+| **IWE-HELP** | https://github.com/TserenTserenov/FMT-exocortex-template/blob/main/docs/IWE-HELP.md |
+| **CLAUDE.md** (шаблон) | https://github.com/TserenTserenov/FMT-exocortex-template/blob/main/CLAUDE.md |
+| **MEMORY.md** (шаблон) | https://github.com/TserenTserenov/FMT-exocortex-template/blob/main/memory/MEMORY.md |
 | **Клуб** | [systemsworld.club](https://systemsworld.club) |
 | **Telegram-канал** | [@systemsthinkinglife](https://t.me/systemsthinkinglife) |
 | **Курс «Личное развитие»** | [aisystant.com](https://aisystant.com) |
