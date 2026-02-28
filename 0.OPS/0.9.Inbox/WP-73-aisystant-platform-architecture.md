@@ -572,7 +572,7 @@ Layer 1: ДАННЫЕ + ИНФРАСТРУКТУРА
 - YAML frontmatter, assets/ для картинок
 - Импорт из API (scripts/import_md/run.sh + metadata repo)
 
-### 3.6. Новые сервисы (S44–S61)
+### 3.6. Новые сервисы (S44–S63)
 
 Из 43 текущих сервисов **все сохраняются**. Добавляются:
 
@@ -597,6 +597,9 @@ Layer 1: ДАННЫЕ + ИНФРАСТРУКТУРА
 | S60 | CRM Dashboard | CRM/Бэк-офис (T0) | On-demand (bookkeeper) | Web App (back-office) |
 | S61 | **AI Training Pipeline** | AI Training Svc | Event (artifact confirmed, epistemic status ≥ peer-reviewed) | AI + Deterministic |
 | S62 | **Event Access** | Event Access Svc (#28) | Scheduled (за N мин до события) или on-demand (admin) | Deterministic (JWT generation) + Notification (S51) |
+| S63 | **Cloud Strategist** | Стратег (R1) | ⏰ ежедн 04:00 (cron сервер) | Anthropic API → GitHub API → DS-strategy |
+
+> **S63 Cloud Strategist (L2 Platform):** Серверная генерация DayPlan/WeekPlan. Заменяет локальный launchd (L4 Personal) для пользователей без надёжного Mac-пробуждения. Платформа по cron собирает коммиты через GitHub API, генерирует план через Anthropic API, коммитит в DS-strategy пользователя. Требует OAuth scope `repo` от пользователя. Нулевой setup: включается кнопкой в Web App. **Фаза:** 1+ (после Web App + ORY SSO). **Зависимости:** Web App (1.1), ORY SSO (0.2), GitHub OAuth.
 
 ### 3.7. Самообучение ИИ-агентов (принцип #21)
 
@@ -998,7 +1001,7 @@ Scope:       event:seminar-{id}
 - [x] ADR: **15 решений** (7 принятых, 8 предлагаемых)
 - [x] ADR-015: Образованные агенты — fine-tuning на ZP/FPF (предложение)
 - [x] ADR-014: Трёхосевая модель доступов + Позиции (ЭМОГССБ 8.7)
-- [x] 62 сервиса (43 + 19 новых S44–S62)
+- [x] 63 сервиса (43 + 20 новых S44–S63)
 - [x] ADR-016: JWT-based доступ к семинарам/вебинарам (предложение, ЭМОГССБ 8.6)
 - [x] WP-74: 9 ролей, ролевая траектория (5 ступеней), 11 сценариев, тиры, UX, матрицы
 - [x] Двух-юрисдикционная архитектура (P12)
@@ -1038,6 +1041,7 @@ Scope:       event:seminar-{id}
 | 1.7 | **Notification Service** | 1.1, Event Bus | 10-15h |
 | 1.8 | **ДЗ-чекер как сервис** | 1.5 | 10-15h |
 | 1.9 | **Панель наставника / Потоки** (SC-10) | 1.2, 1.8 | 15-20h |
+| 1.10 | **Cloud Strategist** (S63): серверная генерация DayPlan | 1.1, ORY, GitHub OAuth | 15-20h |
 
 **Milestone:** Пользователь: регистрация → онбординг → обучение → ДЗ → оплата → прогресс → уведомления. Наставник: табель → ДЗ → обратная связь. Администратор: потоки → наставники.
 
