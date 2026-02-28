@@ -150,9 +150,9 @@ ZP (Base/Принципы, Level 0)
               │
               └──▶ DS-ecosystem-development (DS/governance)
 
-FMT-exocortex-template (Base/Форматы)
+FMT-exocortex-template (Base/Форматы, setup.sh встроен)
   │
-  └──▶ DS-ai-systems/setup (DS/instrument)
+  └──▶ DS-ai-systems/setup (DS/instrument, author-side: template-sync)
 ```
 
 ---

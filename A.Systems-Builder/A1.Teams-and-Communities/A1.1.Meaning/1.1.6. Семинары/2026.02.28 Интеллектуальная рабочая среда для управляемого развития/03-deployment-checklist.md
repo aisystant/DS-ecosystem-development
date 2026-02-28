@@ -101,8 +101,8 @@ tags:
 1. **Склонируйте установщик и запустите setup:**
    ```bash
    cd ~/Github    # или ваша рабочая директория из Шага 0
-   gh repo clone TserenTserenov/DS-ai-systems -- --depth 1
-   cd DS-ai-systems/setup
+   gh repo fork TserenTserenov/FMT-exocortex-template --clone --remote
+   cd FMT-exocortex-template
    bash setup.sh
    ```
 

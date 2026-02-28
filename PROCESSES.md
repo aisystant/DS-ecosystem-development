@@ -113,7 +113,7 @@ updated: 2026-02-11
 
 6. **Обновления экзокортекса**
    - Платформа публикует обновления → upstream FMT-exocortex
-   - Пользователь: `git fetch upstream && git merge` (→ DS-ai-systems/setup, Сценарий 2)
+   - Пользователь: `cd FMT-exocortex-template && bash update.sh` (→ FMT-exocortex-template)
    - Platform-space обновляется, User-space не затрагивается
 
 **Выход:** Развивающаяся база знаний (Pack), актуальные планы, зафиксированные результаты
