@@ -15,7 +15,7 @@ depends_on:
   - "Варианты питчей 3.1"
 related:
   - "Позиционирование продукта 3.1"
-  - "Токеномика и распределение 3.1"
+  - "Система баллов и лояльности 3.1"
 description: "Investor brief на 2-3 страницы: Problem, Solution, Product, Traction, Moat, Business Model, Team."
 type: doc
 layer: economy
