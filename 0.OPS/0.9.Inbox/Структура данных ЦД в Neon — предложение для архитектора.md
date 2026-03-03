@@ -25,7 +25,7 @@ related:
 ```
 Проект Neon: aisystant (ОДИН проект, ОДНА database)
 │
-└── database: aisystant
+└── database: digital_twin
     │
     ├── schema: public                      [Идентичность пользователя]
     │   └── users                           ← Канонический профиль пользователя
