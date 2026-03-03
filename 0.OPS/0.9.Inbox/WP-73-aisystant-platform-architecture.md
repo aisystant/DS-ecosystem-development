@@ -247,7 +247,7 @@ Layer 1: ДАННЫЕ + ИНФРАСТРУКТУРА
 1. Управление тарифами (freemium, subscription, pay-per-course, семейные/корпоративные)
 2. Управление доступами (feature gating, quota, auto-отключение)
 3. Система баллов (начисление за активные действия, оплата программных продуктов баллами)
-4. Распределение доходов (Revenue Sharing: platform 30%, author 50%, instructor 15%, curator 5%)
+4. Распределение доходов (Revenue Sharing: platform 30%, author 50%, instructor 15%, curator 5%) _(пожелание: детализировать пропорции — маркетинг ~10%, наставники+авторы суммарно ~50%; уточнить в спецификации Billing Phase 2)_
 5. Финансовая отчётность (MRR, ARR, LTV, CAC, churn)
 
 **Каналы оплаты (P12 — две юрисдикции, единый биллинг):**
@@ -711,12 +711,13 @@ Layer 1: ДАННЫЕ + ИНФРАСТРУКТУРА
 | 30 | **Revenue Sharing** | ❌ Не существует | Объединён с Billing (#4) | → #4 | **P1** |
 | 31 | **Панель наставника / Потоки** | ❌ Не существует | Табель, ДЗ, аналитика; потоки SC-10 | 🔴 Создать | **P1** |
 | 32 | **AI Training Pipeline** | ❌ Не существует | Сбор артефактов → классификация → обучение ИИ-агентов (принцип #21) | 🔴 Создать (уникальная логика) | **P2** |
+| 33 | **Планировщик мероприятий (Calendar Service)** | ❌ Не существует | Административный инструмент: планирование потоков и семинаров, быстрое редактирование расписания, экспорт в Google Calendar / iCal, публикация анонсов в бот. _Пожелание — scope уточняется (оплата, регистрация, автопубликация на сайт)._ | 🔴 Создать | **Backlog** |
 
 #### 4.1.2. Сводка Gap (P16: Integrate SOTA, don't reinvent)
 
 | Тип gap | Кол-во | Подсистемы |
 |---------|--------|-----------|
-| 🔴 **Создать уникальное** | 9 | CRM/Бэк-офис, Loyalty/Proof-of-Impact, Activity Hub, Revenue Sharing (в Billing), Панель наставника/Потоки, Personal Guide Gen, ESG, Team Service, **AI Training Pipeline** |
+| 🔴 **Создать уникальное** | 10 | CRM/Бэк-офис, Loyalty/Proof-of-Impact, Activity Hub, Revenue Sharing (в Billing), Панель наставника/Потоки, Personal Guide Gen, ESG, Team Service, **AI Training Pipeline**, Calendar Service (Backlog) |
 | 🔵 **Интегрировать SOTA** | 5 | Web App (Next.js), Event Bus (Outbox + pg_notify), Notification Svc (Novu/Courier), Unified Search (pgvector + FTS), Apps SDK |
 | 🟡 **Доработать существующее** | 11 | ORY SSO, ЦД, Guides MCP, LMS API, Docs, ИИ-системы, Monitoring, ДЗ-чекер, Certification, Рабочая тетрадь, Семинары |
 | 🟢 **Минимальный gap** | 7 | Knowledge MCP, Composer MCP, TG Bot, Claude Code, Discourse, SystemsSchool Bot, Реал-тайм каналы (TG) |
