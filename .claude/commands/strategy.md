@@ -1,13 +1,13 @@
 Выполни сценарий Strategy Session для агента Стратег.
 
-Источник сценария: ~/Github/PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.AGENT.012-strategist/scenarios/scheduled/01-strategy-session.md
+Источник сценария: ~/IWE/PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.AGENT.012-strategist/scenarios/scheduled/01-strategy-session.md
 
 ## Контекст
 
-- **HUB (личные планы):** ~/Github/DS-strategy/current/
-- **SPOKE (планы репо):** ~/Github/*/WORKPLAN.md
-- **Неудовлетворённости:** ~/Github/DS-strategy/dissatisfactions/current.md
-- Шаблоны: ~/Github/PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.AGENT.012-strategist/templates/
+- **HUB (личные планы):** ~/IWE/DS-strategy/current/
+- **SPOKE (планы репо):** ~/IWE/*/WORKPLAN.md
+- **Неудовлетворённости:** ~/IWE/DS-strategy/dissatisfactions/current.md
+- Шаблоны: ~/IWE/PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.AGENT.012-strategist/templates/
 
 ## Структура current/
 
@@ -20,11 +20,11 @@
 1. **Анализ прошлой недели:**
    - Найди последний файл недели в DS-strategy/current/weeks/
    - Загрузи его
-   - Получи коммиты за прошлую неделю из ВСЕХ репо в ~/Github/
+   - Получи коммиты за прошлую неделю из ВСЕХ репо в ~/IWE/
    - Рассчитай completion rate
 
 2. **Обход WORKPLAN.md (Hub-and-Spoke):**
-   - Прочитай ~/Github/*/WORKPLAN.md из каждого репо
+   - Прочитай ~/IWE/*/WORKPLAN.md из каждого репо
    - Собери все РП со статусом pending/in-progress
    - Выяви расхождения с HUB-планом
 

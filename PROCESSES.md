@@ -49,7 +49,7 @@ updated: 2026-02-11
 
 > Тип: пользовательский сценарий
 > Владелец: Пользователь + Стратег
-> Участники: Пользователь, Стратег, DS-strategy, все ~/Github/*/WORKPLAN.md, ~/Github/*/MAPSTRATEGIC.md
+> Участники: Пользователь, Стратег, DS-strategy, все ~/IWE/*/WORKPLAN.md, ~/IWE/*/MAPSTRATEGIC.md
 
 **Вход:** WeekReport W{N-1} (создан week-review, Пн 00:00), WORKPLAN.md, MAPSTRATEGIC.md, docs/*, inbox/*
 
@@ -68,8 +68,8 @@ updated: 2026-02-11
 | Данные | Направление | Формат |
 |--------|-------------|--------|
 | WeekReport W{N-1} | Вход → Strategy | Markdown |
-| ~/Github/*/WORKPLAN.md | Вход → Strategy | Markdown |
-| ~/Github/*/MAPSTRATEGIC.md | Вход → Strategy | Markdown |
+| ~/IWE/*/WORKPLAN.md | Вход → Strategy | Markdown |
+| ~/IWE/*/MAPSTRATEGIC.md | Вход → Strategy | Markdown |
 | WeekPlan W{N} | Выход → DS-strategy/current/ | Markdown |
 | MEMORY.md (новые РП) | Выход → memory/ | Markdown |
 
@@ -162,9 +162,9 @@ updated: 2026-02-11
 
 > Тип: платформенный сценарий
 > Владелец: Стратег (ручной — по запросу пользователя)
-> Участники: Стратег, все ~/Github/ репо, DS-strategy, MEMORY.md, экзокортекс
+> Участники: Стратег, все ~/IWE/ репо, DS-strategy, MEMORY.md, экзокортекс
 
-**Вход:** Коммиты за день (git log по всем ~/Github/ репо)
+**Вход:** Коммиты за день (git log по всем ~/IWE/ репо)
 
 **Действие:**
 
@@ -193,7 +193,7 @@ updated: 2026-02-11
 
 > Тип: платформенный сценарий
 > Владелец: Claude Code (Close) + Стратег (day-close)
-> Участники: memory/*.md, ~/Github/CLAUDE.md, DS-strategy/exocortex/
+> Участники: memory/*.md, ~/IWE/CLAUDE.md, DS-strategy/exocortex/
 
 **Вход:** Изменённые файлы memory/*.md + CLAUDE.md
 

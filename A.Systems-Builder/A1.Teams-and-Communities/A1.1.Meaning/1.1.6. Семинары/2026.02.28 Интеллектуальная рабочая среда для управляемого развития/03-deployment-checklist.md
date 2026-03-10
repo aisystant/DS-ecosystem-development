@@ -100,7 +100,7 @@ tags:
 
 1. **Склонируйте установщик и запустите setup:**
    ```bash
-   cd ~/Github    # или ваша рабочая директория из Шага 0
+   cd ~/IWE    # или ваша рабочая директория из Шага 0
    gh repo fork TserenTserenov/FMT-exocortex-template --clone --remote
    cd FMT-exocortex-template
    bash setup.sh
@@ -108,7 +108,7 @@ tags:
 
 2. **Скрипт спросит:**
    - GitHub username
-   - Рабочую директорию (по умолчанию `~/Github`)
+   - Рабочую директорию (по умолчанию `~/IWE`)
    - Путь к Claude CLI (определяется автоматически)
    - Часовой пояс для Стратега (UTC)
 

@@ -1,18 +1,18 @@
 Выполни сценарий Day Plan для агента Стратег.
 
-Источник сценария: ~/Github/PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.AGENT.012-strategist/scenarios/scheduled/02-day-plan.md
+Источник сценария: ~/IWE/PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.AGENT.012-strategist/scenarios/scheduled/02-day-plan.md
 
 ## Контекст
 
-- **HUB (личные планы):** ~/Github/DS-strategy/current/
-- **SPOKE (планы репо):** ~/Github/*/WORKPLAN.md
-- Шаблоны: ~/Github/PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.AGENT.012-strategist/templates/
+- **HUB (личные планы):** ~/IWE/DS-strategy/current/
+- **SPOKE (планы репо):** ~/IWE/*/WORKPLAN.md
+- Шаблоны: ~/IWE/PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.AGENT.012-strategist/templates/
 
 ## Алгоритм
 
 1. **Апдейт о вчера:**
    - Загрузи план вчера из DS-strategy/current/daily/ (если есть)
-   - Получи коммиты за вчера из ВСЕХ репо в ~/Github/
+   - Получи коммиты за вчера из ВСЕХ репо в ~/IWE/
    - Сопоставь РП и коммиты
    - Покажи статистику
 

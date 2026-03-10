@@ -303,7 +303,7 @@ Part E: Constitution
 - **Для конкретного паттерна** — найди его код (например, A.3) через Grep и читай секцию
 - **Для глубокого погружения** — читай Part A (Kernel Architecture)
 
-**Путь к FPF:** `~/Github/FPF/FPF-Spec.md` (общий для всех репо)
+**Путь к FPF:** `~/IWE/FPF/FPF-Spec.md` (общий для всех репо)
 
 ---
 
@@ -370,7 +370,7 @@ D.Маркетплейс-проектов/
 
 ## См. также
 
-- `~/Github/FPF/FPF-Spec.md` — полная спецификация FPF (общий путь)
+- `~/IWE/FPF/FPF-Spec.md` — полная спецификация FPF (общий путь)
 - [fpf-patterns-map.md](fpf-patterns-map.md) — карта паттернов
 - [../0.1.Knowledge-Logic/04-ontology.md](../0.1.Knowledge-Logic/04-ontology.md) — онтология S2R
 - [../0.3.Roles-Matrix-3x3/](../0.3.Roles-Matrix-3x3/) — матрица ролей 3×3

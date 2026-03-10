@@ -1,6 +1,6 @@
 # CLAUDE.md — Ecosystem Development
 
-> **Общие инструкции:** см. `/Users/tserentserenov/Github/CLAUDE.md`
+> **Общие инструкции:** см. `/Users/tserentserenov/IWE/CLAUDE.md`
 >
 > Этот файл содержит только специфику данного репозитория.
 
@@ -111,9 +111,9 @@ X3 = Система создания
 1. Pack'и (source-of-truth)
    └── PACK-personal, PACK-ecosystem, PACK-digital-platform
 2. SPF (форма и процесс)
-   └── ~/Github/SPF/
+   └── ~/IWE/SPF/
 3. FPF (первые принципы) — только если нет в SPF
-   └── ~/Github/FPF/FPF-Spec.md
+   └── ~/IWE/FPF/FPF-Spec.md
 ```
 
 **Правило:** Если чего-то нет на текущем уровне — смотри выше.

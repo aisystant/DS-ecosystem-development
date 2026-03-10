@@ -3,8 +3,8 @@
 **Иерархия источников (fallback chain):**
 ```
 1. Pack'и → PACK-ecosystem, PACK-digital-platform
-2. SPF → ~/Github/SPF/
-3. FPF → ~/Github/FPF/FPF-Spec.md (только если нет в SPF)
+2. SPF → ~/IWE/SPF/
+3. FPF → ~/IWE/FPF/FPF-Spec.md (только если нет в SPF)
 ```
 
 Шаги:

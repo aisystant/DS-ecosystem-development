@@ -1,12 +1,12 @@
 Выполни сценарий Add Work Product для Strategist.
 
-Источник сценария: ~/Github/PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.AGENT.012-strategist/scenarios/on-demand/04-add-workproduct.md
+Источник сценария: ~/IWE/PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.AGENT.012-strategist/scenarios/on-demand/04-add-workproduct.md
 
 ## Рабочий продукт: $ARGUMENTS
 
 ## Контекст
 
-- Планы: ~/Github/DS-ecosystem-development/0.OPS/0.7.Plans-and-Meetings/current/
+- Планы: ~/IWE/DS-ecosystem-development/0.OPS/0.7.Plans-and-Meetings/current/
 
 ## Алгоритм
 
