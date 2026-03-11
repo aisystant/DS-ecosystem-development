@@ -1,13 +1,13 @@
 Выполни сценарий Strategy Session для агента Стратег.
 
-Источник сценария: ~/IWE/PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.AGENT.012-strategist/scenarios/scheduled/01-strategy-session.md
+Источник сценария: ~/IWE/PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.ROLE.012-strategist/scenarios/scheduled/01-strategy-session.md
 
 ## Контекст
 
 - **HUB (личные планы):** ~/IWE/DS-strategy/current/
 - **SPOKE (планы репо):** ~/IWE/*/WORKPLAN.md
 - **Неудовлетворённости:** ~/IWE/DS-strategy/dissatisfactions/current.md
-- Шаблоны: ~/IWE/PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.AGENT.012-strategist/templates/
+- Шаблоны: ~/IWE/PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.ROLE.012-strategist/templates/
 
 ## Структура current/
 

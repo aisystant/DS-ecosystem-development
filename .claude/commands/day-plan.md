@@ -1,12 +1,12 @@
 Выполни сценарий Day Plan для агента Стратег.
 
-Источник сценария: ~/IWE/PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.AGENT.012-strategist/scenarios/scheduled/02-day-plan.md
+Источник сценария: ~/IWE/PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.ROLE.012-strategist/scenarios/scheduled/02-day-plan.md
 
 ## Контекст
 
 - **HUB (личные планы):** ~/IWE/DS-strategy/current/
 - **SPOKE (планы репо):** ~/IWE/*/WORKPLAN.md
-- Шаблоны: ~/IWE/PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.AGENT.012-strategist/templates/
+- Шаблоны: ~/IWE/PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.ROLE.012-strategist/templates/
 
 ## Алгоритм
 

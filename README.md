@@ -457,7 +457,7 @@ tags:
 
 ### Архитектура агента
 
-Паспорт и сценарии: [PACK-digital-platform/DP.AGENT.012-strategist](https://github.com/TserenTserenov/PACK-digital-platform/tree/main/pack/digital-platform/02-domain-entities/DP.AGENT.012-strategist)
+Паспорт и сценарии: [PACK-digital-platform/DP.ROLE.012-strategist](https://github.com/TserenTserenov/PACK-digital-platform/tree/main/pack/digital-platform/02-domain-entities/DP.ROLE.012-strategist)
 
 ---
 

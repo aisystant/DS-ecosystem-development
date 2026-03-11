@@ -1,6 +1,6 @@
 Выполни сценарий Evening Review для Strategist.
 
-Источник сценария: ~/IWE/PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.AGENT.012-strategist/scenarios/on-demand/01-evening-review.md
+Источник сценария: ~/IWE/PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.ROLE.012-strategist/scenarios/on-demand/01-evening-review.md
 
 ## Контекст
 

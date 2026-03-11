@@ -29,7 +29,7 @@ source_of_truth: PACK-digital-platform
 | **Архитектура платформы** | 5-слойная структура | [DP.ARCH.001](../../../../PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.ARCH.001-platform-architecture.md) |
 | **Концепция платформы** | Что даёт пользователю | [DP.CONCEPT.001](../../../../PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.CONCEPT.001-platform-concept.md) |
 | **Детерминированные системы** | 14 систем инфраструктуры | [DP.SYS.001](../../../../PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.SYS.001-deterministic-systems.md) |
-| **ИИ-агенты** | 17 системных агентов | [DP.AGENT.001](../../../../PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.AGENT.001-ai-agents.md) |
+| **ИИ-агенты** | 17 системных агентов | [DP.ROLE.001](../../../../PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.ROLE.001-platform-roles.md) |
 | **ИИ-ассистенты** | Диалоговые помощники | [DP.ASSIST.001](../../../../PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.ASSIST.001-ai-assistants.md) |
 
 ---
