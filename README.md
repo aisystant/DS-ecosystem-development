@@ -41,7 +41,7 @@ DS-ecosystem-development/
 │       └── A3.3.Operations/             # Команда, службы
 │
 ├── B.Aisystant-Ecosystem/                 # Ядро B: Экосистема как система
-│   ├── B1.World/                         # Надсистема (рынок)
+│   ├── B1.Society/                       # Надсистема (общество)
 │   │   ├── B1.1.Meaning/                # Тренды, продвижение
 │   │   ├── B1.2.Architecture/           # Контексты применения
 │   │   └── B1.3.Operations/             # Репутация, партнёрства
@@ -65,8 +65,8 @@ DS-ecosystem-development/
 │   │   ├── C2.1.Meaning/               # Зачем платформа
 │   │   ├── C2.2.Architecture/          # MCP, агенты, репозитории
 │   │   └── C2.3.Operations/            # DevOps, мониторинг
-│   └── C3.IT-Service/                   # Система создания (входит в B3)
-│       ├── C3.1.Meaning/               # Миссия службы
+│   └── C3.Platform-Dev-Team/            # Система создания (входит в B3)
+│       ├── C3.1.Meaning/               # Миссия команды
 │       ├── C3.2.Architecture/          # Состав команды
 │       └── C3.3.Operations/            # CI/CD, SRE
 │

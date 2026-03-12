@@ -15,7 +15,7 @@ D.Aist-Bot/
 ├── D0.Aist-Bot-Management/           # Управление ядром
 │   └── 01-kernel-overview.md         # Обзор ядра
 │
-├── D1.Supersystems/                  # ДВЕ надсистемы
+├── D1.IT-Platform/                   # Надсистема (+ Cyberidentity)
 │   ├── D1.1.Meaning/                 # Контекст надсистем
 │   ├── D1.2.Architecture/
 │   │   ├── IT-Platform/              # Надсистема 1: ИТ-платформа

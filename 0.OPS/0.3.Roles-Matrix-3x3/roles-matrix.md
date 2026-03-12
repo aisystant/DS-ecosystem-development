@@ -425,9 +425,9 @@ fpf_patterns:
 | C2.1 | C2.ИТ-платформа-Экосистемы/C2.1.Meaning | Визионер | Platform vision |
 | C2.2 | C2.ИТ-платформа-Экосистемы/C2.2.Architecture | Инженер | System architecture |
 | C2.3 | C2.ИТ-платформа-Экосистемы/C2.3.Operations | Оператор | SRE и мониторинг |
-| C3.1 | C3.ИТ-служба/C3.1.Meaning | Бизнесмен | Tech investments |
-| C3.2 | C3.ИТ-служба/C3.2.Architecture | Организатор | DevOps pipeline |
-| C3.3 | C3.ИТ-служба/C3.3.Operations | Администратор | Team management |
+| C3.1 | C3.Platform-Dev-Team/C3.1.Meaning | Бизнесмен | Tech investments |
+| C3.2 | C3.Platform-Dev-Team/C3.2.Architecture | Организатор | DevOps pipeline |
+| C3.3 | C3.Platform-Dev-Team/C3.3.Operations | Администратор | Team management |
 
 ---
 
