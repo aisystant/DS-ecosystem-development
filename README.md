@@ -278,7 +278,7 @@ DS-ecosystem-development
 
 ## 🤖 ИИ-агенты платформы
 
-**Ключевые агенты** (описаны в [B2.2.Architecture/3.2.5. ИИ-агенты/](B.Aisystant-Ecosystem/B2.Aisystant-Ecosystem/B2.2.Architecture/3.2.5.%20ИИ-агенты/) и [C2.2.Architecture/3.2.5. ИИ-агенты/](C.IT-Platform/C2.IT-Platform/C2.2.Architecture/3.2.5.%20ИИ-агенты/)):
+**Ключевые агенты** (описаны в [B2.2.Architecture/2.2.5. AI-Agents/](B.Aisystant-Ecosystem/B2.Aisystant-Ecosystem/B2.2.Architecture/2.2.5.%20AI-Agents/) и [A3.2.Architecture/3.2.5. AI-Agents/](A.Systems-Builder/A3.Aisystant-Ecosystem-Builder/A3.2.Architecture/3.2.5.%20AI-Agents/)):
 
 - **Orchestrator** — координация всех агентов
 - **RouteGuide** — навигация по персональному маршруту развития

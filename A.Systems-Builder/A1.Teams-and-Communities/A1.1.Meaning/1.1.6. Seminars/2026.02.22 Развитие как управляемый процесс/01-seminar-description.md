@@ -14,10 +14,10 @@ target_audience:
   - "Те, кто присматривается к программам Aisystant"
   - "Выпускники программ (обновление знаний)"
 depends_on:
-  - "A.Systems-Builder/A1.Teams-and-Communities/A1.1.Meaning/1.1.6. Семинары/brief-seminars-feb-mar-2026.md"
-  - "A.Systems-Builder/A2.Systems-Builder/A2.2.Architecture/2.2.1. Программы развития/2.2.1.1. Личное развитие/Памятка по программе личного развития.md"
+  - "A.Systems-Builder/A1.Teams-and-Communities/A1.1.Meaning/1.1.6. Seminars/brief-seminars-feb-mar-2026.md"
+  - "A.Systems-Builder/A2.Systems-Builder/A2.2.Architecture/2.2.1. Development-Programs/2.2.1.1. Личное развитие/Памятка по программе личного развития.md"
 affects:
-  - "A1.1.Meaning/1.1.3. Продажи/Воронка продаж 1.1.md"
+  - "A1.1.Meaning/1.1.3. Sales/Воронка продаж 1.1.md"
 tags:
   - seminar
   - personal-development

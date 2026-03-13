@@ -6,7 +6,7 @@ role: Meaning
 status: draft
 date: 2026-02-22
 depends_on:
-  - "A.Systems-Builder/A1.Teams-and-Communities/A1.1.Meaning/1.1.6. Семинары/2026.02.22 Развитие как управляемый процесс/01-seminar-description.md"
+  - "A.Systems-Builder/A1.Teams-and-Communities/A1.1.Meaning/1.1.6. Seminars/2026.02.22 Развитие как управляемый процесс/01-seminar-description.md"
 tags:
   - presentation
   - seminar

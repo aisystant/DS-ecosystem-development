@@ -8,7 +8,7 @@ target_audience:
   - "Участники клуба ЛР"
   - "Ведущий семинара"
 depends_on:
-  - "A.Systems-Builder/A1.Teams-and-Communities/A1.1.Meaning/1.1.6. Семинары/1.1.6.2. AI-Exocortex-Seminar/01-seminar-structure.md"
+  - "A.Systems-Builder/A1.Teams-and-Communities/A1.1.Meaning/1.1.6. Seminars/1.1.6.2. AI-Exocortex-Seminar/01-seminar-structure.md"
 tags:
   - presentation
   - seminar

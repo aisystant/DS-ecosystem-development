@@ -293,15 +293,15 @@ A.Systems-Builder/
 ├── A2.Systems-Builder/
 │   ├── A2.1.Meaning/       # SoI × Meaning
 │   ├── A2.2.Architecture/  # SoI × Architecture
-│   │   ├── 2.2.1. Программы развития/
+│   │   ├── 2.2.1. Development-Programs/
 │   │   │   ├── _index.md           # Навигация + ссылки на Pack
 │   │   │   ├── О программах...     # Governance-описание
 │   │   │   └── 2.2.1.1. .../       # Подразделы с контентом
-│   │   ├── 2.2.2. Роли созидателя/
-│   │   ├── 2.2.3. Эпистемический статус/
-│   │   ├── 2.2.4. Характеристики созидателя/
-│   │   ├── 2.2.5. Состояния созидателя/
-│   │   └── 2.2.6. Архитектура созидателя (FPF)/
+│   │   ├── 2.2.2. Builder-Roles/
+│   │   ├── 2.2.3. Epistemic-Status/
+│   │   ├── 2.2.4. Builder-Characteristics/
+│   │   ├── 2.2.5. Builder-States/
+│   │   └── 2.2.6. Builder-Architecture-FPF/
 │   └── A2.3.Operations/    # SoI × Operations
 └── A3.Aisystant-Ecosystem-Builder/
     ├── A3.1.Meaning/       # Constructor × Meaning

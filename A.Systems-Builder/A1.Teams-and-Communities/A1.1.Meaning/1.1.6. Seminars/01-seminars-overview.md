@@ -9,7 +9,7 @@ target_audience:
   - "Маркетинг и продвижение"
   - "Ведущие семинаров"
 depends_on:
-  - "A.Systems-Builder/A2.Systems-Builder/A2.2.Architecture/2.2.1. Программы развития/О программах развития 2.2.md"
+  - "A.Systems-Builder/A2.Systems-Builder/A2.2.Architecture/2.2.1. Development-Programs/О программах развития 2.2.md"
 tags:
   - seminars
   - outbound
@@ -194,7 +194,7 @@ tags:
 ## Структура папки
 
 ```
-1.1.6. Семинары/
+1.1.6. Seminars/
 ├── 01-seminars-overview.md                      # Этот документ
 │
 ├── 1.1.6.1. Personal-Development-Seminar/       # Семинар по ЛР
@@ -230,6 +230,6 @@ tags:
 
 ## См. также
 
-- [[A.Systems-Builder/A2.Systems-Builder/A2.2.Architecture/2.2.1. Программы развития/О программах развития 2.2.md|О программах развития]]
-- [[A.Systems-Builder/A1.Teams-and-Communities/A1.1.Meaning/1.1.5. Outbound-практика/Рабочие продукты/Процедура запуска Марафона 2.0.md|Процедура запуска Марафона]]
-- [[A.Systems-Builder/A1.Teams-and-Communities/A1.1.Meaning/1.1.3. Продажи/Воронка продаж 1.1.md|Воронка продаж]]
+- [[A.Systems-Builder/A2.Systems-Builder/A2.2.Architecture/2.2.1. Development-Programs/О программах развития 2.2.md|О программах развития]]
+- [[A.Systems-Builder/A1.Teams-and-Communities/A1.1.Meaning/1.1.5. Outbound-Practice/Рабочие продукты/Процедура запуска Марафона 2.0.md|Процедура запуска Марафона]]
+- [[A.Systems-Builder/A1.Teams-and-Communities/A1.1.Meaning/1.1.3. Sales/Воронка продаж 1.1.md|Воронка продаж]]
