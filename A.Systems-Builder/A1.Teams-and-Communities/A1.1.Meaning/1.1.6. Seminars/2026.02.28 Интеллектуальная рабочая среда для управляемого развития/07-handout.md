@@ -444,7 +444,7 @@ https://github.com/TserenTserenov/FMT-exocortex-template/blob/main/docs/LEARNING
 
 | Аббревиатура | Расшифровка | Пояснение |
 |-------------|------------|-----------|
-| **IWE** | Intellectual Working Environment | Интеллектуальная рабочая среда |
+| **IWE** | Intellectual Work Environment | Интеллектуальная рабочая среда |
 | **IDE** | Integrated Development Environment | Среда разработки (VS Code, Cursor и т.п.) |
 | **ОРЗ** | Открытие → Работа → Закрытие | Протокол трёх стадий рабочей сессии |
 | **РП** | Рабочий продукт | Измеримый артефакт (документ, схема, код) |
