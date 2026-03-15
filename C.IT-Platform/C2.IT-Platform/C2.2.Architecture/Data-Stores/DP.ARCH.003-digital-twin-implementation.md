@@ -237,4 +237,38 @@ user_isolation: user_id = current_setting('app.current_user_id')
 
 ---
 
-*Извлечено из [DP.ARCH.003](../../../../../PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.ARCH.003-digital-twin-architecture.md) (2026-03-13). WP-93: separation of domain (Pack) from implementation (DS).*
+## 16. Engagement Sync: Neon → digital_twins (WP-85 Phase 4, done 2026-03-14)
+
+**Реализация:** `aist_bot_newarchitecture/db/queries/dt_sync.py`
+
+**Поток:** `development.user_events` → SQL View `development.engagement` (15 метрик) → `sync_engagement_to_dt()` → `digital_twins` таблица (JSONB, INSERT ON CONFLICT deep merge)
+
+**Расписание:** cron 04:30 MSK (scheduler) + `/dt_sync` dev-команда
+
+**Таблица `digital_twins`:**
+
+```sql
+CREATE TABLE IF NOT EXISTS digital_twins (
+    user_id TEXT PRIMARY KEY,    -- Ory UUID (str)
+    data JSONB NOT NULL DEFAULT '{}',
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+```
+
+**Проекции в JSONB (4 группы `2_collected/`):**
+
+| Группа | Индикаторы |
+|--------|------------|
+| `2_1_account` | sessions_total, first_event_at, last_event_at, events_total |
+| `2_2_courses` | marathon_steps_total, feed_completed_total |
+| `2_3_practice` | training_attempts_total, training_passed_total, assessments_total, marathon_tasks_total |
+| `2_4_time` | active_days, events_last_7d, events_last_30d, ai_chats_total |
+
+**Identity model:** `user_id` = Ory UUID. Sync фильтрует `WHERE user_uuid IS NOT NULL` (T1+). T0 копят события по chat_id — при появлении UUID sync подхватит автоматически через `engagement` view.
+
+**DT MCP** читает `digital_twins` при запросе пользователя (та же Neon DB, без HTTP).
+
+---
+
+*Извлечено из [DP.ARCH.003](../../../../../PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.ARCH.003-digital-twin-architecture.md) (2026-03-13). WP-93: separation of domain (Pack) from implementation (DS). Обновлено: 2026-03-14 (Phase 4 sync).*
