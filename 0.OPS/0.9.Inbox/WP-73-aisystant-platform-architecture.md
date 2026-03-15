@@ -129,13 +129,13 @@ Layer 1: ДАННЫЕ + ИНФРАСТРУКТУРА
 | 6 | Централизованное хранилище (Knowledge MCP) | ✅ | 5400+ docs, 9 sources |
 | 7 | Хаб активностей (Activity Hub) | ❌ PLANNED | Агрегатор событий |
 | 8 | Проводник (Route Guide AI) | ❌ PLANNED | Маршрутизация по ЦД |
-| 9 | Apps SDK и маркетплейс | ❌ PLANNED | Сторонние приложения |
+| 9 | MCP Hub (Registry + Gateway + Provisioner) | ❌ PLANNED | Каталог, маршрутизация и создание MCP (ADR-018). Поглощает Apps SDK |
 | 10 | ORY (Identity & Access) | 🟡 MIGRATING | OAuth2, SSO |
 | 11 | Proof-of-Impact (баллы) | ❌ PLANNED | Система баллов и лояльности |
 | 12 | Эпистемический граф | ❌ PLANNED | Граф знаний/компетенций |
 | 13 | Бот Aist (aist_bot_newarchitecture) | ✅ | Telegram-бот, быстрый канал |
 | 14 | SystemsSchool_bot (стажировки) | ✅ | TG-бот расписаний |
-| 15 | MCP-серверы (knowledge, guides, twin, composer) | ✅ | Доступ к данным и знаниям |
+| 15 | MCP-серверы (knowledge, guides, twin, composer) → MCP Hub | ✅ → 🟡 | Доступ к данным и знаниям. MCP Hub = единый endpoint + User/Community MCP (ADR-018) |
 | 16 | ИИ-системы (DS-ai-systems, 7 ролей) | ✅ | Монорепо ИИ-систем |
 | 17 | Публикатор (club publishing pipeline) | ✅ | Публикация в клуб |
 
@@ -322,6 +322,31 @@ Layer 1: ДАННЫЕ + ИНФРАСТРУКТУРА
 >
 > **AI Self-Learning Flywheel** — вынесен из принципов 2-го уровня в проектный принцип 3-го уровня (P-SLF, §3.1.2). Концепция маховика самообучения ИИ на артефактах участников остаётся, но как проектное решение Aisystant, а не универсальный принцип платформы.
 
+#### 3.1.1a. Ритм дня и сессия саморазвития (конкретизация P21)
+
+> **WP-98.** ОРЗ-фрактал: паттерн Open → Work → Close применяется на двух масштабах — День и Сессия.
+
+**Ритм дня (Day Rhythm):**
+
+| Масштаб | Открытие | Работа | Закрытие |
+|---------|----------|--------|----------|
+| **День** | Вход в контекст дня (план, саморазвитие, мир) | Сессии с перерывами (помидорки) | Рефлексия: что узнал, похвала, задел |
+| **Сессия** | WP Gate, определение роли | Capture, Pre-action Gates | Коммит, captures, статус |
+
+**Сессия саморазвития** — специальный тип сессии ОРЗ:
+- **Открытие:** агент показывает текущее руководство, где остановился, список черновиков
+- **Работа:** мышление письмом, работа с руководством, черновики
+- **Закрытие:** стандартный Close + captures в Pack
+- **Связь с DayPlan:** Слот 1 = саморазвитие. Если нет — агент явно сообщает пользователю
+
+**Требования к агенту (экзоскелет):**
+- **Помидорки:** 25 мин работа → 5 мин перерыв. После 4 циклов — длинный перерыв 15-30 мин
+- **Напоминание о перерыве:** если сессия >50 мин без перерыва → агент напоминает
+- **«Что нового узнал»:** при закрытии дня агент подсвечивает captures, инсайты, новые знания — помогает пользователю увидеть свой прогресс (экзоскелет, не протез)
+- **Похвала:** обязательный шаг закрытия дня — рефлексия достижений
+
+**День стратегии:** Один день в неделю — сессия стратегирования (пользователь выбирает день). DayPlan этого дня содержит напоминание.
+
 #### 3.1.2. Принципы 3-го уровня (проектные решения Aisystant)
 
 > Специфичны для проекта Aisystant. Не переносятся в Pack.
@@ -379,7 +404,14 @@ Layer 1: ДАННЫЕ + ИНФРАСТРУКТУРА
 ║  ┌─────────────────────────────────┼────────────────────────────────┐    ║
 ║  │         Zone B: Детерминированные (stateful, MCP, code)         │    ║
 ║  │                                 │                                │    ║
-║  │  ── Данные и знания ──                                          │    ║
+║  │  ── MCP Hub (ADR-018) ──                                       │    ║
+║  │  ┌──────────────────────────────────────────────────────────┐  │    ║
+║  │  │★ MCP Hub   Registry ◄──► Gateway ◄──► Provisioner       │  │    ║
+║  │  │  (единый    Platform MCP │ User MCP │ Community MCP     │  │    ║
+║  │  │   endpoint) ORY OAuth2   │ per-user │ marketplace       │  │    ║
+║  │  └──────────────────────────────────────────────────────────┘  │    ║
+║  │       │              │              │              │            │    ║
+║  │  ── Данные и знания (Platform MCP) ──                          │    ║
 ║  │  ┌─────────────┐  ┌──────────────┐  ┌──────────────┐           │    ║
 ║  │  │★ Digital    │  │★ Knowledge   │  │  Guides MCP  │           │    ║
 ║  │  │  Twin MCP   │  │   MCP        │  │  (→ Neon PG) │           │    ║
@@ -472,6 +504,7 @@ Layer 1: ДАННЫЕ + ИНФРАСТРУКТУРА
 | 20 | **Certification System** | Цифровые сертификаты, верификация, привязка к ЦД и ESG |
 | 21 | **Revenue Sharing** | Автоматическое распределение: platform 30%, author 50%, instructor 15%, curator 5% |
 | 22 | **Генератор персонального руководства** (WP-58) | ИИ-генерация маршрута из ЦД + целей + контекста |
+| 23 | **MCP Hub** (ADR-018) | Единый endpoint для всех MCP. Registry + Gateway + Provisioner. Пользователи создают свои MCP для Pack/DS. Community MCP каталог. Поглощает Apps SDK (#29) |
 
 ### 3.4. Двух-юрисдикционная архитектура (P12)
 
@@ -675,6 +708,184 @@ Layer 1: ДАННЫЕ + ИНФРАСТРУКТУРА
 
 **Безопасность:** PII удаляется из артефактов перед обучением. Участник может opt-out (артефакты не используются). Consent при регистрации (GDPR Art. 6).
 
+### 3.8. MCP Hub — центр MCP-серверов (ADR-018)
+
+> **АрхГейт 8.6/10 — пройден.** MCP Hub = централизованный реестр и runtime-прокси для всех MCP-серверов экосистемы. Заменяет planned «Apps SDK & Маркетплейс» (#29) — MCP и есть платформенный SDK.
+
+#### 3.8.1. Проблема
+
+Текущее состояние: 4 платформенных MCP-сервера (Knowledge, Guides, Digital Twin, Composer) настраиваются вручную в `claude_desktop_config.json` каждого клиента. Проблемы:
+
+1. **Онбординг:** пользователю нужно знать адреса серверов, вручную прописывать конфигурацию
+2. **Контроль доступа:** нет единой точки авторизации — каждый MCP реализует свою (или никакую)
+3. **Расширяемость:** пользователь не может создать свой MCP для своих Pack/DS и опубликовать для других
+4. **Клиент-агностичность:** конфигурация привязана к конкретному клиенту (Claude Desktop, Cursor, etc.)
+
+#### 3.8.2. Решение: MCP Hub
+
+MCP Hub — подсистема Layer 2 (Zone B), выполняющая три функции:
+
+```
+MCP Hub = Registry + Gateway + Provisioner
+
+┌──────────────────────────────────────────────────────────────────┐
+│                          MCP Hub                                  │
+│                                                                    │
+│  ┌─────────────┐  ┌─────────────────┐  ┌──────────────────────┐  │
+│  │  Registry    │  │  Gateway        │  │  Provisioner         │  │
+│  │  (каталог)   │  │  (прокси +      │  │  (создание user      │  │
+│  │             │  │   авторизация)  │  │   MCP из шаблона)    │  │
+│  └─────────────┘  └─────────────────┘  └──────────────────────┘  │
+│         │                 │                       │                │
+│  ┌──────▼──────┐   ┌──────▼──────┐        ┌──────▼──────┐        │
+│  │ Platform    │   │ User MCP    │        │ Template    │        │
+│  │ MCP (4+)    │   │ (per-user)  │        │ Gallery     │        │
+│  └─────────────┘   └─────────────┘        └─────────────┘        │
+└──────────────────────────────────────────────────────────────────┘
+```
+
+**Три типа MCP-серверов:**
+
+| Тип | Владелец | Доступ | Примеры |
+|-----|----------|--------|---------|
+| **Platform MCP** | Платформа (L2) | По тиру (T1+ или публичный) | Knowledge, Guides, Digital Twin, Composer |
+| **User MCP** | Пользователь (L4) | Только владелец + явный share | MCP для личного Pack, MCP для личного DS |
+| **Community MCP** | Автор (L4, опубликовано) | По тиру + установка | MCP для предметной области (Pack-X), утилиты |
+
+#### 3.8.3. Компоненты MCP Hub
+
+**A. Registry (каталог)**
+
+Neon DB, таблица `operations.mcp_registry`:
+
+| Поле | Тип | Описание |
+|------|-----|----------|
+| `id` | UUID | PK |
+| `owner_id` | UUID (FK → users) | NULL = платформенный |
+| `name` | VARCHAR | Уникальное имя (namespace/name) |
+| `type` | ENUM | platform / user / community |
+| `endpoint` | VARCHAR | URL MCP-сервера |
+| `transport` | ENUM | sse / streamable-http / stdio |
+| `schema_snapshot` | JSONB | Кешированная MCP schema (tools, resources, prompts) |
+| `access_tier` | VARCHAR | Минимальный тир для доступа (NULL = публичный) |
+| `status` | ENUM | active / disabled / pending_review |
+| `created_at` | TIMESTAMP | — |
+
+RLS: пользователь видит `type='platform'` + `type='community' AND status='active'` + свои (`owner_id = current_user`).
+
+**B. Gateway (прокси + авторизация)**
+
+Cloudflare Worker, единый endpoint: `mcp-hub.aisystant.com`
+
+Протокол:
+1. Клиент (Claude Desktop, Cursor, etc.) подключается к MCP Hub по SSE/Streamable HTTP
+2. MCP Hub проверяет ORY OAuth2 токен → определяет user_id, тир
+3. Клиент вызывает `tools/list` → Hub агрегирует tools из всех доступных MCP пользователя
+4. Клиент вызывает конкретный tool → Hub маршрутизирует к нужному MCP-серверу, передаёт auth context
+
+```
+Клиент (Claude/Cursor/etc.)
+    │
+    │ SSE / Streamable HTTP
+    │ Authorization: Bearer <ory_token>
+    │
+    ▼
+MCP Hub Gateway (CF Worker)
+    │
+    ├── Verify ORY token → user_id, tier
+    ├── SELECT * FROM mcp_registry WHERE accessible(user_id, tier)
+    ├── tools/list → aggregate from all MCPs
+    │
+    ├── tool call: "knowledge.search" → route to Knowledge MCP
+    ├── tool call: "twin.read" → route to Digital Twin MCP (+ pass user_id)
+    └── tool call: "my-pack.query" → route to User MCP (pack-personal)
+```
+
+**Преимущество:** пользователь прописывает ОДИН endpoint в своём клиенте. Все MCP доступны через Hub.
+
+**C. Provisioner (создание пользовательского MCP)**
+
+Пользователь (T3+) может создать MCP для своих Pack/DS:
+
+1. **Шаблон:** Платформа предоставляет шаблоны MCP-серверов:
+   - `pack-mcp-template` — MCP для чтения Pack-репозитория (search, read entity, list methods)
+   - `ds-mcp-template` — MCP для DS-репозитория (search docs, read processes)
+   - `custom-mcp-template` — пустой MCP с boilerplate (auth, transport, tools scaffold)
+
+2. **Деплой:** Два варианта:
+   - **Managed (платформой):** CF Worker, автоматический деплой из GitHub repo пользователя. Бесплатно до лимита (10 req/min на free tier)
+   - **Self-hosted:** Пользователь хостит сам, регистрирует endpoint в Hub
+
+3. **Данные:** User MCP имеет доступ ТОЛЬКО к данным владельца:
+   - Pack: чтение файлов из GitHub repo пользователя (GitHub OAuth scope `repo`)
+   - DS: то же
+   - ЦД: только свой digital twin (RLS по user_id)
+
+#### 3.8.4. Связь с существующими подсистемами
+
+| Подсистема | Связь с MCP Hub |
+|-----------|----------------|
+| **Knowledge MCP** (#5) | Регистрируется как Platform MCP. Доступ: публичный |
+| **Guides MCP** (#6) | Регистрируется как Platform MCP. Доступ: публичный |
+| **Digital Twin MCP** (#1) | Регистрируется как Platform MCP. Доступ: T1+ (приватные данные) |
+| **Composer MCP** (#7) | Регистрируется как Platform MCP. Доступ: T1+ |
+| **ORY SSO** (#10) | Hub Gateway использует ORY для аутентификации |
+| **Apps SDK & Маркетплейс** (#29) | **Поглощается MCP Hub.** MCP = стандартный SDK. Маркетплейс = Community MCP каталог |
+| **AI Training Pipeline** (#32) | Community MCP артефакты (schema, usage patterns) обогащают обучение |
+
+#### 3.8.5. Сервисы MCP Hub
+
+| # | Сервис | Триггер | Исполнитель |
+|---|--------|---------|-------------|
+| S64 | **MCP Discovery** | On-demand (client `tools/list`) | MCP Hub Gateway (CF Worker) |
+| S65 | **MCP Route** | On-demand (client tool call) | MCP Hub Gateway (CF Worker) |
+| S66 | **MCP Register** | On-demand (user creates MCP) | Web App → Neon |
+| S67 | **MCP Provision** | Event (MCP registered, type=managed) | Provisioner → CF Workers API |
+| S68 | **MCP Health Check** | Scheduled (every 5 min) | Hub → ping registered MCPs |
+
+#### 3.8.6. Тиры и MCP Hub
+
+| Тир | Что доступно |
+|-----|-------------|
+| **T0** (бэк-офис) | Все Platform MCP + административные инструменты Hub |
+| **T1** (старт) | Knowledge MCP, Guides MCP (публичные). Нет Digital Twin, нет Composer |
+| **T2** (изучение) | + Digital Twin MCP (read-only), Composer MCP |
+| **T3** (персонализация) | + Digital Twin MCP (read/write), + создание User MCP (до 3) |
+| **T4** (созидание) | + создание User MCP (до 10), + публикация Community MCP |
+| **T5** (владелец) | Без ограничений |
+
+#### 3.8.7. Принцип #6 — Platform-space vs User-space
+
+MCP Hub реализует принцип отчуждаемости:
+
+- **Platform-space:** Knowledge, Guides, Digital Twin, Composer — платформа управляет, обновляет, гарантирует SLA
+- **User-space:** User MCP — пользователь создаёт, управляет, может удалить. Платформа предоставляет инфраструктуру (шаблоны, хостинг, registry), но не владеет содержимым
+- **Community-space:** опубликованные User MCP. Автор управляет, платформа модерирует (review перед публикацией)
+
+#### 3.8.8. АрхГейт MCP Hub
+
+| # | Характеристика | Оценка | Обоснование |
+|---|---|---|---|
+| Э | Эволюционируемость | **9** | Registry pattern: добавить MCP = зарегистрировать endpoint. Нет hard coupling |
+| М | Масштабируемость | **8** | CF Workers edge + DB lookup. Риск: user MCP на слабом хостинге |
+| О | Обучаемость | **9** | Каталог в Web App, «подключить» = 1 кнопка, «создать» = шаблон + docs |
+| Г | Генеративность | **9** | Экосистема MCP: платформенные + пользовательские + community. Заменяет Apps SDK |
+| Ск | Скорость | **8** | Registry <100ms, MCP call <500ms. Schema кешируется |
+| Со | Современность | **9** | MCP = SOTA 2024-25. Registry = стандартный паттерн |
+| Б | Безопасность | **8** | ORY OAuth2, RLS, user MCP изолированы. Риск: injection в community MCP |
+| **Итого** | | **8.6** | Порог ≥8 пройден |
+
+#### 3.8.9. ADR-018: MCP Hub как единая точка доступа к MCP
+
+| Поле | Значение |
+|------|----------|
+| **Статус** | 🔶 Предлагается |
+| **Контекст** | 4 MCP-сервера настраиваются вручную. Нет каталога, нет user MCP, нет единой авторизации |
+| **Решение** | MCP Hub: Registry (Neon) + Gateway (CF Worker) + Provisioner (шаблоны + managed deploy) |
+| **Следствия** | Один endpoint для всех клиентов. Пользователи создают свои MCP. Apps SDK (#29) поглощается |
+| **Альтернативы** | (1) Оставить как есть (ручная конфигурация) — не масштабируется. (2) Только Registry без Gateway — пользователю всё равно нужно прописывать endpoints |
+| **Оценка** | ЭМОГССБ 8.6/10 |
+
 ---
 
 ## 4. Анализ
@@ -713,7 +924,7 @@ Layer 1: ДАННЫЕ + ИНФРАСТРУКТУРА
 | 26 | **Эпистемический граф (ESG)** | ❌ Не существует | Граф знаний/компетенций | 🔴 Создать | **P2** |
 | 27 | **Unified Search** | ❌ Не существует | Кросс-системный поиск | 🔴 Создать | **P2** |
 | 28 | **Семинары / Вебинары** | 🟡 Внешние инструменты (Zoom + TG-группа как gatekeeper) | JWT-based доступ: платформа выдаёт персональные ссылки оплатившим (ADR-016). Event Access Service (S62). Jitsi/Zoom/LiveKit — заменяемый компонент | 🟡 Создать | **P3** |
-| 29 | **Apps SDK & Маркетплейс** | ❌ Не существует | SDK + маркетплейс | 🔴 Создать | **P3** |
+| 29 | **~~Apps SDK & Маркетплейс~~** → **MCP Hub** (ADR-018) | ❌ Не существует | Registry + Gateway + Provisioner. Единый endpoint для всех MCP. User/Community MCP. Поглощает Apps SDK | 🔴 Создать | **P2** |
 | 30 | **Revenue Sharing** | ❌ Не существует | Объединён с Billing (#4) | → #4 | **P1** |
 | 31 | **Панель наставника / Потоки** | ❌ Не существует | Табель, ДЗ, аналитика; потоки SC-10 | 🔴 Создать | **P1** |
 | 32 | **AI Training Pipeline** | ❌ Не существует | Сбор артефактов → классификация → обучение ИИ-агентов (P-SLF) | 🔴 Создать (уникальная логика) | **P2** |
@@ -724,7 +935,7 @@ Layer 1: ДАННЫЕ + ИНФРАСТРУКТУРА
 | Тип gap | Кол-во | Подсистемы |
 |---------|--------|-----------|
 | 🔴 **Создать уникальное** | 10 | CRM/Бэк-офис, Loyalty/Proof-of-Impact, Activity Hub, Revenue Sharing (в Billing), Панель наставника/Потоки, Personal Guide Gen, ESG, Team Service, **AI Training Pipeline**, Calendar Service (Backlog) |
-| 🔵 **Интегрировать SOTA** | 5 | Web App (Next.js), Event Bus (Outbox + pg_notify), Notification Svc (Novu/Courier), Unified Search (pgvector + FTS), Apps SDK |
+| 🔵 **Интегрировать SOTA** | 5 | Web App (Next.js), Event Bus (Outbox + pg_notify), Notification Svc (Novu/Courier), Unified Search (pgvector + FTS), MCP Hub (Registry + Gateway) |
 | 🟡 **Доработать существующее** | 11 | ORY SSO, ЦД, Guides MCP, LMS API, Docs, ИИ-системы, Monitoring, ДЗ-чекер, Certification, Рабочая тетрадь, Семинары |
 | 🟢 **Минимальный gap** | 7 | Knowledge MCP, Composer MCP, TG Bot, Claude Code, Discourse, SystemsSchool Bot, Реал-тайм каналы (TG) |
 
@@ -738,7 +949,7 @@ Layer 1: ДАННЫЕ + ИНФРАСТРУКТУРА
 | Э | **Эволюционируемость** | **9** | Модульность (30 подсистем → 57 сервисов), Event Bus для loose coupling, Strategy pattern для billing/PII. Двух-юрисдикционность через адаптеры, не fork. **Риск:** 30 подсистем — много зависимостей; без Event Bus первые фазы будут tight-coupled |
 | М | **Масштабируемость** | **8** | При 10x: Neon autoscaling, CF Workers global edge, Vercel SSR, K8s в Фазе 3. Две ноды (RU + EU). **Риск:** Neon free tier ограничен; Event Bus на pg_notify ≤1000 msg/sec |
 | О | **Обучаемость** | **8** | 3-слойная архитектура (IPO), понятные тиры, role-centric модель, ASCII-диаграммы. **Риск:** 30 подсистем, 57 сервисов — ~2 дня погружение |
-| Г | **Генеративность** | **9** | Работает в шаблоне экзокортекса. Создаёт платформу. Apps SDK + маркетплейс. Global Core + Local Edge. Двойник + ESG + баллы + AI self-learning — замкнутый цикл роста |
+| Г | **Генеративность** | **9** | Работает в шаблоне экзокортекса. Создаёт платформу. MCP Hub (Registry + User/Community MCP). Global Core + Local Edge. Двойник + ESG + баллы + AI self-learning — замкнутый цикл роста |
 | Ск | **Скорость** | **7** | Web App <1s, бот <3s, MCP <500ms. **Риск:** двойной деплой увеличивает CI/CD; репликация RU↔EU добавляет latency |
 | Со | **Современность** | **9** | Next.js 15, MCP (SOTA.002), Event Sourcing, Role-centric (SOTA.001), Coupling Model (SOTA.011). Vercel + CF Workers = cloud-native |
 | Б | **Безопасность** | **8** | ORY (OAuth2 PKCE), RLS, Knowledge≠UserData. GDPR + 152-ФЗ design. **Риск:** PII в двух юрисдикциях; нет WAF; санкционный compliance не решён |
@@ -784,6 +995,7 @@ Layer 1: ДАННЫЕ + ИНФРАСТРУКТУРА
 | ADR-015 | **Образованные агенты: fine-tuning на ZP/FPF** | 🔶 | Платформа выпускает методологически грамотных агентов. Синтетические данные из ZP/FPF | — |
 | ADR-016 | **JWT-based доступ к семинарам/вебинарам** | 🔶 | Платформа выдаёт персональные JWT-ссылки только оплатившим. TG-привязка — канал доставки, не гейткипер | 8.6 |
 | ADR-017 | **LLM Multi-Provider Fallback (shared library)** | 🔶 | Единая библиотека `llm_client` с fallback-цепочкой Claude → OpenAI. Embeddings — без fallback (несовместимы). ЭМОГССБ 8.3 | 8.3 |
+| ADR-018 | **MCP Hub — единая точка доступа к MCP** | 🔶 | Registry (Neon) + Gateway (CF Worker) + Provisioner. Три типа MCP: Platform, User, Community. Поглощает Apps SDK (#29). ЭМОГССБ 8.6 | 8.6 |
 
 #### ADR-014: Трёхосевая модель доступов + Позиции (DP.D.034)
 
@@ -1177,8 +1389,9 @@ llm_client/              ← shared library (Python-пакет)
 | 2.11 | **Web App: сообщество** (Discourse SSO) | Фаза 1 | 10-15h |
 | 2.12 | **ИИ-системы → Web App** (API) | Фаза 1 | 10-15h |
 | 2.13 | **AI Training Pipeline** (P-SLF): сбор артефактов, epistemic gates, курация | ESG, ЦД | 15-20h |
+| 2.14 | **MCP Hub** (ADR-018): Registry + Gateway + Provisioner. Platform MCP регистрация, User MCP шаблоны | ORY SSO, Neon, CF Workers | 15-25h |
 
-**Milestone:** Полная экосистема: обучение + баллы + ESG + сертификация + команды + AI self-learning + мониторинг.
+**Milestone:** Полная экосистема: обучение + баллы + ESG + сертификация + команды + AI self-learning + MCP Hub + мониторинг.
 
 #### 6.2.4. Фаза 3: Масштабирование (2027+)
 
@@ -1186,7 +1399,7 @@ llm_client/              ← shared library (Python-пакет)
 |---|--------|
 | 3.1 | Kubernetes миграция (Railway → K8s) |
 | 3.2 | Международная локализация (EN → другие) |
-| 3.3 | Apps SDK / маркетплейс |
+| 3.3 | ~~Apps SDK / маркетплейс~~ → поглощён MCP Hub (Фаза 2, задача 2.14) |
 | 3.4 | Revenue Sharing (автоматическое распределение) |
 | 3.5 | LMS декомпозиция (замена Vaadin 8) |
 | 3.6 | Семинары / Вебинары: Event Access Service (S62), JWT-based доступ (ADR-016), Jitsi/Zoom интеграция, UI управления событиями |
@@ -1212,11 +1425,11 @@ llm_client/              ← shared library (Python-пакет)
                                                     │ ESG + баллы        │
                                                     │ Certification      │
                                                     │ Teams + Search     │
+                                                    │ MCP Hub (ADR-018)  │
                                                     │ Monitoring         │
                                                     ├────────────────────┤
                                                                     2027 → Фаза 3
-                                                                    K8s, Apps SDK,
-                                                                    Revenue Sharing,
+                                                                    K8s, Revenue Sharing,
                                                                     Семинары, Mobile
 ```
 
