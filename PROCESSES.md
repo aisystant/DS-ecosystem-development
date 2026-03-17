@@ -11,6 +11,14 @@ updated: 2026-02-11
 > Внутренние процессы каждой системы → `<repo>/PROCESSES.md`.
 > Различение: процесс = поток действий с ВДВ; сценарий = межсистемный процесс (синоним).
 
+## Реализуемые обещания (SC)
+
+| SC | Обещание | Межсистемные процессы |
+|----|----------|----------------------|
+| [SC.010](../PACK-digital-platform/pack/digital-platform/08-use-cases/DP.SC.010-work-rhythm.md) | Рабочий ритм (ОРЗ) | Рабочая сессия Claude Code (§1.1), Day-Close (§1.2) |
+| [SC.013](../PACK-digital-platform/pack/digital-platform/08-use-cases/DP.SC.013-work-session.md) | Рабочая сессия с Claude Code | Рабочая сессия Claude Code (§1.1) |
+| [SC.015](../PACK-digital-platform/pack/digital-platform/08-use-cases/DP.SC.015-system-development.md) | Развитие системы (DS) | Межсистемные сценарии разработки |
+
 ---
 
 ## 1. Пользовательские сценарии

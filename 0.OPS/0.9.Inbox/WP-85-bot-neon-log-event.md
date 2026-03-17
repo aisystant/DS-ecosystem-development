@@ -13,11 +13,13 @@ related:
   - Предложение — 3-слойная архитектура цифрового двойника.md
   - WP-73 (Архитектура ИТ-платформы)
   - WP-82 (Упрощённый онбординг с Ory)
+  - WP-85-identity-layer-proposal.md
 ---
 
 # Реализация log_event() в боте — первый продьюсер ЦД
 
-## Вопросы для обсуждения с архитектором
+<details open>
+<summary><b>Вопросы для обсуждения с архитектором</b></summary>
 
 ### Q1. Стратегия первичного ключа для таблицы `public.users` (блокер — WP-82/Ory)
 
@@ -92,15 +94,19 @@ related:
 - **Размещение кода:** Отдельный репозиторий `DS-digital-twin-api` или скрипты в `DS-ecosystem-development`?
 - **Формат событий:** Использовать CloudEvents envelope (DP.SOTA.003) или собственный формат, совместимый с текущим `log_event()`?
 
----
+</details>
 
-## 1. Суть предложения
+<details>
+<summary><b>1. Суть предложения</b></summary>
 
 Бот становится **первым продьюсером событий** в `development.user_events` (Neon). Это прототип паттерна, по которому затем подключатся LMS, Клуб и Web App.
 
 **Принцип:** единая точка записи `log_event()` → единая таблица `user_events` → append-only.
 
-## 2. Архитектура записи событий
+</details>
+
+<details>
+<summary><b>2. Архитектура записи событий</b></summary>
 
 ### 2.1. Общая схема (все продьюсеры)
 
@@ -139,7 +145,10 @@ Ory (WP-82, зависит от WP-73) обеспечит:
 
 **Ory НЕ блокирует запись событий.** Бот может писать по `chat_id` уже сейчас. LMS/Клуб подключатся через webhook после развёртывания API-слоя.
 
-## 3. Что реализуется в боте (Фаза 1)
+</details>
+
+<details>
+<summary><b>3. Что реализуется в боте (Фаза 1)</b></summary>
 
 ### 3.1. Schema + таблица
 
@@ -191,7 +200,10 @@ async def log_event(
 - **S16 (Marathon Step)** → событие `marathon_step`
 - Session tracking → событие `session_start`
 
-## 4. Что НЕ делается сейчас
+</details>
+
+<details>
+<summary><b>4. Что НЕ делается сейчас</b></summary>
 
 - `public.users` (ждёт WP-82/Ory)
 - Партиционирование (малые объёмы)
@@ -199,7 +211,10 @@ async def log_event(
 - HTTP API для LMS/Клуба — Фаза 3
 - RLS (Row-Level Security) — после появления multi-tenant доступа
 
-## 5. Принятые решения (из WP-85 вопросов)
+</details>
+
+<details>
+<summary><b>5. Принятые решения (из WP-85 вопросов)</b></summary>
 
 | Вопрос | Решение | Обоснование |
 |--------|---------|-------------|
@@ -211,7 +226,10 @@ async def log_event(
 
 **Вопрос 5 уточнение:** Миграция schema `development` живёт в боте как первом потребителе. Когда появится платформенный миграционный инструмент (DS-ecosystem-development), миграция переедет туда.
 
-## 6. Паттерн для будущих продьюсеров
+</details>
+
+<details>
+<summary><b>6. Паттерн для будущих продьюсеров</b></summary>
 
 ```
 1. Продьюсер вызывает log_event(user_id, event_type, payload, confidence)
@@ -223,6 +241,34 @@ async def log_event(
 
 LMS и Клуб будут писать через HTTP endpoint (FastAPI или аналог), который внутри вызывает тот же `log_event()`.
 
----
+</details>
+
+<details>
+<summary><b>7. Identity Layer — DT MCP as BFF (предложение)</b></summary>
+
+### Контекст
+
+WP-85 Phase 3 done. `public.users` с UUID PK работает. Колонка `ory_id` существует, но не заполняется — бот авторизуется через DT MCP (OAuth PKCE на Cloudflare Workers), не через Ory напрямую.
+
+### Вопрос
+
+Где граница identity layer? DT MCP уже выдаёт `dt_user_id` (UUID) через OAuth. Нужен ли отдельный Ory сейчас?
+
+### Предложение: DT MCP as BFF (АрхГейт 8.4)
+
+`dt_user_id` = identity UUID. Бот продолжает один OAuth flow через DT MCP. При появлении второго клиента (Web app) — DT MCP делегирует auth в Ory, UUID портируется через Admin API import.
+
+```
+Сейчас:  Бот → DT MCP (OAuth + данные) → UUID
+Потом:   Бот → Ory (OAuth) + DT MCP (данные) → тот же UUID
+```
+
+Переход C→B не ломает данные: Ory импортирует существующие UUID, `public.users` не меняется.
+
+### Вопрос к архитектору
+
+Согласуете: `dt_user_id` = identity UUID (заполняем `ory_id` в callback), Ory откладываем до второго клиента?
+
+</details>
 
 *Ожидает согласования архитектора.*
