@@ -13,7 +13,11 @@ related:
 
 # Activity Hub: интеграция источников данных в ЦД
 
-## 1. Контекст
+> **Статус:** pending-review — ожидает согласования.
+> **Зависимости:** WP-85 (ЦД в Neon), WP-121 (баллы за активность).
+
+<details open>
+<summary><b>1. Контекст</b></summary>
 
 ЦД получает данные из 4 источников: бот, LMS Aisystant, клуб (Discourse), IWE. Сейчас только бот пишет в `development.user_events` (через `log_event()`). Остальные источники не подключены.
 
@@ -21,9 +25,9 @@ related:
 
 **Масштаб:** десятки тысяч пользователей.
 
----
-
-## 2. Решение: Activity Hub
+</details>
+<details open>
+<summary><b>2. Решение: Activity Hub</b></summary>
 
 **Activity Hub** — отдельная система (`DS-IT-systems/activity-hub/`), единственная точка записи в `development.user_events`. Все источники (включая бот) пишут через Hub.
 
@@ -113,9 +117,9 @@ await ingest_event(
 
 Текущий `log_event()` заменяется на `ingest_event()`. Единая точка записи, единая валидация, единый audit trail.
 
----
-
-## 3. Фазы реализации и триггеры
+</details>
+<details>
+<summary><b>3. Фазы реализации и триггеры</b></summary>
 
 ### Фаза 0: MVP — Activity Hub + LMS Adapter v1
 
@@ -187,9 +191,9 @@ await ingest_event(
 **Клуб (Discourse):** стандартный API — `GET /user_actions.json`, `GET /directory_items.json`.
 **IWE:** парсинг WeekPlan, git log, WakaTime API.
 
----
-
-## 4. Что нужно от разработчика LMS (для старта Фазы 0)
+</details>
+<details>
+<summary><b>4. Что нужно от разработчика LMS (для старта Фазы 0)</b></summary>
 
 ### Обязательно
 
@@ -214,9 +218,9 @@ await ingest_event(
 - Не храним пароли пользователей LMS (только сервисный аккаунт)
 - Connection string к нашей БД НЕ даём и НЕ просим — каждая система отвечает за свои данные
 
----
-
-## 5. Достоверность и безопасность (Integrity Pipeline)
+</details>
+<details>
+<summary><b>5. Достоверность и безопасность (Integrity Pipeline)</b></summary>
 
 Баллы = скидки = деньги. Hub гарантирует:
 
@@ -268,9 +272,9 @@ CREATE TABLE development.sync_log (
 );
 ```
 
----
-
-## 6. АрхГейт (ЭМОГССБ)
+</details>
+<details>
+<summary><b>6. АрхГейт (ЭМОГССБ)</b></summary>
 
 | Характеристика | Оценка | Обоснование |
 |----------------|--------|-------------|
@@ -283,9 +287,9 @@ CREATE TABLE development.sync_log (
 | Безопасность | 9 | Integrity Pipeline (6 этапов), RLS, audit trail, quarantine, блокировка начисления при расхождении |
 | **Сумма** | **61/70 (8.7)** | **Проходит (порог ≥8)** |
 
----
-
-## 7. С чего начинаем
+</details>
+<details>
+<summary><b>7. С чего начинаем</b></summary>
 
 **Шаг 1 (сейчас):** Согласовать этот proposal.
 
@@ -299,15 +303,15 @@ CREATE TABLE development.sync_log (
 
 **Шаг 6:** WP-121 — правила начисления баллов (отдельный РП, после Шага 5).
 
----
-
-## 8. Вопросы для согласования
+</details>
+<details>
+<summary><b>8. Вопросы для согласования</b></summary>
 
 1. Согласуете Activity Hub как отдельную систему (`DS-IT-systems/activity-hub/`)?
 2. Согласуете переключение бота с `log_event()` на `ingest_event()` через Hub?
 3. Текст для разработчика LMS (§4) — корректировки нужны?
 4. Приоритет: начинаем с Фазы 0 на этой/следующей неделе?
 
----
+</details>
 
 *Создан: 2026-03-17. Автор: Architect (Claude Opus). РП: WP-109, WP-121.*
