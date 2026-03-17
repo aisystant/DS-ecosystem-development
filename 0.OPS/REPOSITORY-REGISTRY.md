@@ -35,12 +35,14 @@
 | 6 | [PACK-digital-platform](https://github.com/TserenTserenov/PACK-digital-platform) | Pack | ИТ-платформа | text-description | team | yes | Active |
 | 20 | [PACK-MIM](https://github.com/TserenTserenov/PACK-MIM) | Pack | МИМ (мастерская) | text-description | team | yes | Active |
 | 24 | [PACK-education](https://github.com/TserenTserenov/PACK-education) | Pack | Методика обучения | text-description | team | yes | Active |
+| 25 | [PACK-verification](https://github.com/TserenTserenov/PACK-verification) | Pack | Верификация и приёмка | text-description | team | yes | Active |
 | 8 | [DS-twin](https://github.com/aisystant/DS-twin) | DS/instrument | ИТ-платформа | code | team | no | Active |
 | 9 | [DS-Knowledge-Index-Tseren](https://github.com/TserenTserenov/DS-Knowledge-Index-Tseren) | DS/instrument | Созидатель | code | personal | no | Active |
 | 10 | [DS-ecosystem-development](https://github.com/aisystant/DS-ecosystem-development) | DS/governance | Экосистема | text-governance | team | no | Active |
 | 11 | [DS-my-strategy](https://github.com/TserenTserenov/DS-my-strategy) | DS/governance | Созидатель | text-governance | personal | no | Active |
 | 12 | [docs](https://github.com/aisystant/docs) | DS/surface | Экосистема | text-publication | public | no | Active |
 | 13 | [DS-marathon-v2-tseren](https://github.com/TserenTserenov/DS-marathon-v2-tseren) | DS/surface | Экосистема | text-publication | team | no | Active |
+| 23 | [DS-principles-curriculum](https://github.com/aisystant/DS-principles-curriculum) | DS/surface | Экосистема | text-publication | team | no | Active |
 | 15 | [DS-ai-systems](https://github.com/TserenTserenov/DS-ai-systems) | DS/instrument | ИТ-платформа | code | personal | no | Active |
 | 18 | [digital-twin-mcp](https://github.com/aisystant/digital-twin-mcp) | DS/instrument | ИТ-платформа | code | team | no | Active |
 | 19 | [aist_bot_newarchitecture](https://github.com/aisystant/aist_bot_newarchitecture) | DS/instrument | Бот Aist | code | team | no | Active |
@@ -79,6 +81,7 @@
 | [PACK-digital-platform](https://github.com/TserenTserenov/PACK-digital-platform) | ИТ-платформа и цифровой двойник | SPF, FPF, PACK-personal | TserenTserenov |
 | [PACK-MIM](https://github.com/TserenTserenov/PACK-MIM) | Мастерская: форматы, программы, организация развития | SPF, FPF | TserenTserenov |
 | [PACK-education](https://github.com/TserenTserenov/PACK-education) | Методика обучения: возрастные и профессиональные методы преподавания | SPF, FPF, PACK-personal | TserenTserenov |
+| [PACK-verification](https://github.com/TserenTserenov/PACK-verification) | Верификация и приёмка: методы проверки, эталоны, критерии приёмки (трансдоменный) | SPF, FPF | TserenTserenov |
 
 ### DS/instrument
 
@@ -105,6 +108,7 @@
 |-------------|------------|---------------|----------|
 | [docs](https://github.com/aisystant/docs) | VitePress документация | PACK-personal, PACK-ecosystem | aisystant |
 | [DS-marathon-v2-tseren](https://github.com/TserenTserenov/DS-marathon-v2-tseren) | Программа марафона v2 | PACK-personal, PACK-ecosystem | TserenTserenov |
+| [DS-principles-curriculum](https://github.com/aisystant/DS-principles-curriculum) | Программа обучения принципам (FPF ячейки) | PACK-personal, PACK-ecosystem | aisystant |
 
 ---
 
@@ -133,11 +137,14 @@ ZP (Base/Принципы, Level 0)
         │     │
         │     └──▶ (downstream TBD)
         │
+        ├──▶ PACK-verification (Pack: Верификация и приёмка — трансдоменный)
+        │
         ├──▶ PACK-ecosystem (Pack: Экосистема — чёрный ящик)
         │     │
         │     ├──▶ DS-ecosystem-development (DS/governance)
         │     ├──▶ docs (DS/surface)
-        │     └──▶ DS-marathon-v2-tseren (DS/surface)
+        │     ├──▶ DS-marathon-v2-tseren (DS/surface)
+        │     └──▶ DS-principles-curriculum (DS/surface)
         │
         ├──▶ PACK-digital-platform (Pack: ИТ-платформа)
         │     │
@@ -185,4 +192,4 @@ FMT-exocortex-template (Base/Форматы, setup.sh встроен)
 
 ---
 
-*Последнее обновление: 2026-02-25*
+*Последнее обновление: 2026-03-17*
