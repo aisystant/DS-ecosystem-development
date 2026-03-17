@@ -660,7 +660,7 @@ Layer 1: ДАННЫЕ + ИНФРАСТРУКТУРА
 | S48 | Guide Import | Publisher (R21) | Scheduled | Neon (replaces SurrealDB) |
 | S49 | Activity Feed | Activity Hub | Event (any user action) | Deterministic |
 | S50 | Team Channel Setup | Team Service | Event (team formed) | Discord API |
-| S51 | Send Notification | Notification Svc | Event (ЦД insight, deadline, streak) | Push/email/in-app |
+| S51 | Send Notification (Nudge Engine) | Notification Svc | Event (ЦД insight, deadline, streak) + все 5 проекций ЦД | Push/email/in-app. 6 типов: адаптация, обучение, вовлечённость, признание, возвращение, траектория (DP.ARCH.003 §17) |
 | S52 | Check Homework | ДЗ-чекер | On-demand (student submit) | AI + Web App |
 | S53 | Issue Certificate | Certification Svc | Event (course completed + ESG verified) | Deterministic |
 | S54 | Generate Personal Guide | Guide Generator | On-demand (user request) | AI + ЦД + Knowledge |
@@ -952,7 +952,7 @@ MCP Hub реализует принцип отчуждаемости:
 | 18 | **ИИ-системы (11+ ролей)** | ✅ 7 систем + ассистенты | API для Web App, новые роли | 🟡 API, оркестрация | P2 |
 | 19 | **Docs (VitePress)** | ✅ Работает, SurrealDB для publish | Миграция на Neon, SSO | 🟡 Миграция, SSO | **P1** |
 | 20 | **Monitoring** | 🟡 Минимальный (error_logs) | Grafana Cloud | 🟡 Настроить | P2 |
-| 21 | **Notification Service** | ❌ Не существует | Push/email/in-app, nudges из ЦД | 🔴 Создать | **P1** |
+| 21 | **Notification Service (Nudge Engine)** | 🟡 MVP в боте (6 правил, T3+, статичные тексты) | Push/email/in-app, nudges из ЦД. 6 типов: адаптация, обучение, вовлечённость, признание, возвращение, траектория. 4 фазы эволюции: правила → контекст → адаптация → агент. Архитектура: DP.ARCH.003 §7.4, §17 | 🔴 Расширить до платформенного сервиса | **P1** |
 | 22 | **ДЗ-чекер** | 🟡 В LMS + частично бот | Единый сервис: Web App + бот + LMS | 🟡 Вынести в сервис | **P1** |
 | 23 | **Certification System** | 🟡 Частично в LMS | Цифровые сертификаты + ЦД + ESG | 🟡 Расширить | **P2** |
 | 24 | **Рабочая тетрадь / Моделер** | 🟡 В LMS | Интерактивная тетрадь в Web App | 🟡 Перенести | **P1** |
@@ -1399,7 +1399,7 @@ llm_client/              ← shared library (Python-пакет)
 | 1.4 | **ЦД: проекции** (BKT, HLR) | Фаза 0.6 | 15-20h |
 | 1.5 | **LMS API-слой** | 1.2 | 15-20h |
 | 1.6 | **CRM / Onboarding** (SC-1) | 1.1 | 10-15h |
-| 1.7 | **Notification Service** | 1.1, Event Bus | 10-15h |
+| 1.7 | **Notification Service (Nudge Engine Фаза 2)** — все тиры T0–T4, 6 типов nudges, AI-генерация через Haiku, динамический cooldown. Архитектура: DP.ARCH.003 §17 | 1.1, Event Bus, ЦД | 15-20h |
 | 1.8 | **ДЗ-чекер как сервис** | 1.5 | 10-15h |
 | 1.9 | **Панель наставника / Потоки** (SC-10) | 1.2, 1.8 | 15-20h |
 | 1.10 | **Cloud Strategist** (S63): серверная генерация DayPlan | 1.1, ORY, GitHub OAuth | 15-20h |
