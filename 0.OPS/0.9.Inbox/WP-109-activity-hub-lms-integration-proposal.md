@@ -2,7 +2,7 @@
 type: proposal
 wp: 109
 title: "Activity Hub: интеграция LMS → ЦД + начисление баллов"
-status: pending-review
+status: approved
 created: 2026-03-17
 author: architect
 related:
@@ -13,7 +13,7 @@ related:
 
 # Activity Hub: интеграция источников данных в ЦД
 
-> **Статус:** pending-review — ожидает согласования.
+> **Статус:** approved (18 мар 2026). Сервисный аккаунт LMS получен. Блокер снят.
 > **Зависимости:** WP-85 (ЦД в Neon), WP-121 (баллы за активность).
 
 <details open>
@@ -167,19 +167,16 @@ await ingest_event(
 
 **Что НЕ меняется:** Hub Core, Neon-схема, бот, reconciliation, начисление баллов.
 
-### Фаза 2: Production — DB View или Webhooks
+### Фаза 2: Production — Webhooks (Push)
 
 > **Триггер:** количество активных пользователей LMS > 10 000 ИЛИ Bulk API становится узким местом ИЛИ нужен real-time
+> **Вариант DB View убран** — невозможно без логики приложения (подтверждено разработчиком LMS 18 мар).
 
-**Вариант A: DB View (read-only доступ к LMS PostgreSQL)**
-- LMS-команда создаёт VIEW с нужными колонками и периодом
-- Hub подключается через read-only connection string
-- Максимальная скорость, минимальный overhead
-
-**Вариант B: Webhooks (LMS Push)**
+**Webhooks (LMS Push):**
 - LMS при каждом действии шлёт POST на URL Hub API
 - Real-time, нет batch-нагрузки
 - Требует: endpoint на нашей стороне + webhook sender в LMS
+- Разработчик LMS подтвердил возможность реализации
 
 **Что НЕ меняется:** Hub Core, Neon-схема, бот, reconciliation, начисление баллов. Только `adapters/lms.py`.
 
@@ -197,19 +194,19 @@ await ingest_event(
 
 ### Обязательно
 
-1. **Сервисный аккаунт** (логин + пароль) с правами на чтение. Технический, не привязанный к личному пользователю. Авторизация через `POST /auth/login` + session cookie.
+1. ✅ **Сервисный аккаунт:** tech2@aisystant.com, Basic Authorization. Только тестовый сервер. Переход на JWT от Ory — когда Ory будет готов.
 
-2. **Подтверждение доступа** к эндпоинтам из таблицы выше. Все GET, только чтение. Ничего не меняем в LMS.
+2. ✅ **Доступ к эндпоинтам** подтверждён. Ограничить только GET сложно на стороне LMS, но мы гарантируем только чтение.
 
-3. **Уникальный ID действия** в ответе `passing-actions`. Есть ли у каждого действия стабильный идентификатор? Нам нужно для дедупликации. Если нет — подойдёт комбинация `(userId, timestamp, actionType)` как составной ключ.
+3. ✅ **Dedup key:** `(actionType, actionId)` — actionId уникален в рамках одного actionType. Используем `f"{actionType}:{actionId}"` как external_id.
 
-4. **Доступ к тестовому серверу** (`188.73.162.175:8064`) для разработки и тестирования интеграции.
+4. ✅ **Тестовый сервер** (188.73.162.175:8064) доступен. Не 100% uptime (разработка, обновления). Дамп с прода — по потребности.
 
 ### На перспективу (не сейчас)
 
-5. **Фаза 1 (>500 users):** Bulk-эндпоинт `GET /api/export/passing-actions?from=&to=` — все пользователи за период, NDJSON.
+5. **Фаза 1 (>500 users):** Bulk-эндпоинт — возможно, сначала проверят обычный JSON vs NDJSON.
 
-6. **Фаза 2 (>10K users):** read-only VIEW в PostgreSQL LMS для прямого SELECT, или webhook sender для push-модели.
+6. **Фаза 2 (>10K users):** Webhook sender (push-модель) — возможно. Read-only VIEW невозможно (убран из планов).
 
 ### Гарантии с нашей стороны
 
