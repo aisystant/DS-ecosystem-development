@@ -1459,7 +1459,7 @@ llm_client/              ← shared library (Python-пакет)
 | # | Задача | Зависимости | Бюджет |
 |---|--------|-------------|--------|
 | 1.1 | **Web App: дашборд + ЦД** | Фаза 0 | 30-40h |
-| 1.2 | **Web App: обучение** (руководства + тетрадь + ДЗ-чекер) | 1.1 | 30-40h |
+| 1.2 | **Web App: обучение** (руководства + тетрадь + ДЗ-чекер, [SC.117](../../../../PACK-digital-platform/pack/digital-platform/08-use-cases/DP.SC.117-async-homework-review.md)) | 1.1 | 30-40h |
 | 1.3 | **Billing Service** (Stripe + подписки + feature gating) | 1.1, ORY | 20-30h |
 | 1.4 | **ЦД: проекции** (BKT, HLR) | Фаза 0.6 | 15-20h |
 | 1.5 | **LMS API-слой** | 1.2 | 15-20h |
