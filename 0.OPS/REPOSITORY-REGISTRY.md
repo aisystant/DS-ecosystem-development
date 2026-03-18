@@ -36,7 +36,7 @@
 | 20 | [PACK-MIM](https://github.com/TserenTserenov/PACK-MIM) | Pack | МИМ (мастерская) | text-description | team | yes | Active |
 | 24 | [PACK-education](https://github.com/TserenTserenov/PACK-education) | Pack | Методика обучения | text-description | team | yes | Active |
 | 25 | [PACK-verification](https://github.com/TserenTserenov/PACK-verification) | Pack | Верификация и приёмка | text-description | team | yes | Active |
-| 8 | [DS-twin](https://github.com/aisystant/DS-twin) | DS/instrument | ИТ-платформа | code | team | no | Active |
+| — | ~~DS-twin~~ | — | — | — | — | — | Archived → digital-twin-mcp (#18) |
 | 9 | [DS-Knowledge-Index-Tseren](https://github.com/TserenTserenov/DS-Knowledge-Index-Tseren) | DS/instrument | Созидатель | code | personal | no | Active |
 | 10 | [DS-ecosystem-development](https://github.com/aisystant/DS-ecosystem-development) | DS/governance | Экосистема | text-governance | team | no | Active |
 | 11 | [DS-my-strategy](https://github.com/TserenTserenov/DS-my-strategy) | DS/governance | Созидатель | text-governance | personal | no | Active |
@@ -91,7 +91,6 @@
 
 | Репозиторий | Назначение | Upstream pack | Владелец |
 |-------------|------------|---------------|----------|
-| [DS-twin](https://github.com/aisystant/DS-twin) | MCP-сервис цифрового двойника | PACK-digital-platform, PACK-personal | aisystant |
 | [DS-Knowledge-Index-Tseren](https://github.com/TserenTserenov/DS-Knowledge-Index-Tseren) | Персональный индекс знаний + публичные посты (`posts/`) | PACK-personal | TserenTserenov |
 | [DS-ai-systems](https://github.com/TserenTserenov/DS-ai-systems) | Монорепо ИИ-систем (7 систем: стратег, экстрактор, синхронизатор, наладчик, статистик, оценщик, шаблонизатор) | PACK-digital-platform, PACK-personal | TserenTserenov |
 | [digital-twin-mcp](https://github.com/aisystant/digital-twin-mcp) | MCP-сервер цифрового двойника | PACK-digital-platform, PACK-personal | aisystant |
@@ -132,7 +131,6 @@ ZP (Base/Принципы, Level 0)
         ├──▶ PACK-personal (Pack: Созидатель)
         │     │
         │     ├──▶ aist_bot_newarchitecture (DS/instrument)
-        │     ├──▶ DS-twin (DS/instrument)
         │     ├──▶ DS-Knowledge-Index-Tseren (DS/instrument)
         │     ├──▶ docs (DS/surface)
         │     └──▶ DS-marathon-v2-tseren (DS/surface)
