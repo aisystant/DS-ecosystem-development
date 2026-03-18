@@ -48,6 +48,10 @@
 | 19 | [aist_bot_newarchitecture](https://github.com/aisystant/aist_bot_newarchitecture) | DS/instrument | Бот Aist | code | team | no | Active |
 | 21 | [aisystant](https://github.com/aisystant/aisystant) | DS/instrument | Экосистема | code | team | no | External |
 | 22 | [SystemsSchool_bot](https://github.com/aisystant/SystemsSchool_bot) | DS/instrument | Экосистема | code | team | no | External |
+| 26 | [activity-hub](https://github.com/aisystant/activity-hub) | DS/instrument | ИТ-платформа | code | team | no | Active |
+| 27 | [knowledge-mcp](https://github.com/aisystant/knowledge-mcp) | DS/instrument | ИТ-платформа | code | team | no | Active |
+| 28 | [guides-mcp](https://github.com/aisystant/guides-mcp) | DS/instrument | ИТ-платформа | code | team | no | Active |
+| 29 | [fsm-mcp](https://github.com/aisystant/fsm-mcp) | DS/instrument | ИТ-платформа | code | team | no | Active |
 | — | ~~DS-aist-bot~~ | — | — | — | — | — | Archived → aist_bot_newarchitecture |
 | — | ~~DS-synchronizer~~ | — | — | — | — | — | Archived → DS-ai-systems |
 | — | ~~DS-fixer-agent~~ | — | — | — | — | — | Archived → DS-ai-systems |
@@ -94,6 +98,10 @@
 | [aist_bot_newarchitecture](https://github.com/aisystant/aist_bot_newarchitecture) | Telegram-бот (new architecture, State Machine) | PACK-personal | aisystant |
 | [aisystant](https://github.com/aisystant/aisystant) | LMS Aisystant (SYS.004) | PACK-ecosystem | aisystant (external) |
 | [SystemsSchool_bot](https://github.com/aisystant/SystemsSchool_bot) | Telegram-бот стажировок и расписания | PACK-ecosystem | aisystant (external) |
+| [activity-hub](https://github.com/aisystant/activity-hub) | Единая точка записи событий в ЦД (LMS, бот, клуб, IWE) | PACK-digital-platform | aisystant |
+| [knowledge-mcp](https://github.com/aisystant/knowledge-mcp) | MCP-сервер поиска по знаниям (Pack, DS, FMT) | PACK-digital-platform | aisystant |
+| [guides-mcp](https://github.com/aisystant/guides-mcp) | MCP-сервер руководств и гайдов | PACK-digital-platform | aisystant |
+| [fsm-mcp](https://github.com/aisystant/fsm-mcp) | MCP-сервер конечных автоматов | PACK-digital-platform | aisystant |
 
 ### DS/governance
 
@@ -151,7 +159,11 @@ ZP (Base/Принципы, Level 0)
         │     ├──▶ DS-twin (DS/instrument)
         │     ├──▶ digital-twin-mcp (DS/instrument)
         │     ├──▶ DS-my-strategy (DS/governance — агент Стратег)
-        │     └──▶ DS-ai-systems (DS/instrument — 7 ИИ-систем)
+        │     ├──▶ DS-ai-systems (DS/instrument — 7 ИИ-систем)
+        │     ├──▶ activity-hub (DS/instrument — единая точка записи событий)
+        │     ├──▶ knowledge-mcp (DS/instrument — поиск по знаниям)
+        │     ├──▶ guides-mcp (DS/instrument — руководства)
+        │     └──▶ fsm-mcp (DS/instrument — конечные автоматы)
         │
         └──▶ FMT-S2R (Base/Форматы)
               │
@@ -192,4 +204,4 @@ FMT-exocortex-template (Base/Форматы, setup.sh встроен)
 
 ---
 
-*Последнее обновление: 2026-03-17*
+*Последнее обновление: 2026-03-18*
