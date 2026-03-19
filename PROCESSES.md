@@ -317,6 +317,35 @@ updated: 2026-02-11
 
 **Пример:** Pack (DP.AISYS.014 — бот) → Синхронизатор → `aist_bot/config/self_knowledge_projection.yaml` (identity, scenarios, FAQ). Бот читает только проекцию, не ходит в Pack.
 
+### 2.7. Синхронизация downstream (update.sh — оркестратор)
+
+> Тип: платформенный сценарий
+> Владелец: Синхронизатор (DS-synchronizer)
+> Участники: Синхронизатор, Pack-репо (source), knowledge-mcp (reindex), Downstream-репо (project), FMT-шаблон (template)
+
+**Вход:** Изменение в Pack (автоматическое обнаружение или явный запуск)
+
+**Действие:**
+
+1. Синхронизатор читает граф зависимостей (`configs/propagation.yaml`)
+2. Определяет, какие Pack-репо изменились (uncommitted / коммиты за 24ч)
+3. Для каждого изменённого Pack — запускает downstream-действия:
+   - `selective-reindex.sh` → обновление индекса knowledge-mcp
+   - `pack-project.sh` → обновление YAML-проекций в Downstream-репо
+   - `template-sync.sh` → обновление FMT-шаблона (если platform-space)
+4. Выводит итоговый отчёт (успех / пропуск / ошибки)
+
+**Выход:** Все downstream-системы, затронутые изменением Pack, синхронизированы
+
+**Режимы:** `--check` (drift report без исправлений), `--dry-run`, `--source X`, `--target Y`, `--all`
+
+**Триггеры:**
+- ⏰ Ежедн 00:05 (scheduler, после code-scan) — полная синхронизация
+- 👤 Day Close — синхронизация изменённых за день
+- 👤 Day Open — `--check` (drift report в светофоре)
+
+**Сервис MAP.002:** S49 Downstream Sync
+
 ---
 
 ## 3. Handoff-протоколы (координация людей + агентов)
