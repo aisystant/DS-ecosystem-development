@@ -37,8 +37,12 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 def get_session_token():
     token = os.environ.get("AISYSTANT_SESSION_TOKEN")
     if not token:
-        print("Ошибка: установите AISYSTANT_SESSION_TOKEN")
-        print("  export AISYSTANT_SESSION_TOKEN='your-token-here'")
+        secrets_path = os.path.expanduser("~/IWE/.secrets/aisystant-session-token")
+        if os.path.exists(secrets_path):
+            with open(secrets_path, 'r') as f:
+                token = f.read().strip()
+    if not token:
+        print("Ошибка: установите AISYSTANT_SESSION_TOKEN или создайте ~/IWE/.secrets/aisystant-session-token")
         sys.exit(1)
     return token
 
