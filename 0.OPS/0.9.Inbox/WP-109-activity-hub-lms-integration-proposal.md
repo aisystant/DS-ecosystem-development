@@ -180,13 +180,37 @@ await ingest_event(
 
 **Что НЕ меняется:** Hub Core, Neon-схема, бот, reconciliation, начисление баллов. Только `adapters/lms.py`.
 
-### Фаза 3: Полная интеграция — клуб + IWE
+### Фаза 3: IWE + Клуб (обновлено 19 мар 2026)
 
-> **Триггер:** Фаза 0 в production + данные клуба/IWE нужны для баллов или ЦД
-> **Что делаем:** добавляем `adapters/club.py` и `adapters/iwe.py`
+> **Триггер:** Фаза 0 в production + данные IWE/клуба нужны для ЦД
+> **Scope:** для ВСЕХ пользователей IWE, тестируем на Tseren первым
+> **Что делаем:** добавляем `adapters/iwe.py` и `adapters/club.py`
+> **Принцип:** Activity Hub записывает факт состоявшегося события. Баллы = WP-121 (отдельно)
 
-**Клуб (Discourse):** стандартный API — `GET /user_actions.json`, `GET /directory_items.json`.
-**IWE:** парсинг WeekPlan, git log, WakaTime API.
+**IWE-адаптер** (`adapters/iwe.py`) — cron-скрипт, ежедневно собирает факты из IWE пользователя:
+
+| event_type | Факт | Источник | confidence |
+|------------|------|---------|-----------|
+| `day_open` | DayPlan создан | git log | 1.0 |
+| `day_close` | День закрыт | git log | 1.0 |
+| `week_plan_created` | WeekPlan создан | git log | 1.0 |
+| `note_to_capture` | Заметка → capture (конверсия) | git diff captures.md | 0.9 |
+| `coding_time` | Время в VS Code | WakaTime API | 1.0 |
+| `commit_created` | Коммит | git log по всем репо | 1.0 |
+| `wp_completed` | РП закрыт | git diff WP-REGISTRY | 1.0 |
+| `content_published` | Публикация | git log DS-Knowledge-Index | 0.9 |
+| `knowledge_extracted` | KE в Pack | git log PACK-* | 1.0 |
+| `distinction_added` | Различение добавлено | git diff hard-distinctions | 0.9 |
+| `method_described` | Метод описан | git log PACK-*/06-methods/ | 0.9 |
+| `fmt_commit_merged` | Одобренный коммит в FMT | GitHub API: merged PR | 1.0 |
+
+**Клуб (Discourse):** `GET /user_actions.json`, `GET /directory_items.json`. Dep: DE-36 для Ory-интеграции.
+
+| event_type | Факт | confidence |
+|------------|------|-----------|
+| `community_help` | Ответ на чужую тему | 0.9 |
+| `post_created` | Тема/пост создан | 1.0 |
+| `like_given` | Лайк | 1.0 |
 
 </details>
 <details>
