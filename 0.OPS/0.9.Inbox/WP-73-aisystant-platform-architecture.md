@@ -674,8 +674,12 @@ Layer 1: ДАННЫЕ + ИНФРАСТРУКТУРА
 | S61 | **AI Training Pipeline** | AI Training Svc | Event (artifact confirmed, epistemic status ≥ peer-reviewed) | AI + Deterministic |
 | S62 | **Event Access** | Event Access Svc (#28) | Scheduled (за N мин до события) или on-demand (admin) | Deterministic (JWT generation) + Notification (S51) |
 | S63 | **Cloud Strategist** | Стратег (R1) | ⏰ ежедн 04:00 (cron сервер) | Anthropic API → GitHub API → DS-strategy |
+| S64 | **My Digital Twin View** | R16 Ученик / R14 Заказчик | 👤 On-demand (`/me`, `/myprofile`, дашборд) | Мультиканальный: Bot + VS Code + Web App |
+| S65 | **Statement Export** | R16 Ученик / R14 Заказчик | 👤 On-demand (`/export`, кнопка) | Deterministic (JSON/CSV/PDF) |
 
 > **S63 Cloud Strategist (L2 Platform):** Серверная генерация DayPlan/WeekPlan. Заменяет локальный launchd (L4 Personal) для пользователей без надёжного Mac-пробуждения. Платформа по cron собирает коммиты через GitHub API, генерирует план через Anthropic API, коммитит в DS-strategy пользователя. Требует OAuth scope `repo` от пользователя. Нулевой setup: включается кнопкой в Web App. **Фаза:** 1+ (после Web App + ORY SSO). **Зависимости:** Web App (1.1), ORY SSO (0.2), GitHub OAuth.
+
+> **S64 My Digital Twin View (мультиканальный):** Пользователь видит ВСЕ свои данные из ЦД через единый API — как банковское приложение. Принцип: **один API, много поверхностей** (бот, VS Code, Web App, будущие). Каждая поверхность адаптирует представление: бот → компактное TG-сообщение, VS Code → status line + webview, Web App → rich дашборд с графиками. Данные: профиль, активность (streak, calendar, events_7d/30d), обучение (feed/marathon/QA), IWE (коммиты, РП, coding_time, KE), тренды (дельта vs прошлая неделя), интеграции. **Audit trail запросов:** каждое обращение записывается как событие `dt_view_requested` в `user_events` — пользователь может видеть историю своих «выписок» (когда смотрел, что показывалось, с какими метриками). Аналогия: банковская выписка с датой и суммой. **Tier-gating:** T1 = базовые метрики (streak, calendar), T2 = + обучение, T3 = + IWE, T4 = + тренды + экспорт + AI-комментарий. **GDPR-aligned:** `/export` (S65) — полный экспорт своих данных (JSON/CSV/PDF). **Фаза:** 1.1+ (после Web App + ЦД). **Зависимости:** ЦД Event Store (0.6), ORY SSO (0.2).
 
 ### 3.7. Самообучение ИИ-агентов (P-SLF, ADR-015)
 
