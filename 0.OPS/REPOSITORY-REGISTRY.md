@@ -36,6 +36,7 @@
 | 20 | [PACK-MIM](https://github.com/TserenTserenov/PACK-MIM) | Pack | МИМ (мастерская) | text-description | team | yes | Active |
 | 24 | [PACK-education](https://github.com/TserenTserenov/PACK-education) | Pack | Методика обучения | text-description | team | yes | Active |
 | 25 | [PACK-verification](https://github.com/TserenTserenov/PACK-verification) | Pack | Верификация и приёмка | text-description | team | yes | Active |
+| 27 | [PACK-autonomous-agents](https://github.com/TserenTserenov/PACK-autonomous-agents) | Pack | Автономные агенты | text-description | team | yes | Active |
 | — | ~~DS-twin~~ | — | — | — | — | — | Archived → digital-twin-mcp (#18) |
 | 9 | [DS-Knowledge-Index-Tseren](https://github.com/TserenTserenov/DS-Knowledge-Index-Tseren) | DS/instrument | Созидатель | code | personal | no | Active |
 | 10 | [DS-ecosystem-development](https://github.com/aisystant/DS-ecosystem-development) | DS/governance | Экосистема | text-governance | team | no | Active |
@@ -49,6 +50,7 @@
 | 21 | [aisystant](https://github.com/aisystant/aisystant) | DS/instrument | Экосистема | code | team | no | External |
 | 22 | [SystemsSchool_bot](https://github.com/aisystant/SystemsSchool_bot) | DS/instrument | Экосистема | code | team | no | External |
 | 26 | [activity-hub](https://github.com/aisystant/activity-hub) | DS/instrument | ИТ-платформа | code | team | no | Active |
+| 28 | [DS-autonomous-agents](https://github.com/TserenTserenov/DS-autonomous-agents) | DS/instrument | Автономные агенты | code | personal | no | Active |
 | 27 | [knowledge-mcp](https://github.com/aisystant/knowledge-mcp) | DS/instrument | ИТ-платформа | code | team | no | Active |
 | 28 | [guides-mcp](https://github.com/aisystant/guides-mcp) | DS/instrument | ИТ-платформа | code | team | no | Active |
 | 29 | [fsm-mcp](https://github.com/aisystant/fsm-mcp) | DS/instrument | ИТ-платформа | code | team | no | Active |
