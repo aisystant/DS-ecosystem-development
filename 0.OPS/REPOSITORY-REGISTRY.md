@@ -51,9 +51,10 @@
 | 22 | [SystemsSchool_bot](https://github.com/aisystant/SystemsSchool_bot) | DS/instrument | Экосистема | code | team | no | External |
 | 26 | [activity-hub](https://github.com/aisystant/activity-hub) | DS/instrument | ИТ-платформа | code | team | no | Active |
 | 28 | [DS-autonomous-agents](https://github.com/TserenTserenov/DS-autonomous-agents) | DS/instrument | Автономные агенты | code | personal | no | Active |
-| 27 | [knowledge-mcp](https://github.com/aisystant/knowledge-mcp) | DS/instrument | ИТ-платформа | code | team | no | Active |
-| 28 | [guides-mcp](https://github.com/aisystant/guides-mcp) | DS/instrument | ИТ-платформа | code | team | no | Active |
-| 29 | [fsm-mcp](https://github.com/aisystant/fsm-mcp) | DS/instrument | ИТ-платформа | code | team | no | Active |
+| 30 | [DS-agent-workspace](https://github.com/TserenTserenov/DS-agent-workspace) | DS/governance | Автономные агенты | agent-outputs | personal | no | Active |
+| 29 | [knowledge-mcp](https://github.com/aisystant/knowledge-mcp) | DS/instrument | ИТ-платформа | code | team | no | Active |
+| 31 | [guides-mcp](https://github.com/aisystant/guides-mcp) | DS/instrument | ИТ-платформа | code | team | no | Active |
+| 32 | [fsm-mcp](https://github.com/aisystant/fsm-mcp) | DS/instrument | ИТ-платформа | code | team | no | Active |
 | — | ~~DS-aist-bot~~ | — | — | — | — | — | Archived → aist_bot_newarchitecture |
 | — | ~~DS-synchronizer~~ | — | — | — | — | — | Archived → DS-ai-systems |
 | — | ~~DS-fixer-agent~~ | — | — | — | — | — | Archived → DS-ai-systems |
@@ -103,6 +104,7 @@
 | [knowledge-mcp](https://github.com/aisystant/knowledge-mcp) | MCP-сервер поиска по знаниям (Pack, DS, FMT) | PACK-digital-platform | aisystant |
 | [guides-mcp](https://github.com/aisystant/guides-mcp) | MCP-сервер руководств и гайдов | PACK-digital-platform | aisystant |
 | [fsm-mcp](https://github.com/aisystant/fsm-mcp) | MCP-сервер конечных автоматов | PACK-digital-platform | aisystant |
+| [DS-autonomous-agents](https://github.com/TserenTserenov/DS-autonomous-agents) | Код автономных агентов (промпты, dispatcher, trajectory cache) | PACK-autonomous-agents, PACK-digital-platform | TserenTserenov |
 
 ### DS/governance
 
@@ -110,6 +112,7 @@
 |-------------|------------|----------------|----------|
 | [DS-ecosystem-development](https://github.com/aisystant/DS-ecosystem-development) | Координация экосистемы | PACK-ecosystem, PACK-personal, PACK-digital-platform | aisystant |
 | [DS-my-strategy](https://github.com/TserenTserenov/DS-my-strategy) | Личное стратегирование (HUB агента Стратег) | PACK-personal, PACK-digital-platform | TserenTserenov |
+| [DS-agent-workspace](https://github.com/TserenTserenov/DS-agent-workspace) | Шина данных автономных агентов (результаты, черновики, отчёты) | PACK-autonomous-agents, PACK-digital-platform | TserenTserenov |
 
 ### DS/surface
 
