@@ -34,7 +34,7 @@
 | 5 | [PACK-ecosystem](https://github.com/TserenTserenov/PACK-ecosystem) | Pack | Экосистема | text-description | team | yes | Active |
 | 6 | [PACK-digital-platform](https://github.com/TserenTserenov/PACK-digital-platform) | Pack | ИТ-платформа | text-description | team | yes | Active |
 | 20 | [PACK-MIM](https://github.com/TserenTserenov/PACK-MIM) | Pack | МИМ (мастерская) | text-description | team | yes | Active |
-| 24 | [PACK-education](https://github.com/TserenTserenov/PACK-education) | Pack | Методика обучения | text-description | team | yes | Active |
+| ~~24~~ | ~~[PACK-education](https://github.com/TserenTserenov/PACK-education)~~ | ~~Pack~~ | ~~Методика обучения~~ | ~~—~~ | ~~—~~ | ~~—~~ | Archived → PACK-MIM (WP-154) |
 | 25 | [PACK-verification](https://github.com/TserenTserenov/PACK-verification) | Pack | Верификация и приёмка | text-description | team | yes | Active |
 | 27 | [PACK-autonomous-agents](https://github.com/TserenTserenov/PACK-autonomous-agents) | Pack | Автономные агенты | text-description | team | yes | Active |
 | — | ~~DS-twin~~ | — | — | — | — | — | Archived → digital-twin-mcp (#18) |
@@ -87,7 +87,7 @@
 | [PACK-ecosystem](https://github.com/TserenTserenov/PACK-ecosystem) | Экосистема развития интеллекта (чёрный ящик + подсистемы) | SPF, FPF | TserenTserenov |
 | [PACK-digital-platform](https://github.com/TserenTserenov/PACK-digital-platform) | ИТ-платформа и цифровой двойник | SPF, FPF, PACK-personal | TserenTserenov |
 | [PACK-MIM](https://github.com/TserenTserenov/PACK-MIM) | Мастерская: форматы, программы, организация развития | SPF, FPF | TserenTserenov |
-| [PACK-education](https://github.com/TserenTserenov/PACK-education) | Методика обучения: возрастные и профессиональные методы преподавания | SPF, FPF, PACK-personal | TserenTserenov |
+| ~~[PACK-education](https://github.com/TserenTserenov/PACK-education)~~ | ~~Archived → PACK-MIM (WP-154). Методика обучения расформирована в MIM.~~ | ~~—~~ | ~~—~~ |
 | [PACK-verification](https://github.com/TserenTserenov/PACK-verification) | Верификация и приёмка: методы проверки, эталоны, критерии приёмки (трансдоменный) | SPF, FPF | TserenTserenov |
 
 ### DS/instrument
@@ -144,9 +144,7 @@ ZP (Base/Принципы, Level 0)
         │     │
         │     └──▶ DS-ecosystem-development (DS/governance)
         │
-        ├──▶ PACK-education (Pack: Методика обучения)
-        │     │
-        │     └──▶ (downstream TBD)
+        │     [PACK-education → archived, merged into PACK-MIM]
         │
         ├──▶ PACK-verification (Pack: Верификация и приёмка — трансдоменный)
         │
