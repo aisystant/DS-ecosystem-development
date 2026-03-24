@@ -9,7 +9,7 @@ updated: 2026-03-24
 ideas_source: ../v0.1/IDEAS.md
 tier_used: "1-3 (все уровни)"
 changes_from_v02: "FPF-слайд + структура знаний IWE, trajectory динамика, breakdown прогноза 500→3000, retention/NPS данные"
-changes_from_v03: "Series A $25M (pre-money $75M, 25% dilution), founder secondary $2M, команда 20 чел (Сооснователь), слайд 12 Why Series A"
+changes_from_v03: "Series A $25M (pre-money $75M, 25% dilution), команда 20 чел (Сооснователь), слайд 12 Why Series A"
 changes_from_v04: "Feedback Анатолия: (1) чёткий фокус на текущий продукт ($10/мес подписка, цель $40), (2) QoQ traction + честная динамика, (3) founder secondary без сумм, (4) use-of-funds с 6-мес фокусом"
 ---
 
