@@ -920,6 +920,15 @@ read -p "Выбор [1]: " choice
    - **Тир:** T3 (персонализация) или T4 (созидание)? Связь с Q5 выше
    - **Онбординг:** `setup.sh` в `FMT-exocortex-template` уже покрывает клонирование и MCP — нужно добавить подключение к L2 (авторизация по Ory-токену)
 
+9. **Distribution Pipeline (SC-18, 25 мар):** Обобщение SC-17 на уровень организации/партнёра. Aisystant = «Ubuntu для интеллекта» (DECK v0.6). Платформа поставляет **дистрибутив** — готовое окружение (Pack + шаблоны + MCP + AI-конфигурация), разворачиваемое поверх любого AI-провайдера.
+   - **Distribution Pipeline:** `fork template` → `configure` → `provision MCP` → `connect AI provider` → `validate` → working IWE
+   - **Knowledge Gate** (аналог Quality Gate в CI/CD): Pack-compliance, FPF-conformance, MCP-доступность, AI-провайдер
+   - **AI Provider Abstraction:** vendor-agnostic интерфейс к LLM (Claude / GPT / Gemini / локальные). Кандидат ADR-019
+   - **Data Portability:** Full Export API, открытые форматы (Git + Markdown + YAML), стандартизованный формат дистрибутива
+   - **Infrastructure as External Service:** инфра-провиженинг = external (партнёрство с SRE-платформой), не in-house. Кандидат ADR-020
+   - **Три контура:** L4 (деятель) / L2 (организация) / L3 (партнёр-fork)
+   - Связь: ADR-018 (BYOB), WP-145 DECK v0.6, WP-73 context «design input дистрибутив». См. [WP-74 SC-18](WP-74-platform-concept-of-use.md)
+
 #### 3.8.4. Связь с существующими подсистемами
 
 | Подсистема | Связь с MCP Hub |
