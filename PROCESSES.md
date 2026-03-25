@@ -59,23 +59,23 @@ updated: 2026-02-11
 > Владелец: Пользователь + Стратег
 > Участники: Пользователь, Стратег, DS-strategy, все ~/IWE/*/WORKPLAN.md, ~/IWE/*/MAPSTRATEGIC.md
 
-**Вход:** WeekReport W{N-1} (создан week-review, Пн 00:00), WORKPLAN.md, MAPSTRATEGIC.md, docs/*, inbox/*
+**Вход:** WeekPlan W{N-1} с секцией итогов (заполнена week-review, Пн 00:00), WORKPLAN.md, MAPSTRATEGIC.md, docs/*, inbox/*
 
 **Действие:**
 
-1. **Week-Review (авто, Пн 00:00)** — Стратег собирает коммиты за неделю → WeekReport
-2. **Session-Prep (авто, Пн 4:00)** — Стратег читает WeekReport + docs/ + inbox/ + MAPSTRATEGIC.md → обновляет Strategy.md → формирует draft WeekPlan с повесткой
+1. **Week-Review (авто, Пн 00:00)** — Стратег собирает коммиты за неделю → секция «Итоги W{N}» в WeekPlan + пост итогов
+2. **Session-Prep (авто, Пн 4:00)** — Стратег читает WeekPlan (с секцией итогов W{N-1}) + docs/ + inbox/ + MAPSTRATEGIC.md → обновляет Strategy.md → формирует draft WeekPlan с повесткой
 3. **Strategy-Session (интерактив, вручную)** — пользователь утверждает/корректирует → синхронизация WORKPLAN.md, MEMORY.md, Strategy.md, очистка inbox
 
 > Бывший Strategy-Cascade поглощён session-prep (агрегация MAPSTRATEGIC) и strategy-session (синхронизация).
 
-**Выход:** WeekReport (для клуба), WeekPlan W{N} (confirmed), обновлённые Strategy.md, WORKPLAN.md, MEMORY.md
+**Выход:** Секция «Итоги W{N}» в WeekPlan + пост итогов (для клуба), WeekPlan W{N} (confirmed), обновлённые Strategy.md, WORKPLAN.md, MEMORY.md
 
 **Данные:**
 
 | Данные | Направление | Формат |
 |--------|-------------|--------|
-| WeekReport W{N-1} | Вход → Strategy | Markdown |
+| WeekPlan W{N-1} (с секцией итогов) | Вход → Strategy | Markdown |
 | ~/IWE/*/WORKPLAN.md | Вход → Strategy | Markdown |
 | ~/IWE/*/MAPSTRATEGIC.md | Вход → Strategy | Markdown |
 | WeekPlan W{N} | Выход → DS-strategy/current/ | Markdown |
@@ -158,7 +158,7 @@ updated: 2026-02-11
 | Captures (мелкие правила) | Claude Code → CLAUDE.md / memory/ (напрямую) | Markdown |
 | Captures (доменное знание) | Claude Code → KE → Pack-репо (через формализацию) | Markdown |
 | Статусы РП | Claude Code / Стратег → MEMORY.md | Таблица |
-| WeekPlan / WeekReport | Стратег → DS-strategy | Markdown |
+| WeekPlan (с секцией итогов) | Стратег → DS-strategy | Markdown |
 | Быстрые запросы | Пользователь ↔ @aist_me_bot | Telegram |
 | Обновления экзокортекса | Платформа → upstream → пользователь | Git |
 
@@ -415,4 +415,4 @@ updated: 2026-02-11
 
 ---
 
-*Последнее обновление: 2026-02-11*
+*Последнее обновление: 2026-03-25*
