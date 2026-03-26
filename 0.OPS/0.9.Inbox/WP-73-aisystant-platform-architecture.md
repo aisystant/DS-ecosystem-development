@@ -1457,18 +1457,20 @@ llm_client/              ← shared library (Python-пакет)
 
 #### 6.2.1. Фаза 0: Фундамент (март–апрель 2026, ~8 недель)
 
-**Цель:** Web App MVP + ORY SSO + Event Bus skeleton
+**Цель:** ORY SSO + CRM/Billing MVP + Knowledge Gateway MVP + Event Bus skeleton
 
-| # | Задача | Зависимости | Бюджет | Результат |
-|---|--------|-------------|--------|-----------|
-| 0.1 | **Web App scaffold** (Next.js, NextAuth + ORY, i18n, Vercel) | — | 20-30h | Каркас с авторизацией |
-| 0.2 | **ORY SSO интеграция** для Web App | 0.1 | 10-15h | Единый вход |
-| 0.3 | **Guides MCP → Neon** миграция | — | 5-8h | Отказ от SurrealDB |
-| 0.4 | **Docs publish → Neon** миграция | 0.3 | 5-8h | Единая БД |
-| 0.5 | **Event Bus** (Neon outbox + pg_notify) | — | 8-12h | Async events |
-| 0.6 | **ЦД Event Store** (WP-24 Phase 1) | 0.5 | 10-15h | user_events, первая проекция |
+| # | Задача | Зависимости | Бюджет | Результат | Статус |
+|---|--------|-------------|--------|-----------|--------|
+| ~~0.3~~ | ~~**Guides MCP → Neon** миграция~~ | ~~—~~ | ~~5-8h~~ | ~~Отказ от SurrealDB~~ | ~~✅ done (WP-168, 25 мар)~~ |
+| ~~0.4~~ | ~~**Docs publish → Neon** миграция~~ | ~~0.3~~ | ~~5-8h~~ | ~~Единая БД~~ | ~~✅ done~~ |
+| 0.1 | **Web App scaffold** (Next.js, NextAuth + ORY, i18n, Vercel) | — | 20-30h | Каркас с авторизацией | ⏳ |
+| 0.2 | **ORY SSO интеграция** для Web App | 0.1 | 10-15h | Единый вход | ⏳ |
+| 0.5 | **Event Bus** (Neon outbox + pg_notify) | — | 8-12h | Async events | ⏳ |
+| 0.6 | **ЦД Event Store** (WP-24 Phase 1) | 0.5 | 10-15h | user_events, первая проекция | ⏳ |
+| 0.7 | **CRM + Billing MVP** (WP-183) — Directus + Billing Module в боте + TG Stars + Neon schemas crm/finance | ORY | 48h | Оплата звёздами → чат, Directus для sales | ⏳ |
+| 0.8 | **Knowledge Gateway MVP** (WP-187) — L2 Platform endpoint (CF Worker) + BYOB спецификация + MVP sync | ORY | 15h | ≥1 T4-пользователь через remote MCP | ⏳ |
 
-**Milestone:** Web App с SSO, дашборд с ЦД, SurrealDB убран.
+**Milestone:** SurrealDB убран ✅, ORY SSO, CRM для sales-команды, Knowledge Gateway L2 endpoint, Web App scaffold.
 
 #### 6.2.2. Фаза 1: Core Product (май–июль 2026, ~12 недель)
 
@@ -1478,10 +1480,10 @@ llm_client/              ← shared library (Python-пакет)
 |---|--------|-------------|--------|
 | 1.1 | **Web App: дашборд + ЦД** | Фаза 0 | 30-40h |
 | 1.2 | **Web App: обучение** (руководства + тетрадь + ДЗ-чекер, [SC.117](../../../../PACK-digital-platform/pack/digital-platform/08-use-cases/DP.SC.117-async-homework-review.md)) | 1.1 | 30-40h |
-| 1.3 | **Billing Service** (Stripe + подписки + feature gating) | 1.1, ORY | 20-30h |
+| 1.3 | **Billing Phase 1** (WP-183) — YooKassa/Stripe адаптеры + idempotency + revenue sharing + Metabase | 0.7, ORY | 40h |
 | 1.4 | **ЦД: проекции** (BKT, HLR) | Фаза 0.6 | 15-20h |
 | 1.5 | **LMS API-слой** | 1.2 | 15-20h |
-| 1.6 | **CRM / Onboarding** (SC-1) | 1.1 | 10-15h |
+| 1.6 | **CRM Phase 2** — identity linking, B2B лицензии, feature gating, at-risk | 0.7 | По мере роста |
 | 1.7 | **Notification Service (Nudge Engine Фаза 2)** — все тиры T0–T4, 6 типов nudges, AI-генерация через Haiku, динамический cooldown. Архитектура: DP.ARCH.003 §17 | 1.1, Event Bus, ЦД | 15-20h |
 | 1.8 | **ДЗ-чекер как сервис** | 1.5 | 10-15h |
 | 1.9 | **Панель наставника / Потоки** (SC-10) | 1.2, 1.8 | 15-20h |
@@ -1491,26 +1493,26 @@ llm_client/              ← shared library (Python-пакет)
 
 #### 6.2.3. Фаза 2: Экосистема (август–декабрь 2026, ~20 недель)
 
-**Цель:** Баллы + ESG + команды + сертификация + AI self-learning
+**Цель:** Баллы + ESG + команды + сертификация + AI self-learning + Knowledge Gateway BYOB
 
 | # | Задача | Зависимости | Бюджет |
 |---|--------|-------------|--------|
 | 2.1 | **ESG** (эпистемический граф) | ЦД, Knowledge MCP | 20-30h |
 | 2.2 | **Loyalty / Proof-of-Impact** | Billing, Event Bus, ESG | 20-30h |
-| 2.3 | **Activity Hub** | Event Bus | 15-20h |
+| 2.3 | **Activity Hub** (WP-109) — Event Bus подписка на payment events | Event Bus | 15-20h |
 | 2.4 | **Certification System** | ESG, ЦД | 15-20h |
-| 2.5 | **Personal Guide Gen** (WP-58) | ЦД, Knowledge MCP | 15-20h |
+| 2.5 | **Personal Guide Gen** (WP-149) | ЦД, Knowledge MCP, WP-175 | 15-20h |
 | 2.6 | **Unified Search** | Knowledge, Guides, ЦД | 10-15h |
 | 2.7 | **Team Service** (SC-8) | Activity Hub, ЦД | 20-30h |
-| 2.8 | **Discord интеграция** | Team Service | 15-20h |
+| 2.8 | **Discord/Zulip интеграция** | Team Service | 15-20h |
 | 2.9 | **Monitoring** (Grafana Cloud) | — | 8-12h |
 | 2.10 | **ЦД: LLM-экстракция** (WP-24 Phase 3) | 1.4 | 15-20h |
 | 2.11 | **Web App: сообщество** (Discourse SSO) | Фаза 1 | 10-15h |
 | 2.12 | **ИИ-системы → Web App** (API) | Фаза 1 | 10-15h |
 | 2.13 | **AI Training Pipeline** (P-SLF): сбор артефактов, epistemic gates, курация | ESG, ЦД | 15-20h |
-| 2.14 | **MCP Hub** (ADR-018): Registry + Gateway + Provisioner. Platform MCP регистрация, User MCP шаблоны | ORY SSO, Neon, CF Workers | 15-25h |
+| 2.14 | **Knowledge Gateway BYOB** (WP-187 Phase 2+) — полный BYOB pipeline, Knowledge Gate, Community MCP | 0.8, ORY SSO, Neon, CF Workers | 15-25h |
 
-**Milestone:** Полная экосистема: обучение + баллы + ESG + сертификация + команды + AI self-learning + MCP Hub + мониторинг.
+**Milestone:** Полная экосистема: обучение + баллы + ESG + сертификация + команды + AI self-learning + Knowledge Gateway BYOB + мониторинг.
 
 #### 6.2.4. Фаза 3: Масштабирование (2027+)
 
@@ -1530,26 +1532,29 @@ llm_client/              ← shared library (Python-пакет)
 ```
 2026      Mar    Apr    May    Jun    Jul    Aug    Sep    Oct    Nov    Dec    2027
           ├──────┤──────┤──────┤──────┤──────┤──────┤──────┤──────┤──────┤
-          │ Фаза 0: Фундамент │                                          │
-          │ Web App + ORY SSO  │                                          │
-          │ SurrealDB→Neon     │                                          │
-          │ Event Bus + ЦД     │                                          │
-          ├────────────────────┤                                          │
-                               │ Фаза 1: Core Product                    │
-                               │ Дашборд + обучение + billing            │
-                               │ Notifications + ДЗ-чекер                │
-                               │ CRM + Панель наставника                 │
-                               ├────────────────────┤                    │
-                                                    │ Фаза 2: Экосистема│
-                                                    │ ESG + баллы        │
-                                                    │ Certification      │
-                                                    │ Teams + Search     │
-                                                    │ MCP Hub (ADR-018)  │
-                                                    │ Monitoring         │
-                                                    ├────────────────────┤
-                                                                    2027 → Фаза 3
-                                                                    K8s, Revenue Sharing,
-                                                                    Семинары, Mobile
+          │ Фаза 0: Фундамент       │                                    │
+          │ ✅ SurrealDB→Neon (мар)  │                                    │
+          │ ORY SSO + Web App scaff  │                                    │
+          │ CRM+Billing MVP (WP-183) │                                    │
+          │ KG MVP (WP-187)          │                                    │
+          │ Event Bus + ЦД Event St  │                                    │
+          ├──────────────────────────┤                                    │
+                                     │ Фаза 1: Core Product              │
+                                     │ Дашборд + обучение + billing      │
+                                     │ Billing Phase 1 (адаптеры+Metabase)│
+                                     │ Notifications + ДЗ-чекер          │
+                                     │ CRM Phase 2 + Панель наставника   │
+                                     ├────────────────────┤              │
+                                                          │ Фаза 2: Экосистема
+                                                          │ ESG + баллы  │
+                                                          │ Certification│
+                                                          │ Teams+Search │
+                                                          │ KG BYOB     │
+                                                          │ Monitoring   │
+                                                          ├──────────────┤
+                                                                   2027 → Фаза 3
+                                                                   K8s, Revenue Sharing,
+                                                                   Семинары, Mobile
 ```
 
 ### 6.4. Следующие шаги
@@ -1557,10 +1562,12 @@ llm_client/              ← shared library (Python-пакет)
 1. **Согласовать с архитектором:** Q1-Q14 (особенно Q1, Q2, Q4, Q9, Q13, Q14)
 2. **Юридическая консультация:** Q9 (152-ФЗ), Q11 (санкции), Q14 (юрлица)
 3. **Специфицировать Web App** (обновить WP-65): auth flow, страницы, API, двойной деплой
-4. **Специфицировать Billing** (новый WP): тарифы, Stripe + YooKassa, feature gating
-5. **Запланировать SurrealDB миграцию** (guides-mcp + docs publish → Neon)
+4. ~~**Специфицировать Billing** (новый WP)~~ → **done:** WP-183 (CRM + Billing architecture proposal)
+5. ~~**Запланировать SurrealDB миграцию**~~ → **done:** WP-168 (guides-mcp → Neon, 25 мар)
 6. **Начать Phase 0.1** (Web App scaffold) параллельно с текущими WP
 7. **Решить о Стоимости в АрхГейте:** добавить как 8-ю характеристику в DP.ARCH.001 §4?
+8. **CRM Phase 0** (WP-183) → после Ory: Neon schemas + Directus + TG Stars + Billing Module
+9. **Knowledge Gateway MVP** (WP-187) → после Ory: L2 Platform endpoint + BYOB спецификация
 
 ### 6.5. Решения по монетизации и тирам (12 мар 2026)
 
