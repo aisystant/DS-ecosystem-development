@@ -5,7 +5,7 @@ title: "Миграция guides-mcp: SurrealDB → Neon"
 status: in_progress
 budget: "3-5h"
 created: 2026-03-23
-updated: 2026-03-25
+updated: 2026-03-26
 parent: WP-73
 repo: DS-MCP
 artifact: "guides-mcp работает на Neon, SurrealDB выведен из стека"
@@ -28,14 +28,14 @@ artifact: "guides-mcp работает на Neon, SurrealDB выведен из 
 
 - **CI сломан с 12 февраля** — `publish-to-surreal.yaml` = `401 Unauthorized`. Данные в SurrealDB устарели на >40 дней
 - **Latency** — 17-20 сек на запрос (SurrealDB full vector scan, без индекса)
-- **Данные уже в Neon** — `ingest.ts` индексирует те же гайды как source `docs-courses` (2697 docs). Переиндексация еженедельно (`reindex.sh`)
+- **Данные уже в Neon** — `ingest.ts` индексирует те же гайды как source `docs-courses` (2697 docs). Переиндексация event-driven: GitHub Action при push + `selective-reindex.sh` при Session Close
 
 ### Архитектурные различия guides-mcp vs knowledge-mcp
 
 | Параметр | guides-mcp (текущий) | knowledge-mcp (целевой бэкенд) |
 |----------|---------------------|-------------------------------|
 | БД | SurrealDB (`surrealdb.aisystant.com`) | Neon pgvector (`neondb`) |
-| Embedding модель | OpenAI `text-embedding-3-small` **1536d** | CF AI `@cf/baai/bge-m3` **1024d** |
+| Embedding модель | OpenAI `text-embedding-3-small` **1536d** | OpenAI `text-embedding-3-small` **1024d** (dimensions=1024) |
 | Embedding вектор | `vector<1536>` | `vector(1024)` |
 | Индекс | Нет (full scan) | HNSW (`vector_cosine_ops`) |
 | Таблицы | `guides`, `sections`, `chunks` (3 таблицы) | `documents` (1 таблица, `source='docs-courses'`) |
@@ -44,7 +44,7 @@ artifact: "guides-mcp работает на Neon, SurrealDB выведен из 
 | Деплой | CF Worker (`guides-mcp`) | CF Worker (`knowledge-mcp`) |
 | Auth | SurrealDB user/pass → JWT token cache 4 мин | Neon connection string (DATABASE_URL) |
 
-**Критическое:** Guides-mcp генерирует **собственные embeddings** при каждом `semantic_search` запросе через OpenAI API. После миграции на Neon нужно использовать embeddings **уже существующие** в `documents.embedding` (1024d, BGE-M3) — значит, запросы `semantic_search` должны генерировать embedding через **CF AI**, а не OpenAI.
+**Критическое:** Guides-mcp генерирует **собственные embeddings** при каждом `semantic_search` запросе через OpenAI API. После миграции на Neon нужно использовать embeddings **уже существующие** в `documents.embedding` (1024d, Voyage AI) — значит, запросы `semantic_search` должны генерировать embedding через **OpenAI** (`text-embedding-3-small`, dimensions=1024), ту же модель что и при индексации.
 
 ### Согласованные решения
 
@@ -82,7 +82,7 @@ artifact: "guides-mcp работает на Neon, SurrealDB выведен из 
 **Добавить:**
 - Подключение к Neon через `@neondatabase/serverless` (neon http driver)
 - Env-переменная: `DATABASE_URL` (Neon connection string)
-- Binding `AI` для Cloudflare Workers AI (embedding через `@cf/baai/bge-m3`, 1024d)
+- Secret `OPENAI_API_KEY` для OpenAI (embedding через `text-embedding-3-small`, 1024d)
 
 **Переписать 4 инструмента:**
 
@@ -91,14 +91,14 @@ artifact: "guides-mcp работает на Neon, SurrealDB выведен из 
 | `get_guides_list` | `SELECT FROM guides WHERE lang=$lang` | `SELECT DISTINCT ON (filename) filename, content FROM documents WHERE source='docs-courses'` — извлечь каталог гайдов из filename patterns |
 | `get_guide_sections` | `SELECT FROM sections WHERE guide_id=$id` | `SELECT filename, content FROM documents WHERE source='docs-courses' AND filename LIKE $pattern` — секции по структуре filename |
 | `get_section_content` | `SELECT content FROM sections WHERE guide_id=$id AND slug=$slug` | `SELECT content FROM documents WHERE source='docs-courses' AND filename=$filename` |
-| `semantic_search` | OpenAI embedding → `vector::similarity::cosine()` в SurrealDB | CF AI BGE-M3 embedding → `1 - (embedding <=> $vec)` в Neon pgvector |
+| `semantic_search` | OpenAI embedding → `vector::similarity::cosine()` в SurrealDB | OpenAI embedding (1024d) → `1 - (embedding <=> $vec)` в Neon pgvector |
 
 **Маппинг данных (SurrealDB → Neon):**
 
 В Neon таблице `documents` для `source='docs-courses'`:
 - `filename` = путь к .md файлу (напр. `systems-thinking/02-methodology/01-intro.md`)
 - `content` = текст документа (или чанка для файлов >10KB с breadcrumb `::`)
-- `embedding` = vector(1024) — BGE-M3
+- `embedding` = vector(1024) — OpenAI text-embedding-3-small (dimensions=1024)
 - `search_vector` = tsvector для FTS
 
 Иерархия `guide → section → chunk` воссоздаётся из структуры `filename`:
@@ -124,7 +124,7 @@ artifact: "guides-mcp работает на Neon, SurrealDB выведен из 
 | Риск | Митигация |
 |------|-----------|
 | Структура filename в `docs-courses` не позволяет воссоздать иерархию guide/section | Шаг 1: изучить данные ДО написания кода |
-| CF AI binding недоступен в `wrangler dev` | Мокнуть embedding локально, тестировать на проде |
+| OpenAI API недоступен без ключа | Использовать существующий OPENAI_API_KEY из guides-mcp |
 | `@neondatabase/serverless` + CF Workers совместимость | Уже работает в knowledge-mcp — копируем паттерн |
 
 ---
@@ -156,9 +156,9 @@ artifact: "guides-mcp работает на Neon, SurrealDB выведен из 
 | Метрика | Было | Станет |
 |---------|------|--------|
 | Latency поиска | 17-20 сек | <1 сек (HNSW) |
-| Данные актуальны | Нет (CI сломан с 12 фев) | Да (Neon, еженедельный reindex) |
-| Embedding модель | OpenAI 1536d (платная) | CF AI BGE-M3 1024d (бесплатная) |
+| Данные актуальны | Нет (CI сломан с 12 фев) | Да (Neon, event-driven reindex при push) |
+| Embedding модель | OpenAI 1536d | OpenAI text-embedding-3-small 1024d (та же учётка, dimensions=1024) |
 | Внешние БД | Neon + SurrealDB | Neon |
 | guides-mcp | Платформенный, отдельный | Платформенный, отдельный (на Neon) |
 
-*Создан: 2026-03-23. Обновлён: 2026-03-25*
+*Создан: 2026-03-23. Обновлён: 2026-03-26*
