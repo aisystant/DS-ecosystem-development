@@ -8,13 +8,18 @@ author: architect
 related:
   - WP-85 (ЦД в Neon — done)
   - WP-109 (Обогащение ЦД данными из IWE)
-  - WP-121 (Правила начисления баллов)
+  - WP-121 (Правила начисления баллов — потребитель user_events)
+  - WP-183 (CRM + Billing — поставщик payment events через Billing adapter)
+  - WP-115 (Семинар end-to-end — сценарий, потребляющий Activity Hub)
+updated: 2026-03-26
 ---
 
 # Activity Hub: интеграция источников данных в ЦД
 
 > **Статус:** approved (18 мар 2026). Сервисный аккаунт LMS получен. Блокер снят.
-> **Зависимости:** WP-85 (ЦД в Neon), WP-121 (баллы за активность).
+> **Зависимости:** WP-85 (ЦД в Neon — done).
+> **Поставляет данные для:** WP-121 (баллы — читает user_events), WP-183 (CRM — учёт payment events).
+> **Получает данные от:** WP-183 (Billing adapter → payment events в user_events), WP-183 (Identity Resolver использует `crm.identity_links`).
 
 <details open>
 <summary><b>1. Контекст</b></summary>
@@ -97,6 +102,27 @@ class RawEvent:
 ```
 
 Любой adapter возвращает `List[RawEvent]`. Hub не знает как adapter получил данные (HTTP API, SQL, webhook, файлы). При смене способа получения — меняется только adapter, Hub не меняется.
+
+### Billing adapter (→ WP-183)
+
+Billing Service (WP-183) при каждом успешном платеже пишет факт в Activity Hub:
+
+```python
+await ingest_event(
+    source='billing',
+    external_id=f'tx-{transaction_id}',
+    user_ref={'telegram_id': tg_id},  # или {'ory_id': ory_uuid}
+    event_type='payment_completed',
+    payload={'amount': 1500, 'method': 'tg_stars', 'product': 'seminar-X'},
+    confidence=1.0
+)
+```
+
+Это позволяет WP-121 (Points Engine) начислять баллы за покупки и учитывать платёжную активность в ЦД.
+
+### Identity Resolver: использование `crm.identity_links` (→ WP-183)
+
+Identity Resolver маппит `telegram_id ↔ ory_id` через таблицу `crm.identity_links` (WP-183). Это единый source-of-truth для склейки идентификаторов. Activity Hub **не дублирует** эту таблицу — читает её.
 
 ### Бот: чистовая интеграция
 
@@ -312,27 +338,29 @@ CREATE TABLE development.sync_log (
 <details>
 <summary><b>7. С чего начинаем</b></summary>
 
-**Шаг 1 (сейчас):** Согласовать этот proposal.
+**Шаг 1:** ~~Согласовать этот proposal.~~ ✅ approved 18 мар.
 
-**Шаг 2:** Отправить запрос разработчику LMS (§4 — обязательные пункты 1-4).
+**Шаг 2:** ~~Отправить запрос разработчику LMS (§4 — обязательные пункты 1-4).~~ ✅ Сервисный аккаунт получен.
 
-**Шаг 3:** Пока ждём аккаунт — создать репо `activity-hub/`, реализовать Hub Core + Bot Adapter. Бот переключается на `ingest_event()`.
+**Шаг 3:** Создать репо `activity-hub/`, реализовать Hub Core + Bot Adapter + Billing Adapter (→ WP-183). Бот переключается на `ingest_event()`. ⏳ dep: DE-35.
 
-**Шаг 4:** Получили аккаунт → реализовать LMS Adapter v1, тестировать на `188.73.162.175:8064`.
+**Шаг 4:** Реализовать LMS Adapter v1, тестировать на `188.73.162.175:8064`. ⏳
 
-**Шаг 5:** Запуск в production. Мониторинг sync_log. Reconciliation.
+**Шаг 5:** Запуск в production. Мониторинг sync_log. Reconciliation. ⏳
 
-**Шаг 6:** WP-121 — правила начисления баллов (отдельный РП, после Шага 5).
+**Шаг 6:** WP-121 — правила начисления баллов (отдельная система, после Шага 5). WP-183 — CRM/Billing интеграция (параллельно с Шагом 3).
 
 </details>
 <details>
 <summary><b>8. Вопросы для согласования</b></summary>
 
-1. Согласуете Activity Hub как отдельную систему (`DS-IT-systems/activity-hub/`)?
-2. Согласуете переключение бота с `log_event()` на `ingest_event()` через Hub?
-3. Текст для разработчика LMS (§4) — корректировки нужны?
-4. Приоритет: начинаем с Фазы 0 на этой/следующей неделе?
+1. ~~Согласуете Activity Hub как отдельную систему?~~ ✅ approved.
+2. ~~Согласуете переключение бота с `log_event()` на `ingest_event()` через Hub?~~ ✅ approved.
+3. ~~Текст для разработчика LMS — корректировки?~~ ✅ аккаунт получен.
+4. ~~Приоритет: начинаем с Фазы 0?~~ ⏳ dep: DE-35.
+5. **Новый:** Billing adapter (WP-183) — реализовать в Ф0 или отдельной фазой?
+6. **Новый:** `crm.identity_links` (WP-183) — готова ли таблица для Identity Resolver?
 
 </details>
 
-*Создан: 2026-03-17. Автор: Architect (Claude Opus). РП: WP-109, WP-121.*
+*Создан: 2026-03-17. Обновлён: 2026-03-26 (связи WP-183/121/115, Billing adapter, статусы). Автор: Architect (Claude Opus). РП: WP-109, WP-121.*

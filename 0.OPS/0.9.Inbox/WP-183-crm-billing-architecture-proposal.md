@@ -2,6 +2,7 @@
 
 > **Статус:** proposal | **Источник:** оперативка ИТ 26 мар 2026
 > **Связи:** WP-73, DP.SC.112, DP.SC.114, DP.SYS.001
+> **Смежные системы:** WP-109 (Activity Hub — получает payment events), WP-121 (Points Engine — отдельная система начисления баллов), WP-115 (Семинар — ключевой сценарий)
 > **АрхГейт:** 62/70 ✅
 > **Приложение:** [WP-183-crm-billing-research-appendix.md](WP-183-crm-billing-research-appendix.md)
 
@@ -136,21 +137,30 @@ Revenue sharing: platform 30%, author 50%, instructor 15%, curator 5%.
 | **CRM → LMS** | Подписка/курс → LMS API (как сейчас) | subscription status |
 | **CRM → Бот** | Directus Flow → webhook → бот добавляет/удаляет из чата | chat_access |
 | **CRM → ЦД** | `crm.identity_links` → Digital Twin MCP по ory_id | активность, прогресс |
-| **CRM → Баллы** | Начисление: активность/покупка → `points.transactions` | баланс, история |
+| **CRM → Баллы** | Billing Service пишет `type=spent` в `finance.point_transactions` (WP-121). Metabase читает `finance.point_balances` | баланс, история |
 | **CRM → Metabase** | Прямое чтение из Neon (те же таблицы) | MRR, churn, LTV, UE |
+| **CRM → Activity Hub** | Billing Service → `ingest_event()` (WP-109) при каждом платеже. Payment event в `user_events` | payment_completed |
+| **CRM → WP-115** | `crm.chat_access` + `finance.transactions` + `crm.events` обслуживают сценарий семинара | доступ, оплата, видео |
 
-### Баллы (points)
+### Баллы — отдельная система (→ WP-121)
 
-| Событие | Начисление | Schema |
-|---------|-----------|--------|
-| Завершение курса | +50 баллов | points.transactions (type=earn) |
-| Активность в клубе | +10 баллов | points.transactions (type=earn) |
-| Оплата события баллами | -N баллов | points.transactions (type=spend) |
-| Реферал | +100 баллов | points.transactions (type=referral) |
+**Points Engine (WP-121) — отдельная система от CRM.** Владеет таблицами `finance.point_rules`, `finance.point_transactions`, `finance.point_balances`.
 
-Баланс: `SELECT SUM(amount) FROM points.transactions WHERE identity_id = ?`
+CRM + Billing **взаимодействует** с Points Engine:
+- **Списание:** Billing Service пишет `type=spent` в `finance.point_transactions` при оплате баллами
+- **Чтение:** Metabase читает `finance.point_balances` для дашбордов
+- **Начисление:** Points Engine сам вычисляет баллы из `user_events` (WP-109) по правилам `point_rules`
 
-Metabase дашборд: распределение баллов, top earners, конверсия баллов → оплата.
+Подробнее: [WP-121](../../../DS-my-strategy/inbox/WP-121-point-rules-and-implementation.md).
+
+### Activity Hub — учёт payment events (→ WP-109)
+
+Billing Service при каждом успешном платеже пишет факт в Activity Hub (WP-109) через `ingest_event()`:
+- `source='billing'`, `event_type='payment_completed'`
+- Это позволяет WP-121 начислять баллы за покупки
+- Activity Hub использует `crm.identity_links` для Identity Resolution (telegram_id ↔ ory_id)
+
+Подробнее: [WP-109](WP-109-activity-hub-lms-integration-proposal.md).
 
 ## Unit economics
 
@@ -183,8 +193,9 @@ B2B: 2 вуза × 50 чел × $15 × 12 мес = $18 000/год → окупа
 | 11 | Управление группой | Directus + бот | Добавить/удалить участника, сменить статус |
 | 12 | Регистрация ручного платежа | Directus или бот | Менеджер фиксирует оплату (B2B, нал) |
 | 13 | Склейка identity | Автоматически | telegram_id ↔ ory_id при регистрации на платформе |
-| 14 | Начисление баллов | Автоматически | Активность → points.transactions |
-| 15 | Оплата баллами | Бот | `/buy_with_points` → списание → доступ |
+| 14 | Начисление баллов | Автоматически | Activity Hub (WP-109) → Points Engine (WP-121). CRM не участвует |
+| 15 | Оплата баллами | Бот | Billing Service → `type=spent` в Points Engine (WP-121) → доступ |
+| 16 | Семинар end-to-end | Бот + Directus | [WP-115](WP-115-seminar-payment-access-scenario.md): оплата → чат → видео → cleanup |
 
 ## Effort
 
@@ -201,8 +212,10 @@ B2B: 2 вуза × 50 чел × $15 × 12 мес = $18 000/год → окупа
 | Q1 | Access Management (chat_access) — часть Billing Service или отдельная SYS.019? |
 | Q2 | Billing Service — модуль бота (Phase 0) или отдельный сервис (Phase 1+)? |
 | Q3 | BSL 1.1 Directus — приемлемо? (бесплатно до $5M, GPLv3 через 3 года) |
-| Q4 | Баллы — schema `points` отдельно или часть `finance`? |
+| Q4 | ~~Баллы — schema `points` отдельно или часть `finance`?~~ → Решено: баллы в `finance.point_*`, но **система начисления (WP-121) отдельна** от CRM |
+| Q5 | Billing adapter для Activity Hub (WP-109) — реализовать в Phase 0 CRM или в Ф0 Activity Hub? |
+| Q6 | `crm.events` (семинары, потоки) — нужна таблица для WP-115. Включить в Phase 0? |
 
 ---
 
-*26 марта 2026*
+*26 марта 2026. Обновлено: связи WP-109/121/115, разделение систем.*
