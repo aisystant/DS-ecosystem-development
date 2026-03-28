@@ -1,8 +1,8 @@
-# WP-73 + WP-183: Agenda для архитектора — открытые вопросы
+# WP-73 + WP-183: Повестка обсуждения с архитектором
 
 > **Дата:** 28 марта 2026 | **Дедлайн WP-73:** W14
-> **Цель:** получить решения по блокирующим вопросам для завершения Phase 2 архитектуры
-> **Формат:** 31 вопрос, приоритизирован по влиянию на реализацию
+> **Цель:** получить решения по критическим вопросам + согласовать принятые решения
+> **Формат:** 2 блока — «нужно решение архитектора» и «информирование + совет»
 
 <details>
 <summary><b>Источники (документы в этой папке)</b></summary>
@@ -15,17 +15,16 @@
 | [WP-183 — Research appendix](WP-183-crm-billing-research-appendix.md) | приложение | Исследование 16 CRM, сравнение, АрхГейт |
 | [WP-109 — Activity Hub proposal](WP-109-activity-hub-lms-integration-proposal.md) | approved | LMS → ЦД интеграция. Заблокирован на DE-35 |
 | [WP-115 — Сценарий семинара](WP-115-seminar-payment-access-scenario.md) | draft | End-to-end: маркетинг → оплата → доступ → видео |
-| [WP-168 — Миграция SurrealDB → Neon](../0.99.Archive/WP-168-surrealdb-to-neon-migration.md) | ~~in_progress~~ → архив | Ф0-Ф1 done, Ф2-Ф3 ожидают доступы |
 
 </details>
 
 ---
 
-## Tier 1: КРИТИЧЕСКИЕ (блокируют реализацию нескольких систем)
+## Блок А: КРИТИЧЕСКИЕ — нужно решение архитектора
 
-> Решения по этим вопросам разблокируют CRM, Billing, Web App, ЦД и Knowledge Gateway одновременно.
+> Без этих решений невозможно перейти к реализации. Нужно обсудить варианты и выбрать.
 
-### 1. Изоляция данных в Neon — RLS vs schema vs DB
+### А1. Изоляция данных в Neon — RLS vs schema vs DB
 
 **Источник:** [WP-73 §5.1 Q1](WP-73-aisystant-platform-architecture.md) | **Блокирует:** CRM, Billing, ЦД, Knowledge Gateway, масштабирование
 
@@ -38,97 +37,53 @@
 
 | # | Вариант | Плюсы | Минусы |
 |---|---------|-------|--------|
-| A | **RLS (Row-Level Security)** | Одна БД, одна схема. Directus/Metabase работают нативно. Стандарт PostgreSQL | Сложность отладки RLS-политик. Один баг = утечка данных. Тестирование RLS = отдельный процесс |
-| B | **Schema per tenant** | Полная изоляция на уровне схемы | Не масштабируется: 1000 tenant = 1000 schemas. Directus не поддерживает dynamic schema switching |
-| C | **DB per tenant** | Максимальная изоляция | Neon per-project pricing. Невозможен cross-tenant query (Metabase). Слишком дорого |
+| A | **RLS (Row-Level Security)** | Одна БД, одна схема. Directus/Metabase работают нативно. Стандарт PostgreSQL | Сложность отладки RLS-политик. Один баг = утечка данных |
+| B | **Schema per tenant** | Полная изоляция на уровне схемы | 1000 tenant = 1000 schemas. Directus не поддерживает dynamic schema switching |
+| C | **DB per tenant** | Максимальная изоляция | Neon per-project pricing. Cross-tenant query невозможен (Metabase). Слишком дорого |
 
 **Рекомендация:** A (RLS). RBAC Directus + RLS Neon = двойной барьер.
 
 ---
 
-### 2. ORY: hosted vs self-hosted + юрисдикция
+### А2. Event Bus: механизм взаимодействия между системами
 
-**Источник:** [WP-73 §5.1 Q2, §2.7](WP-73-aisystant-platform-architecture.md) | **Блокирует:** единый SSO, Discourse SSO (→ #7), бот↔LMS identity federation, двух-юрисдикция (P12)
+**Источник:** [WP-73 §5.1 Q4](WP-73-aisystant-platform-architecture.md) | **Блокирует:** CRM↔бот, Billing→[Activity Hub](WP-109-activity-hub-lms-integration-proposal.md)→Points Engine, все новые системы
 
-**Почему проблема:** ORY Network (hosted) уже интегрирована в digital-twin-mcp и LMS. Но:
-- ORY хостится за границей → 152-ФЗ вопрос по ПД граждан РФ
-- Self-hosted ORY Kratos/Hydra = свой деплой, своё обслуживание
-- Бот на telegram_id (T0), LMS на email/пароль — два мира без связи
-- Все будущие системы (Web App, CRM, Knowledge Gateway) зависят от единого identity
-- [WP-115 (сценарий семинара)](WP-115-seminar-payment-access-scenario.md) — принято решение «Ory-first», но нужен путь реализации
+**Почему проблема:** Сейчас системы общаются напрямую (бот → Aisystant API, pull с кэшем 5 мин). Event Bus — это «доска объявлений» между системами: Billing пишет «оплата прошла», Activity Hub и бот читают каждый сам, когда нужно. При 500+ подписчиках и 7-10 системах (бот, CRM, Billing, Activity Hub, Points Engine, Notification Service, ЦД) прямые вызовы «каждый звонит каждому» превращаются в паутину.
+
+**Вопрос архитектору:** согласен ли с поэтапным планом — начать с Outbox в Neon (Phase 0, бесплатно) и перейти на RabbitMQ при росте до 10+ систем? Или лучше сразу ставить RabbitMQ?
 
 **Варианты:**
 
 | # | Вариант | Плюсы | Минусы |
 |---|---------|-------|--------|
-| A | **ORY Network (hosted) + DPA** | Уже работает. Zero ops. DPA покрывает GDPR | 152-ФЗ: ПД граждан РФ на зарубежных серверах |
-| B | **Self-hosted ORY (EU + RU)** | Полный контроль. РФ-инстанс для 152-ФЗ | Ops-нагрузка: обновления, бэкапы, мониторинг. Два инстанса = синхронизация |
-| C | **ORY Network (мир) + self-hosted (РФ)** | Гибрид: hosted для основного, РФ-данные отдельно | Два identity provider = сложная федерация |
+| A | **Outbox + pg_notify (поэтапно)** | Нулевая новая инфра (всё в Neon). Transactional outbox = надёжность | pg_notify теряет сообщения если слушатель отключён. Нужен poller как fallback |
+| B | **RabbitMQ (сразу)** | Гарантированная доставка. Dead letter queues. Готовые паттерны | +$5-10/мес. Ops overhead. Ещё один сервер |
+| C | **NATS** | Легковесный. JetStream для persistence | Менее зрелая экосистема |
 
-**Рекомендация:** зависит от юридической консультации (→ #24). Если 152-ФЗ требует строгой локализации → B или C. Если DPA достаточно → A.
-
----
-
-### 3. Event Bus: механизм межсервисного взаимодействия
-
-**Источник:** [WP-73 §5.1 Q4](WP-73-aisystant-platform-architecture.md) | **Блокирует:** CRM↔бот, Billing→Activity Hub, [Activity Hub](WP-109-activity-hub-lms-integration-proposal.md)→Points Engine, все новые системы
-
-**Почему проблема:** Сейчас интеграции — прямые вызовы (бот → Aisystant API, pull с кэшем 5 мин). Для новой архитектуры (60+ сервисов) нужна асинхронная шина. Без неё:
-- [CRM Phase 0](WP-183-crm-billing-architecture-proposal.md) строится на синхронных INSERT — нормально для 5 менеджеров, но не масштабируется
-- Нет push-уведомлений после оплаты (gap #1 из [WP-73 §2.9.1](WP-73-aisystant-platform-architecture.md))
-- [Activity Hub](WP-109-activity-hub-lms-integration-proposal.md) не может агрегировать события без подписок
-
-**Варианты:**
-
-| # | Вариант | Плюсы | Минусы |
-|---|---------|-------|--------|
-| A | **Outbox + pg_notify** | Нулевая новая инфра (всё в Neon). Transactional outbox = надёжность | pg_notify теряет сообщения если слушатель отключён. Нужен poller как fallback |
-| B | **RabbitMQ** | Гарантированная доставка. Dead letter queues | Новая инфра: Railway + $5-10/мес. Ops overhead |
-| C | **NATS** | Легковесный. JetStream для persistence | Менее зрелая экосистема. Меньше интеграций |
-
-**Рекомендация:** A для Phase 0 (уже в Neon), B при росте до 10+ подписчиков.
+**Рекомендация:** A → B (поэтапно). Но нужно мнение архитектора — он знает нагрузку.
 
 ---
 
-### 4. Neon always-on compute
-
-**Источник:** [WP-183 Q7](WP-183-crm-billing-architecture-proposal.md) | **Блокирует:** все платежи через бота (YooKassa, Stripe, TG Stars)
-
-**Почему проблема:** Neon autoscaling имеет cold start 1-3 сек. Webhook от YooKassa/Stripe ожидает 200 OK за <5 сек. Если Neon спит → таймаут → платёж не обработан → потеря денег. Критично для [сценария семинара](WP-115-seminar-payment-access-scenario.md) (TG Stars).
-
-**Варианты:**
-
-| # | Вариант | Плюсы | Минусы |
-|---|---------|-------|--------|
-| A | **Always-on compute (Neon)** | Гарантия <100ms. Простое включение | +$19/мес (0.25 CU) |
-| B | **Retry в Billing Module** | Бесплатно. Exponential backoff | Первый запрос ~3 сек. Сложнее код |
-| C | **Connection pooler warm-up** | pgBouncer поддерживает соединение | Не решает проблему compute sleep |
-
-**Рекомендация:** A. $19/мес vs потерянные платежи — очевидно.
-
----
-
-### 5. LMS Aisystant: замена vs обёртка (API)
+### А3. LMS Aisystant: замена vs обёртка (API)
 
 **Источник:** [WP-73 §5.1 Q7, §2.4](WP-73-aisystant-platform-architecture.md) | **Блокирует:** Web App MVP (WP-65), все LMS-зависимые сценарии, CRM↔LMS
 
-**Почему проблема:** LMS — Java 8 / Vaadin 8 монолит. Содержит все курсы, подписки, оплаты (5 платёжных систем), прогресс обучения. [Activity Hub](WP-109-activity-hub-lms-integration-proposal.md) уже предполагает LMS-адаптер — но через какой интерфейс?
+**Почему проблема:** LMS Aisystant — Java 8 / Vaadin 8 монолит (2014). Содержит все курсы, подписки, оплаты (5 платёжных систем), прогресс обучения. Все новые системы (Web App, [Activity Hub](WP-109-activity-hub-lms-integration-proposal.md), CRM) должны с ним взаимодействовать. Вопрос — через какой интерфейс? Архитектор знает LMS изнутри и понимает, какие API уже есть и насколько они покрывают потребности.
 
 **Варианты:**
 
 | # | Вариант | Плюсы | Минусы |
 |---|---------|-------|--------|
-| A | **Обёртка (API) на 12 мес** | Быстро. Сохраняет работающее | Lock-in в legacy на год+. API LMS ограничен |
+| A | **Обёртка (API) на 12 мес** | Быстро. Сохраняет работающее. Web App вызывает LMS API | Lock-in в legacy на год+. API LMS может быть ограничен |
 | B | **Постепенная замена** (strangler fig) | Новые фичи в новом стеке. LMS уменьшается | Два стека параллельно. Сложность синхронизации |
 | C | **Полная замена** | Чистый стек | 1000+ часов. Нереалистично |
 
-**Рекомендация:** A с планом перехода к B через 12 мес.
+**Рекомендация:** A с планом перехода к B через 12 мес. Но нужен ответ архитектора: какие API у LMS уже есть? Можно ли получить прогресс, подписки, оплаты через API?
 
 ---
 
-## Tier 2: ВАЖНЫЕ (блокируют отдельные системы или фичи)
-
-### 6. Web App hosting: Vercel vs Railway vs CF Pages
+### А4. Web App hosting: Vercel vs Railway vs CF Pages
 
 **Источник:** [WP-73 §5.1 Q3](WP-73-aisystant-platform-architecture.md) | **Блокирует:** WP-65 Web App MVP
 
@@ -138,152 +93,156 @@
 | **Railway** | Уже используем (бот). Единая платформа | Нет Edge, AI SDK, ISR |
 | **CF Pages** | Бесплатно. Edge. Рядом с MCP Workers | Ограниченный SSR. Нет Next.js native |
 
+**Дополнительный контекст:** Next.js (React) — путь к мобильному приложению: PWA (иконка на экране, push-уведомления) → React Native (нативное приложение, переиспользуется код). Выбор стека сейчас определяет стоимость мобилки потом.
+
 **Рекомендация:** Vercel.
 
-### 7. Discourse SSO через ORY
+---
 
-**Источник:** [WP-73 §5.1 Q5](WP-73-aisystant-platform-architecture.md) | **Блокирует:** единый identity для Клуба
-
-DiscourseConnect + ORY — стандартный путь. Зависит от решения по #2 (ORY). Вопрос: реализовать до или после Web App?
-
-### 8. Каналы для команд SC-8
-
-**Источник:** [WP-73 §5.1 Q6](WP-73-aisystant-platform-architecture.md), [WP-74 SC-8](WP-74-platform-concept-of-use.md) | **Блокирует:** командообразование
-
-TG-группы (аудитория уже в Telegram) vs Zulip (topic-based threading, open-source) vs Discord (голос, реал-тайм). Design input по Zulip — в WP-73 context file.
-
-### 9. Кеш: Redis vs CF KV
-
-**Источник:** [WP-73 §5.1 Q8](WP-73-aisystant-platform-architecture.md) | **Блокирует:** перформанс MCP и Web App
-
-CF KV для MCP (уже на CF Workers) + Vercel KV для Web App — по месту деплоя. Или единый Redis?
-
-### 10. Access Management — часть Billing или отдельная система?
+### А5. Access Management — часть Billing или отдельная система?
 
 **Источник:** [WP-183 Q1](WP-183-crm-billing-architecture-proposal.md) | **Блокирует:** архитектура доступов
 
-chat_access = следствие платежа → часть Billing Module. Но feature gating (тиры T1-T4) = отдельная логика. Где граница? [WP-115](WP-115-seminar-payment-access-scenario.md) предполагает access management как часть потока оплаты.
+**Почему проблема:** Сейчас всё управление доступами — внутри LMS (system-school.ru). Но в новой архитектуре появляются каналы оплаты **мимо LMS**:
+- TG Stars (оплата прямо в Telegram, LMS не участвует)
+- Ручная регистрация вузовских групп (менеджер вводит в CRM)
+- Баллы (внутренняя валюта)
 
-### 11. BSL 1.1 лицензия Directus
+В этих случаях Billing Module (в боте) обрабатывает платёж и записывает в Neon. **Кто после этого выдаёт доступ?**
 
-**Источник:** [WP-183 Q3](WP-183-crm-billing-architecture-proposal.md) | **Блокирует:** выбор CRM-инструмента
+Есть два типа доступа:
+1. **После оплаты** (chat_access) — заплатил за семинар → бот добавляет в чат. Прямое следствие платежа.
+2. **По подписке** (feature gating) — тир T2 → доступны определённые функции бота, курсы, MCP.
 
-BSL разрешает до $5M revenue. Через 3 года → GPLv3. Зафиксировать в ADR. [Исследование альтернатив](WP-183-crm-billing-research-appendix.md) — 16 CRM проверены, ни одна не подходит.
+Если Billing Module отвечает за оба типа — он становится «богом», который знает и про деньги, и про доступы, и про тиры. Это хрупко. Если Access Management отдельно — нужен ещё один компонент.
 
-### 12. CRM Phase 0 scope
-
-**Источник:** [WP-183 Q5, Q6](WP-183-crm-billing-architecture-proposal.md) | **Блокирует:** порядок реализации
-
-- Billing adapter для [Activity Hub](WP-109-activity-hub-lms-integration-proposal.md) — в Phase 0? (Рекомендация: да, `ingest_event()`)
-- `crm.events` для [WP-115 семинаров](WP-115-seminar-payment-access-scenario.md) — в Phase 0? (Рекомендация: да, базовая таблица)
-
-### 13. Chargeback-политика
-
-**Источник:** [WP-183 Q10](WP-183-crm-billing-architecture-proposal.md) | **Блокирует:** Revenue Sharing, выплаты авторам
-
-Hold period 14 дней. Если после settlement — вычитать из следующей выплаты. Нужно формальное решение.
-
-### 14. Репликация данных RU↔EU
-
-**Источник:** [WP-73 §5.1 Q13, §3.4](WP-73-aisystant-platform-architecture.md) | **Блокирует:** двух-юрисдикционная архитектура (P12)
-
-Какие данные реплицируются? Eventual vs strong consistency? Зависит от #2 (ORY) и #24 (152-ФЗ).
+**Вопрос архитектору:** где провести границу между Billing и Access Management? Можно ли решить при реализации или нужно определить сейчас, чтобы не переделывать? Как это устроено в текущем LMS — смешано или разделено?
 
 ---
 
-## Tier 3: Knowledge Gateway / BYOB (блокируют WP-187, WP-189)
+## Блок Б: СОГЛАСОВАНИЕ — решение принято, нужен совет или информирование
+
+> Мы уже определились. Ставим в известность архитектора и спрашиваем, нет ли подводных камней.
+
+### Б1. ORY: self-hosted в РФ ✅ решение принято
+
+**Источник:** [WP-73 §5.1 Q2, §2.7, §3.4](WP-73-aisystant-platform-architecture.md)
+
+**Решение:** поднимаем self-hosted ORY (Kratos/Hydra) в РФ для 152-ФЗ. ORY Network (hosted, EU) остаётся для международных пользователей. Два инстанса, единый identity через федерацию.
+
+**Вопрос архитектору:** как лучше организовать федерацию двух инстансов? Один primary + один replica? Или два равноправных с sync?
+
+---
+
+### Б2. Neon always-on compute ✅ решение принято
+
+**Источник:** [WP-183 Q7](WP-183-crm-billing-architecture-proposal.md)
+
+**Решение:** включаем always-on (+$19/мес, 0.25 CU). Cold start 1-3 сек ломает webhook-обработку платежей (YooKassa/Stripe/TG Stars ждут ответ за <5 сек). Критично для [сценария семинара](WP-115-seminar-payment-access-scenario.md).
+
+**Вопрос архитектору:** есть ли что-то, что мы не учли? Может, есть более элегантное решение?
+
+---
+
+### Б3. CRM: Directus + Metabase ✅ proposal готов
+
+**Источник:** [WP-183 proposal](WP-183-crm-billing-architecture-proposal.md), [исследование](WP-183-crm-billing-research-appendix.md)
+
+**Решение:** Все данные — в одной Neon PG. Directus = UI для руководителя (оборачивает существующие таблицы). Metabase = дашборды. Billing Module = модуль бота. 16 внешних CRM исследованы — ни одна не подходит (нет telegram_id, нет TG Stars, вторая БД). АрхГейт: 60/70.
+
+**Вопрос архитектору:** замечания по proposal? Особенно: Directus BSL 1.1 лицензия, CRM Phase 0 scope (что включать первым), Billing adapter для [Activity Hub](WP-109-activity-hub-lms-integration-proposal.md).
+
+---
+
+### Б4. Discourse SSO через ORY
+
+**Источник:** [WP-73 §5.1 Q5](WP-73-aisystant-platform-architecture.md)
+
+DiscourseConnect + ORY — стандартный путь. **Вопрос:** реализовать до или после Web App? Какие подводные камни с текущим Discourse?
+
+---
+
+### Б5. Каналы для команд SC-8
+
+**Источник:** [WP-73 §5.1 Q6](WP-73-aisystant-platform-architecture.md), [WP-74 SC-8](WP-74-platform-concept-of-use.md)
+
+TG-группы (аудитория в Telegram) vs Zulip (topic-threading, open-source) vs Discord (голос). Не срочно, но хотим мнение.
+
+---
+
+### Б6. Кеш: CF KV + Vercel KV
+
+**Источник:** [WP-73 §5.1 Q8](WP-73-aisystant-platform-architecture.md)
+
+CF KV для MCP (уже на CF Workers) + Vercel KV для Web App — по месту деплоя. Единый Redis пока избыточен. Согласен?
+
+---
+
+### Б7. Chargeback-политика
+
+**Источник:** [WP-183 Q10](WP-183-crm-billing-architecture-proposal.md)
+
+Предложение: hold period 14 дней перед settlement авторам. Если chargeback после settlement — вычитать из следующей выплаты. Нужна валидация от архитектора (он знает текущий поток YooKassa).
+
+---
+
+### Б8. Репликация данных RU↔EU
+
+**Источник:** [WP-73 §5.1 Q13, §3.4](WP-73-aisystant-platform-architecture.md)
+
+Связано с Б1 (ORY self-hosted). Какие данные реплицируются между юрисдикциями? Eventual vs strong? Зависит от 152-ФЗ scope. Информируем архитектора о направлении, спрашиваем мнение по sync-механизму.
+
+---
+
+## Блок В: Knowledge Gateway / BYOB (блокируют WP-187, WP-189)
 
 > Вопросы из [WP-73 §3.8 MCP Hub](WP-73-aisystant-platform-architecture.md). ADR-018 (BYOB, ЭМОГССБ 9.1) принят, нужны решения по реализации.
 
-### 15. Gateway: отдельный процесс или встроен в personal-mcp?
-
-**KG-Q1** | Рекомендация: встроен (меньше движущихся частей)
-
-### 16. Embeddings L4: CF AI vs локальная vs OpenAI?
-
-**KG-Q2** | Рекомендация: CF AI (бесплатно, единая модель с L2)
-
-### 17. Merge L2+L4: простой vs weighted vs cascade?
-
-**KG-Q3** | Рекомендация: простой merge по score для MVP
-
-### 18. Подключение gateway: stdio vs SSE vs Hub?
-
-**KG-Q4** | Рекомендация: stdio MCP (стандарт для Claude Code)
-
-### 19. Knowledge Gateway — с какого тира? T3 или T4?
-
-**KG-Q5** | T3 = больше пользователей, T4 = premium-фича. Продуктовое решение.
-
-### 20. Web App UI для управления sources?
-
-**KG-Q6** | CLI/config для MVP или Web App UI? Зависит от #6 (Web App hosting).
-
-### 21. Community MCP: публикация Pack другим?
-
-**KG-Q7** | Hub vs P2P. Зависит от ADR-018 (BYOB).
-
-### 22. Миграция knowledge-mcp: сразу или поэтапно?
-
-**KG-Q8** | Рекомендация: поэтапно (Ф1: выделить L2 → Ф2: L4 + gateway). [WP-168](../0.99.Archive/WP-168-surrealdb-to-neon-migration.md) (SurrealDB → Neon) — предпосылка, Ф0-Ф1 done.
-
-### 23. DS-Knowledge-Index + aist-bot-docs → L4?
-
-**KG-Q9** | Breaking change для текущих сессий Claude Code. Нужен план миграции.
+| # | Вопрос | Рекомендация | Тип |
+|---|--------|-------------|-----|
+| В1 | Gateway — отдельный процесс или встроен в personal-mcp? | Встроен (меньше частей) | совет |
+| В2 | Embeddings L4: CF AI vs локальная vs OpenAI? | CF AI (бесплатно, единая модель) | совет |
+| В3 | Merge L2+L4: простой vs weighted vs cascade? | Простой merge для MVP | совет |
+| В4 | Подключение gateway: stdio vs SSE vs Hub? | stdio MCP (стандарт Claude Code) | совет |
+| В5 | Knowledge Gateway — с какого тира? T3 или T4? | Продуктовое решение (не архитектор) | бизнес |
+| В6 | Web App UI для управления sources? | CLI/config для MVP | совет |
+| В7 | Community MCP: публикация Pack другим? | Зависит от ADR-018 | решение |
+| В8 | Миграция knowledge-mcp — сразу или поэтапно? | Поэтапно (Ф1: L2 → Ф2: L4 + gateway) | решение |
+| В9 | DS-Knowledge-Index + aist-bot-docs → L4? | Breaking change, нужен план | решение |
 
 ---
 
-## Tier 4: ЮРИДИЧЕСКИЕ (внешние зависимости)
+## Блок Г: ЮРИДИЧЕСКИЕ (параллельный трек, не архитектор)
 
-> Параллельный трек. Результаты влияют на #2 (ORY), #14 (репликация), #27 (хостинг).
+> Результаты влияют на Б1 (ORY), Б8 (репликация), Г4 (хостинг).
 
-### 24. 152-ФЗ: scope локализации ПД граждан РФ
-
-**Источник:** [WP-73 §5.2 Q9](WP-73-aisystant-platform-architecture.md)
-
-Что именно считается ПД? ФИО + email = очевидно. Telegram ID? Данные обучения? Прогресс? От ответа зависит, что должно храниться в РФ. Влияет на [двух-юрисдикцию (§3.4)](WP-73-aisystant-platform-architecture.md).
-
-### 25. Санкционный compliance
-
-**Источник:** [WP-73 §5.2 Q11](WP-73-aisystant-platform-architecture.md)
-
-Автоматическая проверка санкционных списков или ручная верификация? Stripe/Anthropic API — ограничения для пользователей из РФ?
-
-### 26. Два юрлица или одно?
-
-**Источник:** [WP-73 §5.2 Q14](WP-73-aisystant-platform-architecture.md) | **Блокирует:** WP-186 (юрготовность)
-
-РФ-юрлицо + международное (US LLC / Estonia OÜ) — или единое? Влияет на Revenue Sharing, IP ownership, investor structure.
-
-### 27. Выбор РФ-хостинга
-
-**Источник:** [WP-73 §5.3 Q12](WP-73-aisystant-platform-architecture.md)
-
-Hetzner Russia vs VK Cloud vs Selectel. Зависит от #24 (что именно локализовать).
+| # | Вопрос | Блокирует |
+|---|--------|-----------|
+| Г1 | 152-ФЗ: что именно считается ПД? (telegram_id? данные обучения?) | Б1, Б8, Г4 |
+| Г2 | Санкционный compliance (Stripe/Anthropic API — ограничения?) | Выбор провайдеров |
+| Г3 | Два юрлица (РФ + международное) или одно? | WP-186 (юрготовность) |
+| Г4 | Выбор РФ-хостинга (Hetzner Russia / VK Cloud / Selectel) | Б1, инфраструктура |
 
 ---
 
-## Tier 5: СТРАТЕГИЧЕСКИЕ (не блокируют, но влияют на roadmap)
-
-**Источник:** [WP-73 §5.4](WP-73-aisystant-platform-architecture.md), [WP-74](WP-74-platform-concept-of-use.md)
+## Блок Д: СТРАТЕГИЧЕСКИЕ (не срочно)
 
 | # | Вопрос | Связь |
 |---|--------|-------|
-| 28 | B1-B8: детальные решения по тирам T1→T4 | [WP-74 §3](WP-74-platform-concept-of-use.md) |
-| 29 | C4: unit economics по тирам | Бизнес-модель |
-| 30 | C6: 25 репо → масштабируемость | DevOps |
-| 31 | Платформа Андрея (Discourse): замена или обёртка? | Клуб |
+| Д1 | B1-B8: детальные решения по тирам T1→T4 | [WP-74 §3](WP-74-platform-concept-of-use.md) |
+| Д2 | Unit economics по тирам | Бизнес-модель |
+| Д3 | 25 репо → масштабируемость | DevOps |
+| Д4 | Платформа Андрея (Discourse): замена или обёртка? | Клуб |
 
 ---
 
 ## Порядок обсуждения (рекомендация)
 
-| Встреча | Время | Что обсуждаем | Что разблокируем |
-|---------|-------|---------------|------------------|
-| **1. Фундамент** | ~60 мин | #1 RLS, #2 ORY, #3 Event Bus, #4 Always-on, #5 LMS | CRM, Billing, Web App, ЦД |
-| **2. Системы** | ~45 мин | #6 Vercel, #7 Discourse SSO, #10-12 CRM scope, #13 Chargeback | WP-65, WP-115, WP-183 |
-| **3. Knowledge Gateway** | ~30 мин | #15-23 блоком | WP-187, WP-189 |
-| **Юридика** | отдельно | #24-27 параллельным треком | Двух-юрисдикция, WP-186 |
+| Встреча | Время | Блок А (решения) | Блок Б (согласование) |
+|---------|-------|-------------------|----------------------|
+| **1. Фундамент** | ~60 мин | А1 RLS, А2 Event Bus, А3 LMS | Б1 ORY self-hosted, Б2 Always-on, Б3 CRM proposal |
+| **2. Web App + детали** | ~30 мин | А4 Vercel, А5 Access Mgmt | Б4-Б8 (быстрый проход) |
+| **3. Knowledge Gateway** | ~30 мин | — | В1-В9 блоком |
 
 ---
 
@@ -294,24 +253,22 @@ Hetzner Russia vs VK Cloud vs Selectel. Зависит от #24 (что имен
 
 | Документ | Статус | Следующее действие |
 |----------|--------|-------------------|
-| [WP-73 — Архитектура](WP-73-aisystant-platform-architecture.md) | in_progress | Phase 2: спецификации модулей. Ждёт решения Tier 1 |
+| [WP-73 — Архитектура](WP-73-aisystant-platform-architecture.md) | in_progress | Phase 2: спецификации модулей. Ждёт решения Блока А |
 | [WP-74 — Концепция](WP-74-platform-concept-of-use.md) | in_progress | SC.101-116 формализованы. Обновляется параллельно с WP-73 |
-| [WP-183 — CRM proposal](WP-183-crm-billing-architecture-proposal.md) | proposal v7 | Ждёт решение архитектора (Q1-Q11) |
+| [WP-183 — CRM proposal](WP-183-crm-billing-architecture-proposal.md) | proposal v7 | Ждёт согласование архитектора (Б3) |
 | [WP-183 — Research](WP-183-crm-billing-research-appendix.md) | приложение | Завершён. Привязан к proposal |
 | [WP-109 — Activity Hub](WP-109-activity-hub-lms-integration-proposal.md) | approved | Реализация заблокирована на DE-35 |
 | [WP-115 — Семинар](WP-115-seminar-payment-access-scenario.md) | draft | На обсуждение. Зависит от WP-183 |
-| ~~[WP-168 — SurrealDB → Neon](../0.99.Archive/WP-168-surrealdb-to-neon-migration.md)~~ | архив (28 мар) | Ф0-Ф1 done. Ф2-Ф3 ожидают доступы |
-| **Этот документ** (Agenda) | active | Обновлять по мере получения решений |
+| **Этот документ** (Повестка) | active | Обновлять по мере получения решений |
+
+### Архив
+
+- ~~[WP-168 — SurrealDB → Neon](../0.99.Archive/WP-168-surrealdb-to-neon-migration.md)~~ — архив (28 мар). Ф0-Ф1 done, Ф2-Ф3 ожидают доступы
 
 ### Кандидаты на архив (после завершения)
 
-- ~~**WP-168**~~ — **перемещён в архив 28 мар** (Ф0-Ф1 done, Ф2-Ф3 ожидают доступы)
-- **WP-183 Research appendix** — после принятия proposal → архив (решения зафиксированы в ADR)
-- **WP-109** — после реализации Activity Hub → архив (знание в Pack)
-
-### Отсутствующие (упомянуты, но не созданы)
-
-- ~~`WP-73-knowledge-gateway-byob-proposal.md`~~ — содержание мержнуто в [WP-73 §3.8](WP-73-aisystant-platform-architecture.md). Отдельный файл не нужен
+- **WP-183 Research appendix** — после принятия proposal → архив
+- **WP-109** — после реализации Activity Hub → архив
 
 </details>
 
