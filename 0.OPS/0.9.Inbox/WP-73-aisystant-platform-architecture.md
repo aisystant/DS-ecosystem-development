@@ -900,7 +900,7 @@ echo "  1) Neon (рекомендуется, бесплатно до 0.5GB)"
 echo "  2) Supabase (бесплатно до 500MB)"
 echo "  3) Локальное (SQLite, без регистрации)"
 read -p "Выбор [1]: " choice
-# → записывает L4_BACKEND, L4_DATABASE_URL в ~/.iwe-env
+# → записывает L4_BACKEND, L4_DATABASE_URL в .exocortex.env (секция T3+, WP-180 Ф8)
 # → запускает init-schema.ts (создание таблиц)
 # → запускает ingest.ts (индексация Pack-папок)
 ```
@@ -1684,7 +1684,7 @@ echo "  1) Neon (рекомендуется, бесплатно до 0.5GB)"
 echo "  2) Supabase (бесплатно до 500MB)"
 echo "  3) Локальное (SQLite, без регистрации)"
 read -p "Выбор [1]: " choice
-# → записывает L4_BACKEND, L4_DATABASE_URL в ~/.iwe-env
+# → записывает L4_BACKEND, L4_DATABASE_URL в .exocortex.env (секция T3+, WP-180 Ф8)
 # → init-schema.ts (создание таблиц)
 # → ingest.ts (первичная индексация Pack-папок)
 ```
