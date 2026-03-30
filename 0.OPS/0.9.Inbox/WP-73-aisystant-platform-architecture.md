@@ -1481,7 +1481,7 @@ llm_client/              ← shared library (Python-пакет)
 | # | Задача | Зависимости | Бюджет |
 |---|--------|-------------|--------|
 | 1.1 | **Web App: дашборд + ЦД** | Фаза 0 | 30-40h |
-| 1.2 | **Web App: обучение** (руководства + тетрадь + ДЗ-чекер, [SC.117](../../../../PACK-digital-platform/pack/digital-platform/08-use-cases/DP.SC.117-async-homework-review.md)) | 1.1 | 30-40h |
+| 1.2 | **Web App: обучение** (руководства + тетрадь + ДЗ-чекер, [SC.117](../../../../PACK-digital-platform/pack/digital-platform/08-service-clauses/DP.SC.117-async-homework-review.md)) | 1.1 | 30-40h |
 | 1.3 | **Billing Phase 1** (WP-183) — YooKassa/Stripe адаптеры + idempotency + revenue sharing + Metabase | 0.7, ORY | 40h |
 | 1.4 | **ЦД: проекции** (BKT, HLR) | Фаза 0.6 | 15-20h |
 | 1.5 | **LMS ↔ новая архитектура: Event Bus bridge** — синхронизация событий между LMS и Neon через pg_notify. LMS не заменяется — новая платформа работает рядом для новых пользователей | 0.5, 1.2 | 15-20h |

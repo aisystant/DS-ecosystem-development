@@ -13,7 +13,7 @@ artifact: "Концепция использования: роли, сценар
 
 > Выделена из [WP-73](WP-73-aisystant-platform-architecture.md) (архитектура платформы). Здесь — **кто**, **зачем** и **как** использует платформу. В WP-73 — **из чего** она построена.
 >
-> **Формализованные сценарии:** SC-1..SC-16 из этого документа формализованы в Pack как [DP.SC.101–116](../../../PACK-digital-platform/pack/digital-platform/08-use-cases/) (layer: L2-Platform). Этот документ — визионерский governance-артефакт; source-of-truth для SC — Pack.
+> **Формализованные сценарии:** SC-1..SC-16 из этого документа формализованы в Pack как [DP.SC.101–116](../../../PACK-digital-platform/pack/digital-platform/08-service-clauses/) (layer: L2-Platform). Этот документ — визионерский governance-артефакт; source-of-truth для SC — Pack.
 
 <details>
 <summary><b>1. Миссия платформы</b></summary>
