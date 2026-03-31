@@ -21,6 +21,7 @@
 | S-09 | `/extend` скилл — каталог расширяемости IWE (extension points, params, sharing) | `.claude/skills/extend/` | 2026-03-29 | 2 недели без сбоев; пользователи находят нужные точки расширения | testing |
 | S-10 | Различение «Первое решение ≠ лучшее» — системное решение первым, костыль только как исключение | `.claude/rules/distinctions.md` | 2026-03-31 | 2 недели без сбоев; костыли не предлагаются первыми | testing |
 | S-11 | Новый РП за сессию → обязательно в 3 места: WP-REGISTRY + WeekPlan + DayPlan (Quick Close шаг 2) | `extensions/protocol-close.checks.md` | 2026-03-31 | 2 недели без пропусков новых РП при Quick Close | testing |
+| S-12 | Day Close шаг 1: идти от коммитов к РП (не от DayPlan). Коммит-аудит + выявление ad-hoc без РП | `extensions/day-close.checks.md` | 2026-03-31 | 2 Day Close без пропущенных РП/сессий | testing |
 
 ---
 
