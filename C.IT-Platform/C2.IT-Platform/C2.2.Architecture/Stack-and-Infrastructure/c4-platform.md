@@ -1,7 +1,7 @@
 ---
 status: active
 wp: WP-158
-phase: Ф2 (L1+L2 Mermaid)
+phase: Ф3 (ревью + сигналы)
 created: 2026-04-01
 updated: 2026-04-01
 related: [WP-73, WP-159, DP.ARCH.001]
@@ -11,7 +11,7 @@ related: [WP-73, WP-159, DP.ARCH.001]
 
 > **Source-of-truth архитектуры:** [DP.ARCH.001](../../PACK-digital-platform/pack/digital-platform/02-domain-entities/DP.ARCH.001-platform-architecture.md)
 > **Deployment as-is:** [deployment.md](deployment.md)
-> Ф3 — ревью + сигналы в WP-73 (dep: WP-159 Ф3)
+> **Deployment маппинг:** [deployment.md](deployment.md) (WP-159 Ф3 — C4 L2 → deployment nodes)
 
 ---
 
@@ -166,9 +166,14 @@ C4Container
 
 ### Сигналы для WP-73
 
-| ID | Компонент | Описание | Тип |
-|----|-----------|---------|-----|
-| **S-1** | Aist Bot (Railway) | Рассуждение (Anthropic API) + действие (Telegram webhook) в одном контейнере → coupling слоёв 2А и 3 | Coupling слоёв |
+> Полный маппинг C4 L2 → deployment nodes + детали сигналов: [deployment.md](deployment.md) §Сигналы
+
+| ID | Компонент | Описание | Тип | Рекомендация |
+|----|-----------|---------|-----|-------------|
+| **S-1** | Aist Bot (Railway) | ИИ-агенты (Слой 2А) и Telegram-интерфейс (Слой 3) физически в одном сервисе. Нельзя масштабировать/заменять независимо. | Coupling слоёв 2А+3 | Выделить Agent Runtime в отдельный сервис. Бот → тонкий клиент. |
+| **S-2** | Aist Bot → Neon | Бот напрямую пишет в Neon (Слой 1), минуя Слой 2Б (MCP). Интерфейс не должен знать о хранении данных. | Bypass слоя 2Б | Доступ к данным только через MCP. Прямой DATABASE_URL — только у Workers. |
+| **S-3** | AI-клиент → MCP | AI-клиент подключается к каждому MCP напрямую (3 URL). Нет единой точки авторизации. | Отсутствие Gateway | Knowledge Gateway (WP-187): один URL, Ory-авт., fan-out. |
+| **S-4** | Langfuse | Observability только локально (docker-compose). Нет трейсинга в prod. | Наблюдаемость | Задеплоить Langfuse на Hetzner/cloud. Подключить prod. |
 
 </details>
 
@@ -181,3 +186,4 @@ C4Container
 | 2026-04-01 | Ф0 | Концепция, акторы L1, контейнеры L2 по 3 слоям, ключевой инвариант IWE |
 | 2026-04-01 | Ф1 | C4 L1 System Context в Mermaid |
 | 2026-04-01 | Ф2 | C4 L2 Containers в Mermaid |
+| 2026-04-01 | Ф3 | Ревью: сигналы S-1..S-4, перекрёстные ссылки с deployment.md |

@@ -1455,6 +1455,18 @@ llm_client/              ← shared library (Python-пакет)
 - [ ] **Согласование с архитектором:** Q1-Q14 (ожидание)
 - [ ] **Юридическая консультация:** Q9, Q11, Q14 (ожидание)
 
+#### C4-диаграммы + Deployment (WP-158/159, 1 апр)
+- [x] WP-158 Ф1-Ф2: C4 L1 (System Context) + L2 (Containers) в Mermaid → [c4-platform.md](../../C.IT-Platform/C2.IT-Platform/C2.2.Architecture/Stack-and-Infrastructure/c4-platform.md)
+- [x] WP-159 Ф1-Ф3: Deployment as-is + C4 L2 маппинг → [deployment.md](../../C.IT-Platform/C2.IT-Platform/C2.2.Architecture/Stack-and-Infrastructure/deployment.md)
+- [x] WP-158 Ф3: Ревью + 4 архитектурных сигнала:
+
+| Сигнал | Компонент | Описание | Тип |
+|--------|-----------|---------|-----|
+| **S-1** | Aist Bot | ИИ-агенты (2А) + Telegram-интерфейс (3) в одном сервисе → coupling | Coupling слоёв 2А+3 |
+| **S-2** | Aist Bot → Neon | Бот напрямую пишет в БД, минуя MCP (Слой 2Б) | Bypass слоя |
+| **S-3** | AI-клиент → MCP | 3 URL без Gateway, нет единой точки авторизации | Отсутствие Gateway |
+| **S-4** | Langfuse | Observability только локально, нет трейсинга в prod | Наблюдаемость |
+
 ### 6.2. Roadmap
 
 #### 6.2.1. Фаза 0: Фундамент (март–апрель 2026, ~8 недель)
