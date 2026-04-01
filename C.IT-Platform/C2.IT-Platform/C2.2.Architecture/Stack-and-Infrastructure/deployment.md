@@ -1,6 +1,6 @@
 # Deployment-диаграмма инфраструктуры Aisystant
 
-> **Статус:** Ф3 (C4 L2 маппинг + слои) | **Дата:** 2026-04-01
+> **Статус:** Ф4 done | **Дата:** 2026-04-01
 > **РП:** WP-159 | **Связанные:** WP-73, WP-158, WP-187, WP-189
 > **C4 L2 source:** [c4-platform.md](../../C.IT-Platform/C2.IT-Platform/C2.2.Architecture/Stack-and-Infrastructure/c4-platform.md)
 >
@@ -268,7 +268,7 @@ graph TB
 - [x] MCP namespace зоны: iwe/*, user/*, ext/*
 - [x] Coupling-аннотации: S-1, S-2, S-3, S-4
 - [x] Формат Mermaid, рендерится в GitHub
-- [ ] Согласовано с WP-73 (Ф4 — передать сигналы)
+- [x] Согласовано с WP-73 (Ф4 — сигналы S-1..S-4 переданы)
 
 </details>
 
@@ -282,3 +282,4 @@ graph TB
 | 2026-04-01 | Ф1 | Инвентаризация инфраструктуры |
 | 2026-04-01 | Ф2 | Черновая as-is диаграмма |
 | 2026-04-01 | Ф3 | Маппинг C4 L2 → deployment nodes, слои DP.ARCH.001, MCP namespace, coupling-аннотации (S-1..S-4) |
+| 2026-04-01 | Ф4 | Сигналы S-1..S-4 переданы в WP-73 (Design input). Все критерии готовности закрыты. |
