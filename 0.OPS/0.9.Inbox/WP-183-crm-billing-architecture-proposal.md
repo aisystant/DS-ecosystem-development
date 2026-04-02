@@ -306,6 +306,7 @@ B2B: 2 вуза × 50 чел × $15 × 12 мес = $18 000/год → окупа
 | **0** | Схемы Neon + Directus (Railway + Neon SSL) + TG Stars + CRM-команды бота + Metabase (Railway + отдельная app DB) + `billing-adapters.yaml` + PROCESSES.md + retry pattern для Flows | 48h |
 | **1** | YooKassa/Stripe адаптеры + idempotency (`processed_events`) + revenue sharing (calculate + settle) + Metabase дашборды (MRR, churn, LTV, когорты, unit economics) | 40h |
 | **2** | Identity linking, B2B лицензии, feature gating, at-risk автоматизация, n8n (если цепочки усложнятся), Billing Service как отдельный сервис (если нужен) | По мере роста |
+| **3** | **LLM-прокси для пользователей:** платформенный API-ключ (пользователи не покупают свой), токен-квоты по тарифам, rate-limiting, учёт потребления в Billing Module, интеграция с Gateway (DP.IWE.003). Решает проблему доступа из России. Артефакты: таблица `finance.llm_usage`, адаптер LLM в `billing-adapters.yaml`, тарифная сетка (токены/тариф), дашборд потребления в Metabase | 20-30h |
 
 ## Открытые вопросы
 
